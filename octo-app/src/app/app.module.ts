@@ -13,12 +13,14 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
+import { MainMenuComponent } from './main-menu/main-menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AboutComponent,
-    LoginComponent
+    LoginComponent,
+    MainMenuComponent
   ],
   imports: [
     NgbModule.forRoot(), 
@@ -26,9 +28,12 @@ import { LoginComponent } from './login/login.component';
     FormsModule, 
     HttpModule, 
     RouterModule.forRoot([
-      {path: 'about', component: AboutComponent}, 
-      {path: 'login', component: LoginComponent}
-    ])
+        {path: 'about', component: AboutComponent}, 
+        {path: 'login', component: LoginComponent},
+        {path: 'mainMenu', component: MainMenuComponent}
+      ],
+      { useHash: true }
+    )
     //AppRoutingModule
   ],
   providers: [],
