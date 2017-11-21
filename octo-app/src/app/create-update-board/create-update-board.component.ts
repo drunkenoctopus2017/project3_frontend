@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import {BoardService} from '../_service/board.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-update-board',
@@ -9,10 +9,17 @@ import {BoardService} from '../_service/board.service';
   providers: [BoardService]
 })
 export class CreateUpdateBoardComponent implements OnInit {
-
-  constructor(private boardService: BoardService, private router: Router) { }
+  boardID: number;
+  status: boolean;
+  constructor(private route: ActivatedRoute, private router:Router) { }
 
   ngOnInit() {
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.status = params["status"];
+        this.boardID = params["id"]; //grab the board ID
+      }
+    )
   }
 
   submit(){
