@@ -1,2 +1,26 @@
 <p>Populate fields with data if this is an existing Board that was selected from the Main Menu</p>  
 <p>Fill with blank data if this is a NEW board.</p>
+<div class="container">
+	<div class="jumbotron">
+
+		<p [hidden]="!(editing == false)" >Create New Scrum Board</p>
+		<p [hidden]="!(editing == true)" >Edit {{boardName}}<p>
+
+		<div>
+			<div class="form-group">
+				<label for="sbNameInput">Name</label>
+				<input id="sbNameInput" data-ng-model="sbName" type="text" class="form-control" placeholder="Scrum Board Name (required)">
+			</div>
+			<div class="form-group">
+				<label for="startDateInput">Start Date</label>
+				<input id="startDateInput" data-ng-model="startDate" type="date" class="form-control" placeholder="mm/dd/yyyy (defaults to today)">
+			</div>
+			<div class="form-group">
+				<label for="durationInput">Duration</label>
+				<input id="durationInput" data-ng-model="duration" type="number" class="form-control" min="1" max="90" placeholder="# days (defaults to 14)">
+			</div>
+
+			<button (click)="submit()" class="btn btn-default">Submit</button>
+
+		</div>
+	</div>
