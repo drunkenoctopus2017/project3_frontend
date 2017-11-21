@@ -41,11 +41,16 @@ import { BoardService } from './_service/board.service';
     RouterModule.forRoot([
         {path: 'about', component: AboutComponent}, 
         {path: 'login', component: LoginComponent},
-        {path: 'mainMenu/:id', component: MainMenuComponent}, 
+        {path: 'mainMenu', component: MainMenuComponent}, 
+        {path: 'assignMembers', redirectTo: '/assignMembers/0', pathMatch: 'full' },
         {path: 'assignMembers/:id', component: AssignMembersMenuComponent}, 
+        {path: 'createUpdateBoard', redirectTo: '/createUpdateBoard/true/0', pathMatch: 'full' },
         {path: 'createUpdateBoard/:status/:id', component: CreateUpdateBoardComponent}, 
+        {path: 'boardStoryLanes', redirectTo: '/boardStoryLanes/0', pathMatch: 'full' },
         {path: 'boardStoryLanes/:id', component: BoardStoryLanesComponent}, 
+        {path: 'createUpdateStory', redirectTo: '/createUpdateStory/0', pathMatch: 'full' },
         {path: 'createUpdateStory/:id', component: CreateUpdateStoryComponent}, 
+        {path: 'burndownChart', redirectTo: '/burndownChart/0', pathMatch: 'full' },
         {path: 'burndownChart/:id', component: BurndownChartComponent}
       ],
       { useHash: true }
