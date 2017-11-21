@@ -14,13 +14,23 @@ import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
+import { AssignMembersMenuComponent } from './assign-members-menu/assign-members-menu.component';
+import { BoardStoryLanesComponent } from './board-story-lanes/board-story-lanes.component';
+import { CreateUpdateBoardComponent } from './create-update-board/create-update-board.component';
+import { CreateUpdateStoryComponent } from './create-update-story/create-update-story.component';
+import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AboutComponent,
     LoginComponent,
-    MainMenuComponent
+    MainMenuComponent,
+    CreateUpdateBoardComponent,
+    CreateUpdateStoryComponent,
+    AssignMembersMenuComponent,
+    BoardStoryLanesComponent,
+    BurndownChartComponent
   ],
   imports: [
     NgbModule.forRoot(), 
@@ -30,7 +40,12 @@ import { MainMenuComponent } from './main-menu/main-menu.component';
     RouterModule.forRoot([
         {path: 'about', component: AboutComponent}, 
         {path: 'login', component: LoginComponent},
-        {path: 'mainMenu', component: MainMenuComponent}
+        {path: 'mainMenu', component: MainMenuComponent}, 
+        {path: 'assignMembers', component: AssignMembersMenuComponent}, 
+        {path: 'createUpdateBoard', component: CreateUpdateBoardComponent}, 
+        {path: 'boardStoryLanes', component: BoardStoryLanesComponent}, 
+        {path: 'createUpdateStory', component: CreateUpdateStoryComponent}, 
+        {path: 'burndownChart', component: BurndownChartComponent}
       ],
       { useHash: true }
     )
