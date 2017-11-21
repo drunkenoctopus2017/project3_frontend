@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import {CookieService} from 'angular2-cookie';
 
 import { SystemUser } from '../_model/SystemUser';
 import { SystemBoard } from '../_model/SystemBoard';
@@ -11,19 +12,33 @@ import { BoardService } from '../_service/board.service';
   styleUrls: ['./main-menu.component.css']
 })
 export class MainMenuComponent implements OnInit {
-  user: SystemUser = {
-    id: 1,
-    username: "im",
-    password: "dabes",
-    firstName: "Cool",
-    lastName: "Guy",
-    role: 200
-  };
+  user: any;
+  userId: number;
+
+  // user: SystemUser = {
+  //   id: 1,
+  //   username: "im",
+  //   password: "dabes",
+  //   firstName: "Cool",
+  //   lastName: "Guy",
+  //   role: 200, 
+  //   enabled: true, 
+  //   accountNonExpired: true,
+  //   accountNonLocked: true,
+  //   credentialsNonExpired: true
+  // };
   boards: SystemBoard[];
-  constructor(private router: Router, private boardService: BoardService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private boardService: BoardService, private cookieService: CookieService) { }
+
 
   ngOnInit() {
-    this.boards = this.boardService.getBoardsByUserID(1);
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.userId = params['id'];
+        this.user = this.cookieService.getObject('user');
+        this.boards = this.boardService.getBoardsByUserID(this.user.id);
+      }
+    )
   }
 
   percentComplete(b: SystemBoard): string {

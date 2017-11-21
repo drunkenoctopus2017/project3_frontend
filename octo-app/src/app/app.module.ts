@@ -4,8 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { RouterModule, Routes } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
-
+import { CookieService } from 'angular2-cookie';
 //Install Bootstrap and Bootstrap components according to following:
 //http://www.markupjavascript.com/2017/07/how-to-add-and-use-bootstrap-in-angular-2-cli-project.html
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -42,7 +41,7 @@ import { BoardService } from './_service/board.service';
     RouterModule.forRoot([
         {path: 'about', component: AboutComponent}, 
         {path: 'login', component: LoginComponent},
-        {path: 'mainMenu', component: MainMenuComponent}, 
+        {path: 'mainMenu/:id', component: MainMenuComponent}, 
         {path: 'assignMembers/:id', component: AssignMembersMenuComponent}, 
         {path: 'createUpdateBoard/:status/:id', component: CreateUpdateBoardComponent}, 
         {path: 'boardStoryLanes/:id', component: BoardStoryLanesComponent}, 
