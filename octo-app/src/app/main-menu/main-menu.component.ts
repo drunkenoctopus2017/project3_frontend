@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { SystemUser } from '../_model/SystemUser';
 import { SystemBoard } from '../_model/SystemBoard';
+import { BoardService } from '../_service/board.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -19,45 +20,35 @@ export class MainMenuComponent implements OnInit {
     role: 200
   };
   boards: SystemBoard[];
-  constructor(private router: Router) { }
+  constructor(private router: Router, private boardService: BoardService) { }
 
   ngOnInit() {
-    this.boards = [{
-      id: 1,
-      name: "Uno Board",
-      startDate: new Date(),
-      duration: 14
-    },
-    {
-      id: 2,
-      name: "Board Number 2",
-      startDate: new Date(),
-      duration: 15
-    }];
+    this.boards = this.boardService.getBoardsByUserID(1);
   }
 
   percentComplete(b: SystemBoard): string {
+    //insert percentage calculation logic call here
     return 40+"%";
   }
 
   createScrumBoard() {
     console.log("create scrum board method!");
-    this.router.navigate(['/createUpdateBoard']);
+    this.router.navigate(['/createUpdateBoard', true, 0]); //creating a board shouldn't need a board ID
   }
 
   viewBoard(b: SystemBoard) {
-    console.log(b.name + "'s view scrum board method!");
-    this.router.navigate(['/boardStoryLanes']);
+    console.log(b.name + "'s view scrum board method! board ID is: "+b.id);
+    this.router.navigate(['/boardStoryLanes', b.id]);
   }
 
   editScrumBoard(b: SystemBoard){
-    console.log(b.name + "'s edit scrum board method!");
-    this.router.navigate(['/createUpdateBoard']);
+    console.log(b.name + "'s edit scrum board method! board ID is: "+b.id);
+    this.router.navigate(['/createUpdateBoard', false, b.id]); //true means creating, false means editing
   }
 
   getAllUsers(b: SystemBoard){
-    console.log(b.name + "'s get users view method!");
-    this.router.navigate(['/assignMembers']);
+    console.log(b.name + "'s get users view method! board ID is: "+b.id);
+    this.router.navigate(['/assignMembers', b.id]);
   }
 
   triggerModal(b: SystemBoard){

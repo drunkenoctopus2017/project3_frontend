@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-create-update-board',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-update-board.component.css']
 })
 export class CreateUpdateBoardComponent implements OnInit {
-
-  constructor() { }
+  boardID: number;
+  status: boolean;
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.status = params["status"];
+        this.boardID = params["id"]; //grab the board ID
+      }
+    )
   }
 
 }
