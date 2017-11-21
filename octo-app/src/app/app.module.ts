@@ -20,6 +20,7 @@ import { BoardStoryLanesComponent } from './board-story-lanes/board-story-lanes.
 import { CreateUpdateBoardComponent } from './create-update-board/create-update-board.component';
 import { CreateUpdateStoryComponent } from './create-update-story/create-update-story.component';
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
+import { BoardService } from './_service/board.service';
 
 @NgModule({
   declarations: [
@@ -42,17 +43,18 @@ import { BurndownChartComponent } from './burndown-chart/burndown-chart.componen
         {path: 'about', component: AboutComponent}, 
         {path: 'login', component: LoginComponent},
         {path: 'mainMenu', component: MainMenuComponent}, 
-        {path: 'assignMembers', component: AssignMembersMenuComponent}, 
-        {path: 'createUpdateBoard', component: CreateUpdateBoardComponent}, 
-        {path: 'boardStoryLanes', component: BoardStoryLanesComponent}, 
-        {path: 'createUpdateStory', component: CreateUpdateStoryComponent}, 
-        {path: 'burndownChart', component: BurndownChartComponent}
+        {path: 'assignMembers/:id', component: AssignMembersMenuComponent}, 
+        {path: 'createUpdateBoard/:status/:id', component: CreateUpdateBoardComponent}, 
+        {path: 'boardStoryLanes/:id', component: BoardStoryLanesComponent}, 
+        {path: 'createUpdateStory/:id', component: CreateUpdateStoryComponent}, 
+        {path: 'burndownChart/:id', component: BurndownChartComponent}
       ],
       { useHash: true }
     )
     //AppRoutingModule
   ],
-  providers: [CookieService],
+
+  providers: [CookieService, BoardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

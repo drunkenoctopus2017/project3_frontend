@@ -4,6 +4,7 @@ export class SystemUser {
     password: string;
     firstName: string;
     lastName: string;
+    role: number;
     enabled: boolean;
     credentialsNonExpired: boolean;
     accountNonExpired: boolean;
