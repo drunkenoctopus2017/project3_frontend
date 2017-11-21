@@ -20,6 +20,7 @@ import { CreateUpdateBoardComponent } from './create-update-board/create-update-
 import { CreateUpdateStoryComponent } from './create-update-story/create-update-story.component';
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
 import { BoardService } from './_service/board.service';
+import { LoginService } from './_service/login.service';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,7 @@ import { BoardService } from './_service/board.service';
     //AppRoutingModule
   ],
 
-  providers: [CookieService, BoardService],
+  providers: [CookieService, LoginService, BoardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

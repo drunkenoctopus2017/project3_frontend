@@ -12,6 +12,15 @@ export class LoginService {
     let body = {username: username, password: password};
     return this.http.post(url, body).toPromise().then(response => response.json() as SystemUser).catch(this.handleError);
   }
+  isLoggedIn(user: any): boolean{
+    if(user != null){
+      return true;
+    }else{
+      return false;
+    }
+
+    
+  }
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
