@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import {CookieService} from 'angular2-cookie';
 
 import { SystemUser } from '../_model/SystemUser';
 import { SystemBoard } from '../_model/SystemBoard';
 import { BoardService } from '../_service/board.service';
+import { LoginService } from '../_service/login.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -11,19 +13,34 @@ import { BoardService } from '../_service/board.service';
   styleUrls: ['./main-menu.component.css']
 })
 export class MainMenuComponent implements OnInit {
-  user: SystemUser = {
-    id: 1,
-    username: "im",
-    password: "dabes",
-    firstName: "Cool",
-    lastName: "Guy",
-    role: 200
-  };
+  user: SystemUser;
+
+  // user: SystemUser = {
+  //   id: 1,
+  //   username: "im",
+  //   password: "dabes",
+  //   firstName: "Cool",
+  //   lastName: "Guy",
+  //   role: 200, 
+  //   enabled: true, 
+  //   accountNonExpired: true,
+  //   accountNonLocked: true,
+  //   credentialsNonExpired: true
+  // };
   boards: SystemBoard[];
-  constructor(private router: Router, private boardService: BoardService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private loginService: LoginService, private boardService: BoardService, private cookieService: CookieService) { }
+
 
   ngOnInit() {
-    this.boards = this.boardService.getBoardsByUserID(1);
+    var currentUser = this.cookieService.getObject('user');
+    var loggedIn = this.loginService.isLoggedIn(currentUser);
+
+    if(loggedIn){
+      this.user = currentUser;
+      this.boards = this.boardService.getBoardsByUserID(this.user.id);
+    }else{
+      this.router.navigate(['/login']);
+    }
   }
 
   percentComplete(b: SystemBoard): string {
