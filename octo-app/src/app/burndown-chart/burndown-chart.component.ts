@@ -12,7 +12,7 @@ export class BurndownChartComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
   
   ngOnInit() {
-    this.route.params.subscribe(
+    this.route.params.forEach(
       (params: Params) => {
         this.boardID = params["id"];
       }

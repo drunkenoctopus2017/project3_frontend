@@ -12,7 +12,7 @@ export class CreateUpdateBoardComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.params.subscribe(
+    this.route.params.forEach(
       (params: Params) => {
         this.status = params["status"];
         this.boardID = params["id"]; //grab the board ID
