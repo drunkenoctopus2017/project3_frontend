@@ -1,11 +1,14 @@
 <p>Populate fields with data if this is an existing Board that was selected from the Main Menu</p>  
 <p>Fill with blank data if this is a NEW board.</p>
 
+<h2>Create mode? {{status}}</h2>
+<h2>If in edit mode, this is ID of board to edit: {{boardID}}</h2>
+
 <div class="container">
 	<div class="jumbotron">
 
 		<p [hidden]="!(editing == false)" >Create New Scrum Board</p>
-		<p [hidden]="!(editing == true)" >Edit {{boardName}}<p>
+		<p [hidden]="!(editing == true)" >Edit ChangeBoardNameSoon<p>
 
 		<div>
 			<div class="form-group">
@@ -21,8 +24,9 @@
 				<input id="durationInput" data-ng-model="duration" type="number" class="form-control" min="1" max="90" placeholder="# days (defaults to 14)">
 			</div>
 
-			<button (click)="submit()" class="btn btn-default">Submit</button>
+			<button (click)="submit()" class="btn btn-secondary">Submit</button>
 
 		</div>
 	</div>
+
 

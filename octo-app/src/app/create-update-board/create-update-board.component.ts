@@ -23,6 +23,6 @@ export class CreateUpdateBoardComponent implements OnInit {
   }
 
   submit(){
-    this.router.navigate(['/mainMenu']);
+    this.router.navigate(['/createUpdateStory', this.status]);
   }
 }

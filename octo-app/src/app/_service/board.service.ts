@@ -6,7 +6,7 @@ import {SystemBoard} from '../_model/SystemBoard';
 export class BoardService {
 
   //reserved for simple initialization like wiring constructor params to properties
-  constructor(private boardService: BoardService, private http:Http) { }
+  constructor(private http:Http) { }
 
   //methods here 
   createUpdateBoard(){
