@@ -14,13 +14,15 @@ import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
+import { CreateOrEditBoardComponent } from './create-or-edit-board/create-or-edit-board.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AboutComponent,
     LoginComponent,
-    MainMenuComponent
+    MainMenuComponent,
+    CreateOrEditBoardComponent
   ],
   imports: [
     NgbModule.forRoot(), 

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { SystemUser } from '../_model/SystemUser';
 
 @Component({
@@ -8,9 +10,13 @@ import { SystemUser } from '../_model/SystemUser';
 })
 export class MainMenuComponent implements OnInit {
   user: SystemUser;
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
+  }
+
+  createScrumBoardView(){
+    this.router.navigate(['/'])
   }
 
 }
