@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute,Router, Params } from '@angular/router';
 
 @Component({
   selector: 'app-create-update-story',
@@ -9,7 +9,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 export class CreateUpdateStoryComponent implements OnInit {
   boardID: number;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private router: Router) { }
   
   ngOnInit() {
     this.route.params.subscribe(
@@ -18,5 +18,7 @@ export class CreateUpdateStoryComponent implements OnInit {
       }
     )
   }
-
+  submit(){
+    this.router.navigate(['/createUpdateTask']);
+  }
 }

@@ -9,11 +9,6 @@ export class BoardService {
   constructor(private http:Http) { }
 
   //methods here 
-  createUpdateBoard(){
-    let url = "";
-    let body = {}
-  }
-
   getBoardsByUserID(userID: number): SystemBoard[] { //eventually should be a promise: Promise<SystemBoard[]>
     return this.dummyData;
   }

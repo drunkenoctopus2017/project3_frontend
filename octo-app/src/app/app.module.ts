@@ -21,6 +21,7 @@ import { CreateUpdateStoryComponent } from './create-update-story/create-update-
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
 import { BoardService } from './_service/board.service';
 import { LoginService } from './_service/login.service';
+import { CreateUpdateTaskComponent } from './create-update-task/create-update-task.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { LoginService } from './_service/login.service';
     CreateUpdateStoryComponent,
     AssignMembersMenuComponent,
     BoardStoryLanesComponent,
-    BurndownChartComponent
+    BurndownChartComponent,
+    CreateUpdateTaskComponent
   ],
   imports: [
     NgbModule.forRoot(), 
@@ -45,12 +47,14 @@ import { LoginService } from './_service/login.service';
         {path: 'mainMenu', component: MainMenuComponent}, 
         {path: 'assignMembers', redirectTo: '/assignMembers/0', pathMatch: 'full' },
         {path: 'assignMembers/:id', component: AssignMembersMenuComponent}, 
+        {path: 'createUpdateTask', redirectTo: '/createUpdateTask/true/0', pathMatch: 'full' },        
+        {path: 'createUpdateTask/:status/:id', component: CreateUpdateTaskComponent },  
         {path: 'createUpdateBoard', redirectTo: '/createUpdateBoard/true/0', pathMatch: 'full' },
         {path: 'createUpdateBoard/:status/:id', component: CreateUpdateBoardComponent}, 
         {path: 'boardStoryLanes', redirectTo: '/boardStoryLanes/0', pathMatch: 'full' },
         {path: 'boardStoryLanes/:id', component: BoardStoryLanesComponent}, 
         {path: 'createUpdateStory', redirectTo: '/createUpdateStory/0', pathMatch: 'full' },
-        {path: 'createUpdateStory/:id', component: CreateUpdateStoryComponent}, 
+        {path: 'createUpdateStory/:id', component: CreateUpdateStoryComponent},
         {path: 'burndownChart', redirectTo: '/burndownChart/0', pathMatch: 'full' },
         {path: 'burndownChart/:id', component: BurndownChartComponent}
       ],
