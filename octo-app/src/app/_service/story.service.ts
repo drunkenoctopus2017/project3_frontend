@@ -6,6 +6,10 @@ export class StoryServiceService {
 //create dummy data for tasks. make story link to tasks. make create tasks. and make them take dummy data as well
   constructor(private http:Http) { }
 
+  getStoryById(boardId: number){
+    return this.dummyData;
+  }
+
   dummyData: SystemStory[] =[{
     id: 1,
     description: "this and that",

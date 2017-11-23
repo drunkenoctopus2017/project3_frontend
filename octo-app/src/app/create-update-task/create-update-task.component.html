@@ -1,3 +1,11 @@
 <p>
-  create-update-task works!
+  TODO: Tasks will not work as previously implemented because it is not attached to any story. therfore it will not write to the DOM. 
+  Cannot test anything atm until i figure out a new way to do it. will attempt to make some other tests with dummy data.
 </p>
+<div class="checkbox" *ngFor="let task of dummyData">
+  <label> <input type="checkbox"
+    [(ngModel)]="task.status" [checked]= "task.status"
+    (ngModelChange)="updateTask(task)">{{task.description}}
+  </label>
+  <button (click)="updateTask(task)" class="btn btn-secondary">Submit</button>  
+</div>

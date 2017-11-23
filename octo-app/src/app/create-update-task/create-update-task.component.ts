@@ -8,10 +8,14 @@ import { TaskService } from '../_service/task.service';
   styleUrls: ['./create-update-task.component.css'],
   providers: [TaskService]
 })
+
 export class CreateUpdateTaskComponent  {
   taskId: number;
   status: number;
-  constructor(private route: ActivatedRoute, private router:Router) { }
+
+  constructor(private route: ActivatedRoute, private router:Router) {
+
+   }
 
   ngOnInit(){
     this.route.params.subscribe(
@@ -22,5 +26,9 @@ export class CreateUpdateTaskComponent  {
     )
   }
 
+  updateTask(task:Object){
+    //code to perform when updating a task
+    console.log("This thing works!")
+  }
 
 }
