@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { RouterModule, Routes } from '@angular/router';
 import { CookieService } from 'angular2-cookie';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 //Install Bootstrap and Bootstrap components according to following:
 //http://www.markupjavascript.com/2017/07/how-to-add-and-use-bootstrap-in-angular-2-cli-project.html
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -21,6 +22,7 @@ import { CreateUpdateStoryComponent } from './create-update-story/create-update-
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
 import { BoardService } from './_service/board.service';
 import { LoginService } from './_service/login.service';
+import { AssignMembersService } from './_service/assign-members.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { LoginService } from './_service/login.service';
     BrowserModule, 
     FormsModule, 
     HttpModule, 
+    AngularMultiSelectModule,
     RouterModule.forRoot([
         {path: 'about', component: AboutComponent}, 
         {path: 'login', component: LoginComponent},
@@ -59,7 +62,7 @@ import { LoginService } from './_service/login.service';
     //AppRoutingModule
   ],
 
-  providers: [CookieService, LoginService, BoardService],
+  providers: [AssignMembersService, CookieService, LoginService, BoardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
