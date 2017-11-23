@@ -1,4 +1,37 @@
-<p>
-  board-story-lanes works!
-</p>
- <h2>This is boardID: {{boardID}}</h2>
+<div class="container-fluid">
+	<h1>Drunken Octopus Scrum Board System</h1>
+	<div class="jumbotron">
+    <div *ngIf="board">
+      <h3>{{board.name}}</h3><br />
+      <p>Members: <span *ngFor="let member of members; last as isLast">{{member.firstName}} {{member.lastName}}{{isLast ? '' : ', '}}</span></p>
+      <p>Start Date: {{getDateString()}}</p>
+      <p>Duration: {{board.duration}} days</p>    
+    </div>
+		<button type="button" class="btn btn-default">Create Story</button>
+  </div>
+  
+	
+		<div class="row" *ngIf="storyLanes" style="margin-left: -4px; margin-right: -4px">
+			<div *ngFor="let lane of storyLanes" class="card col-sm" style="margin: 4px;">
+				<h4>{{lane.name}}</h4>
+					
+					<!--
+					<div data-ng-repeat="story in filterStoriesByLane(lane.id)" style="border-top: solid">
+						<a style="float: left" data-ng-hide="$parent.$first" data-ng-click="changeLane(story, lanes[$parent.$index - 1])">
+							<span class="glyphicon glyphicon-triangle-left"></span> 
+						</a>
+						<span class="label label-default">Points {{story.points}}</span>
+						<a style="float: right" data-ng-hide="$parent.$last" data-ng-click="changeLane(story, lanes[$parent.$index + 1])">
+							<span class="glyphicon glyphicon-triangle-right"></span> 
+						</a>
+						<br />
+
+						<p>{{story.name}}</p>
+						<button class="btn btn-default btn-xs">Edit Story</button>
+					</div>
+					-->
+				
+			</div>
+		</div>
+  
+</div>

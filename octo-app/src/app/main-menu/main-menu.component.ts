@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import {CookieService} from 'angular2-cookie';
 
 import { SystemUser } from '../_model/SystemUser';
-import { SystemBoard } from '../_model/SystemBoard';
+import { ScrumBoard } from '../_model/ScrumBoard';
 import { BoardService } from '../_service/board.service';
 import { LoginService } from '../_service/login.service';
 
@@ -27,7 +27,7 @@ export class MainMenuComponent implements OnInit {
   //   accountNonLocked: true,
   //   credentialsNonExpired: true
   // };
-  boards: SystemBoard[];
+  boards: ScrumBoard[];
   constructor(private router: Router, private route: ActivatedRoute, private loginService: LoginService, private boardService: BoardService, private cookieService: CookieService) { }
 
 
@@ -43,7 +43,7 @@ export class MainMenuComponent implements OnInit {
     }
   }
 
-  percentComplete(b: SystemBoard): string {
+  percentComplete(b: ScrumBoard): string {
     //insert percentage calculation logic call here
     return 40+"%";
   }
@@ -53,22 +53,22 @@ export class MainMenuComponent implements OnInit {
     this.router.navigate(['/createUpdateBoard', true, 0]); //creating a board shouldn't need a board ID
   }
 
-  viewBoard(b: SystemBoard) {
+  viewBoard(b: ScrumBoard) {
     console.log(b.name + "'s view scrum board method! board ID is: "+b.id);
     this.router.navigate(['/boardStoryLanes', b.id]);
   }
 
-  editScrumBoard(b: SystemBoard){
+  editScrumBoard(b: ScrumBoard){
     console.log(b.name + "'s edit scrum board method! board ID is: "+b.id);
     this.router.navigate(['/createUpdateBoard', false, b.id]); //true means creating, false means editing
   }
 
-  getAllUsers(b: SystemBoard){
+  getAllUsers(b: ScrumBoard){
     console.log(b.name + "'s get users view method! board ID is: "+b.id);
     this.router.navigate(['/assignMembers', b.id]);
   }
 
-  triggerModal(b: SystemBoard){
+  triggerModal(b: ScrumBoard){
     console.log(b.name + "'s trigger delete board method!");
   }
 

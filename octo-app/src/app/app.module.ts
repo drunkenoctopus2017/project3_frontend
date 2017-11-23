@@ -21,6 +21,8 @@ import { CreateUpdateStoryComponent } from './create-update-story/create-update-
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
 import { BoardService } from './_service/board.service';
 import { LoginService } from './_service/login.service';
+import { StoryService } from './_service/story.service';
+import { StoryLaneService } from './_service/story-lane.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,7 @@ import { LoginService } from './_service/login.service';
     //AppRoutingModule
   ],
 
-  providers: [CookieService, LoginService, BoardService],
+  providers: [CookieService, LoginService, BoardService, StoryService, StoryLaneService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
