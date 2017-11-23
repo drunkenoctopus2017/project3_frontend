@@ -30,7 +30,7 @@ export class AssignMembersMenuComponent implements OnInit {
     
     var allUsers = cookie.getObject('users');
     for (var i = 0; i < allUsers.length; i++) {
-      this.dropdownList[i] = { "id": allUsers[i].id, "itemName": allUsers[i].firstName + ': ' + allUsers[i].lastName };
+      this.dropdownList[i] = { "id": allUsers[i].id, "itemName": allUsers[i].firstName + ' ' + allUsers[i].lastName + ': ' + allUsers[i].username };
     }
     this.selectedItems = [
       { "id": 1, "itemName": "Person1" },
