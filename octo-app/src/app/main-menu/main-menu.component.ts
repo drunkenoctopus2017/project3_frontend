@@ -56,7 +56,8 @@ export class MainMenuComponent implements OnInit {
 
   viewBoard(b: ScrumBoard) {
     console.log(b.name + "'s view scrum board method! board ID is: "+b.id);
-    this.router.navigate(['/boardStoryLanes', b.id]);
+    this.boardService.setSelectedBoard(b);
+    this.router.navigate(['/boardStoryLanes']);
   }
 
   editScrumBoard(b: ScrumBoard){

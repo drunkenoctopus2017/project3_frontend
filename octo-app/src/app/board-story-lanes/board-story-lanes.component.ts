@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
-import { Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import {CookieService} from 'angular2-cookie';
 import { BoardService } from '../_service/board.service';
 import { StoryService } from '../_service/story.service';
@@ -10,36 +10,33 @@ import { StoryLaneService } from '../_service/story-lane.service';
 import { SystemUser } from '../_model/SystemUser';
 import { ScrumBoard } from '../_model/ScrumBoard';
 import { StoryLane } from '../_model/StoryLane';
-
-
+import { UserService } from '../_service/user.service';
+import { Story } from '../_model/Story';
 
 @Component({
   selector: 'app-board-story-lanes',
   templateUrl: './board-story-lanes.component.html',
   styleUrls: ['./board-story-lanes.component.css'], 
-  providers: [BoardService]
 })
+
 export class BoardStoryLanesComponent implements OnInit {
-  
-  boardID: number;
   board: ScrumBoard;
   storyLanes: StoryLane[];
+  stories: Story[];
   members: SystemUser[];
-
+  
   constructor(
+    private router: Router, 
     private route: ActivatedRoute, 
     private cookieService: CookieService, 
     private boardService: BoardService,
     private storyService: StoryService, 
-    private storyLaneService: StoryLaneService
-  ) {}
-
-  getSelectedBoard(): void {
-    //this.heroes = this.heroService.getHeroes();
-    //this.heroService.getHeroesSlowly().then(heroes => this.heroes = heroes);
-    this.boardService.getBoardById(this.boardID).then(board => this.board = board);
+    private storyLaneService: StoryLaneService, 
+    private userService: UserService
+  ) {
+    
   }
-
+  
   /**
    * Return a YYYY/MM/DD date string with leading zeros for single digits.
    */
@@ -51,57 +48,23 @@ export class BoardStoryLanesComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.route.params.subscribe(
-      (params: Params) => {
-        this.boardID = params["id"];
-        this.getSelectedBoard();
-      }
-    );
-    /*
-    this.board = {
-      id: 1, 
-      name: "My Scrum Board", 
-      startDate: new Date(), 
-      duration: 14
-    }
-    */
-
-    //TODO cache this data in cookie
-    //this.storyLanes = this.cookieService.getObject('storyLanes');
-    //if (!this.storyLanes) {
+    
+    this.board = this.boardService.getSelectedBoard();
+    
+    //There's a better way to do this, I'm sure.
+    if (!this.board) {
+      this.router.navigate(['/mainMenu']);
+    } else {
+      //TODO cache this data in cookie
+      //this.storyLanes = this.cookieService.getObject('storyLanes');
+      //if (!this.storyLanes) {
       this.storyLaneService.getStoryLanes().then(storyLanes => this.storyLanes = storyLanes);
-    //}
-
-    this.members = [
-      {
-        id: 1, 
-        username: "username", 
-        password: "password", 
-        firstName: "Test", 
-        lastName: "User", 
-        role: {
-          id: 100, name: "Member"
-        }, 
-        enabled: true, 
-        credentialsNonExpired: true, 
-        accountNonExpired: true, 
-        accountNonLocked: true
-      }, 
-      {
-        id: 2, 
-        username: "username1", 
-        password: "password1", 
-        firstName: "Test1", 
-        lastName: "User1", 
-        role: {
-          id: 100, name: "Member"
-        }, 
-        enabled: true, 
-        credentialsNonExpired: true, 
-        accountNonExpired: true, 
-        accountNonLocked: true
-      }
-    ];
+      //}
+      this.userService.getBoardMembersByBoardId(this.board.id).then(members => this.members = members);
+    }
   }
 
+  getStoriesByLane(lane:StoryLane):Story[] {
+    return this.stories.filter(s => s.laneId == lane.id);
+  }
 }
