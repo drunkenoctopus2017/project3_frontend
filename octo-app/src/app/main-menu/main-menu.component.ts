@@ -27,6 +27,7 @@ export class MainMenuComponent implements OnInit {
   //   accountNonLocked: true,
   //   credentialsNonExpired: true
   // };
+
   boards: ScrumBoard[];
   constructor(private router: Router, private route: ActivatedRoute, private loginService: LoginService, private boardService: BoardService, private cookieService: CookieService) { }
 
@@ -35,10 +36,10 @@ export class MainMenuComponent implements OnInit {
     var currentUser = this.cookieService.getObject('user');
     var loggedIn = this.loginService.isLoggedIn(currentUser);
 
-    if(loggedIn){
+    if (loggedIn) {
       this.user = currentUser;
-      this.boards = this.boardService.getBoardsByUserID(this.user.id);
-    }else{
+      this.boardService.getBoardsByUserId(this.user.id).then(boards => this.boards = boards);
+    } else {
       this.router.navigate(['/login']);
     }
   }
