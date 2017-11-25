@@ -1,0 +1,38 @@
+<div class="container-fluid">
+	<h1>Drunken Octopus Scrum Board System</h1>
+	<div class="jumbotron">
+    	<div *ngIf="board">
+    		<h3>{{board.name}}</h3><br />
+			<p>Members: <span *ngFor="let member of members; last as isLast">{{member.firstName}} {{member.lastName}}{{isLast ? '' : ', '}}</span></p>
+			<p>Start Date: {{getDateString()}}</p>
+			<p>Duration: {{board.duration}} days</p>    
+			<button type="button" class="btn btn-default">Create Story</button>
+		</div>
+	</div>
+	<div class="row" *ngIf="storyLanes" style="margin-left: -4px; margin-right: -4px">
+		<div *ngFor="let lane of storyLanes; index as i; first as isFirst ; last as isLast" class="card col-sm" style="margin: 4px; padding:0px">
+			<div class="card-header">
+				<h5>{{lane.name}}</h5>
+			</div>
+			<div *ngIf="stories">
+				<div *ngFor="let story of getStoriesByLane(lane)" class="card" style="margin: 4px; padding: 0px;">
+					<div class="card-header" style="padding: 4px; vertical-align: middle">
+						<a *ngIf="!isFirst" (click)="changeLane(story, storyLanes[i - 1])" style="float: left; cursor: pointer;" >
+							<fa name="caret-left" size="2x"></fa>
+						</a>
+						<span class="card-subtitle mb-2 text-muted" style="vertical-align: middle; margin-left:4px; margin-right:4px">Points <span class="badge badge-primary">{{story.points}}</span></span>
+						<a *ngIf="!isLast" (click)="changeLane(story, storyLanes[i + 1])" style="float: right; cursor: pointer; ">
+							<fa name="caret-right" size="2x"></fa>
+						</a>
+					</div>
+					<div class="card-body" (click)="selectStory(b)" style="cursor: pointer; margin: 4px; padding: 4px;">
+						<h5 class="card-title">{{story.name}}</h5>
+						<p *ngIf="story.description" class="card-text">{{story.description.slice(0, 100)}}</p>
+					</div>
+				</div>
+			</div>	
+			
+		</div>
+	</div>
+  
+</div>
