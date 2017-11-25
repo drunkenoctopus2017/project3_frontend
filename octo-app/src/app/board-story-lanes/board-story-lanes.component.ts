@@ -80,7 +80,8 @@ export class BoardStoryLanesComponent implements OnInit {
 
   changeLane(story:Story, lane:StoryLane) {
     //console.log("move story: " + story.name + " to " + lane.name);
+    const origLaneId:number = story.laneId;
     story.laneId = lane.id;
-    this.storyService.updateStory(story);
+    this.storyService.updateStory(story).catch(error => story.laneId = origLaneId);
   }
 }
