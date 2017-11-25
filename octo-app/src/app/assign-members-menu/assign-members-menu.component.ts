@@ -37,7 +37,7 @@ export class AssignMembersMenuComponent implements OnInit {
     } else {
       var bId = this.boardID;
       //get all board users and store them in a cookie
-      /*
+      
       this.assignMembersService.getUsersOnBoard(this.boardID).then(function (response) {
         if (response != null) {
           cookie.putObject('board' + bId + 'Users', response);
@@ -47,14 +47,14 @@ export class AssignMembersMenuComponent implements OnInit {
         }
 
       });
-      */
+      
       this.assignMembersService.getUsersOnBoard(this.boardID)
         .then(usersOnBoard => this.selectedItems = this.parseData(usersOnBoard));
       this.assignMembersService.getAllUsers()
         .then(allUsers => this.dropdownList = this.parseData(allUsers));
     }
 
-    /*
+    
     //store all users in cookie
     this.assignMembersService.getAllUsers().then(function (response) {
       cookie.putObject('users', response);
@@ -71,7 +71,7 @@ export class AssignMembersMenuComponent implements OnInit {
       //display board users as selected items in the dropdown list
       this.selectedItems[i] = { "id": boardUsers[i].id, "itemName": boardUsers[i].firstName + ' ' + boardUsers[i].lastName + ': ' + boardUsers[i].username };
     }
-    */
+    
 
     this.dropdownSettings = {
       singleSelection: false,
@@ -90,7 +90,7 @@ export class AssignMembersMenuComponent implements OnInit {
     //I doubt we really need to pay attention to onItemSelect unless we are updating the DB with each click.
     //Personally, I think having a submit button is more robust and I encourage you to follow that design choice.
     
-    /*
+    
     //verify users are selected correctly
     console.log('user selected: ' + item.itemName);
     console.log('SELECTED USERS:')
@@ -119,11 +119,11 @@ export class AssignMembersMenuComponent implements OnInit {
     //verify that cookie has been updated
     console.log('COOKIE');
     console.log(this.cookieService.getObject('board' + this.boardID + 'Users'));
-    */
+    
   }
   OnItemDeSelect(item: any) {
     //ditto as above
-    /*
+    
     //verify that users are being deselected correctly
     console.log('user deselected: ' + item.itemName);
     console.log('SELECTED USERS:')
@@ -143,8 +143,6 @@ export class AssignMembersMenuComponent implements OnInit {
     }
     console.log('COOKIE: ');
     console.log(this.cookieService.getObject('board' + this.boardID + 'Users'));
-    */
-
   }
   onSelectAll(items: any) {
     console.log('ALL SELECTED:');

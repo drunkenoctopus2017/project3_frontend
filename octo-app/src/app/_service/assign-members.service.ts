@@ -19,7 +19,7 @@ export class AssignMembersService {
 
   updateBoardUsers(boardId: number, users: SystemUser[]) {
     let url = "/octo-user-management-service/updateBoardUsers/";
-    let body = JSON.stringify(users);
+    let body = users;
 
     console.log('BODY:');
     console.log(body);
