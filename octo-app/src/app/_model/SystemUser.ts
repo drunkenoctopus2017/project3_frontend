@@ -9,4 +9,9 @@ export class SystemUser {
     credentialsNonExpired: boolean;
     accountNonExpired: boolean;
     accountNonLocked: boolean;
+    boardUserJoins: {
+        id: number,
+        boardId: number,
+        systemUser: SystemUser;
+    }[];
 }

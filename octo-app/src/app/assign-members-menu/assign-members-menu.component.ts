@@ -40,6 +40,7 @@ export class AssignMembersMenuComponent implements OnInit {
       this.assignMembersService.getUsersOnBoard(this.boardID).then(function (response) {
         if (response != null) {
           cookie.putObject('board' + bId + 'Users', response);
+          console.log(response);
         } else {
           console.log('error! there are no users on this board.');
         }
