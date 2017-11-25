@@ -2,10 +2,12 @@
 	<h1>Drunken Octopus Main Menu</h1>
 	<div class="jumbotron">
 		<p>Welcome {{user.firstName}} {{user.lastName}}</p>
-		<button (click)="createScrumBoard()" [hidden]="!(user.role == 200)"
+		<button (click)="createScrumBoard()" [hidden]="!(user.role >= 200)"
 			class="btn btn-secondary">Create New Scrum Board</button>
 	</div>
-	
+	<div *ngIf="!boards">
+		<fa name="cog" animation="spin"></fa>
+	</div>
 	<div class="card mb-4" *ngFor="let b of boards">
 		<div class="card-body" style="cursor: pointer"
 			(click)="viewBoard(b)">
