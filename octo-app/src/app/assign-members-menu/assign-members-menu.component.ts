@@ -20,6 +20,7 @@ export class AssignMembersMenuComponent implements OnInit {
   dropdownList = [];
   selectedItems = [];
   dropdownSettings = {};
+
   constructor(private loginService: LoginService, private cookieService: CookieService, private assignMembersService: AssignMembersService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -28,36 +29,38 @@ export class AssignMembersMenuComponent implements OnInit {
         this.boardID = params["id"]; //grab the board ID
       }
     )
-    
     var cookie = this.cookieService;
     this.user = cookie.getObject('user');
     var loggedIn = this.loginService.isLoggedIn(this.user);
-    if(!loggedIn){
+    if (!loggedIn) {
       this.router.navigate(['/login']);
-    }else{
+    } else {
       var bId = this.boardID;
-      this.assignMembersService.getUsersOnBoard(this.boardID).then(function(response){
-        if (response != null){
-          cookie.putObject('board' + bId + 'Users', response);          
-        } else{
+      //get all board users and store them in a cookie
+      this.assignMembersService.getUsersOnBoard(this.boardID).then(function (response) {
+        if (response != null) {
+          cookie.putObject('board' + bId + 'Users', response);
+        } else {
           console.log('error! there are no users on this board.');
         }
 
       });
     }
-
+    //store all users in cookie
     this.assignMembersService.getAllUsers().then(function (response) {
       cookie.putObject('users', response);
     });
-    
+    //get all users from cookie
     var allUsers = cookie.getObject('users');
     for (var i = 0; i < allUsers.length; i++) {
+      //display all users in dropdown list
       this.dropdownList[i] = { "id": allUsers[i].id, "itemName": allUsers[i].firstName + ' ' + allUsers[i].lastName + ': ' + allUsers[i].username };
     }
-    
+    //get board users from cookie
     var boardUsers = cookie.getObject('board' + this.boardID + 'Users');
-    for(var i=0; i < boardUsers.length; i++){
-      this.selectedItems[i] = {"id": boardUsers[i].id, "itemName": boardUsers[i].firstName + ' ' + boardUsers[i].lastName + ': ' + boardUsers[i].username};
+    for (var i = 0; i < boardUsers.length; i++) {
+      //display board users as selected items in the dropdown list
+      this.selectedItems[i] = { "id": boardUsers[i].id, "itemName": boardUsers[i].firstName + ' ' + boardUsers[i].lastName + ': ' + boardUsers[i].username };
     }
 
     this.dropdownSettings = {
@@ -69,36 +72,52 @@ export class AssignMembersMenuComponent implements OnInit {
       searchPlaceHolderText: 'Search for User'
     }
   }
+
   onItemSelect(item: any) {
+    //verify users are selected correctly
     console.log('user selected: ' + item.itemName);
     console.log('SELECTED USERS:')
-    for(var i in this.selectedItems){
-      console.log('user['+ i + ']: ' + this.selectedItems[i].itemName);
+    for (var user in this.selectedItems) {
+      console.log('user[' + user + ']: ' + this.selectedItems[user].itemName);
     }
-    var usersList = [];
-    //add item to boardUsers cookie
-    usersList = this.cookieService.getObject('board' + this.boardID + 'Users');
-    usersList.push(item);
-    this.cookieService.putObject('board' + this.boardID + 'Users', usersList);
+
+    var allUsers = this.cookieService.getObject('users');
+    var boardUsers = this.cookieService.getObject('board' + this.boardID + 'Users');
+    
+    //loop through all users
+    for(var i=0; i < allUsers.length; i++){
+      //if item selected matches user's id, add to list of board users
+      if(allUsers[i].id == item.id){
+        //switch boolean values to true
+        allUsers[i].enabled = true;
+        allUsers[i].credentialsNonExpired = true;
+        allUsers[i].accountNonExpired = true;
+        allUsers[i].accountNonLocked = true;
+        boardUsers.push(allUsers[i]);
+      }
+    }
+    //update the board#Users cookie
+    this.cookieService.putObject('board' + this.boardID + 'Users', boardUsers);
 
     //verify that cookie has been updated
     console.log('COOKIE');
     console.log(this.cookieService.getObject('board' + this.boardID + 'Users'));
-    
   }
   OnItemDeSelect(item: any) {
+    //verify that users are being deselected correctly
     console.log('user deselected: ' + item.itemName);
     console.log('SELECTED USERS:')
-    for(var i in this.selectedItems){
-      console.log('user['+ i + ']: ' + this.selectedItems[i].itemName);
+    for (var i in this.selectedItems) {
+      console.log('user[' + i + ']: ' + this.selectedItems[i].itemName);
     }
 
-    var usersList = [];
     var newUsersList = [];
-    usersList = this.cookieService.getObject('board' + this.boardID + 'Users');
-    for(var i in usersList){
-      if(usersList[i].id != item.id){
-        newUsersList.push(usersList[i]);
+    var boardUsers = this.cookieService.getObject('board' + this.boardID + 'Users');
+    //loop through board users
+    for (var i in boardUsers) {
+      //as long as board user is not the deselected item, add to new list
+      if (boardUsers[i].id != item.id) {
+        newUsersList.push(boardUsers[i]);
       }
       this.cookieService.putObject('board' + this.boardID + 'Users', newUsersList);
     }
@@ -115,9 +134,10 @@ export class AssignMembersMenuComponent implements OnInit {
     console.log(items);
   }
 
-  updateBoardUsers(boardNum: number){
-    console.log('hello');
+  updateBoardUsers(boardNum: number) {
+    this.assignMembersService.updateBoardUsers(boardNum, this.cookieService.getObject('board' + boardNum + 'Users')).then(function (response) {
+      console.log('RESPONSE:');
+      console.log(response);
+    });
   }
-
-
 }

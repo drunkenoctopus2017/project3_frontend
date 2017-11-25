@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
     var r = this.router;
 
     this.loginService.login(username, password).then(function(user) {
+      console.log(user);
       c.putObject('user', user);
       r.navigate(['/mainMenu']);
     });
