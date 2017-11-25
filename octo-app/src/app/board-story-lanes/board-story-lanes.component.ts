@@ -48,7 +48,6 @@ export class BoardStoryLanesComponent implements OnInit {
   }
   
   ngOnInit() {
-    
     this.board = this.boardService.getSelectedBoard();
     
     //There's a better way to do this, I'm sure.
@@ -61,10 +60,27 @@ export class BoardStoryLanesComponent implements OnInit {
       this.storyLaneService.getStoryLanes().then(storyLanes => this.storyLanes = storyLanes);
       //}
       this.userService.getBoardMembersByBoardId(this.board.id).then(members => this.members = members);
+      this.storyService.getStoriesByBoardId(this.board.id).then(stories => this.stories = stories);
     }
   }
 
   getStoriesByLane(lane:StoryLane):Story[] {
     return this.stories.filter(s => s.laneId == lane.id);
+  }
+
+  selectStory(story:Story) {
+    this.storyService.setSelectedStory(story);
+    const currentUser:SystemUser = this.cookieService.getObject('user');
+    if (currentUser.role.id > 100) {
+      this.router.navigate(['/editStory']);
+    } else {
+      this.router.navigate(['/viewStory']);
+    }
+  }
+
+  changeLane(story:Story, lane:StoryLane) {
+    //console.log("move story: " + story.name + " to " + lane.name);
+    story.laneId = lane.id;
+    this.storyService.updateStory(story);
   }
 }

@@ -26,7 +26,7 @@ import { CreateUpdateStoryComponent } from './create-update-story/create-update-
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
 import { UserService } from './_service/user.service';
 
-
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +44,7 @@ import { UserService } from './_service/user.service';
     BrowserModule, 
     FormsModule, 
     HttpModule, 
-    
+    AngularFontAwesomeModule, 
     AppRoutingModule
     
   ],

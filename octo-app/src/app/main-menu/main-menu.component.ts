@@ -14,23 +14,9 @@ import { LoginService } from '../_service/login.service';
 })
 export class MainMenuComponent implements OnInit {
   user: SystemUser;
-
-  // user: SystemUser = {
-  //   id: 1,
-  //   username: "im",
-  //   password: "dabes",
-  //   firstName: "Cool",
-  //   lastName: "Guy",
-  //   role: 200, 
-  //   enabled: true, 
-  //   accountNonExpired: true,
-  //   accountNonLocked: true,
-  //   credentialsNonExpired: true
-  // };
-
   boards: ScrumBoard[];
-  constructor(private router: Router, private route: ActivatedRoute, private loginService: LoginService, private boardService: BoardService, private cookieService: CookieService) { }
 
+  constructor(private router: Router, private route: ActivatedRoute, private loginService: LoginService, private boardService: BoardService, private cookieService: CookieService) { }
 
   ngOnInit() {
     var currentUser = this.cookieService.getObject('user');
@@ -55,7 +41,6 @@ export class MainMenuComponent implements OnInit {
   }
 
   viewBoard(b: ScrumBoard) {
-    console.log(b.name + "'s view scrum board method! board ID is: "+b.id);
     this.boardService.setSelectedBoard(b);
     this.router.navigate(['/boardStoryLanes']);
   }
@@ -73,5 +58,4 @@ export class MainMenuComponent implements OnInit {
   triggerModal(b: ScrumBoard){
     console.log(b.name + "'s trigger delete board method!");
   }
-
 }

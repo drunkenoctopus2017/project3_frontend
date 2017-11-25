@@ -5,21 +5,17 @@ import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class BoardService {
+  private selectedBoard:ScrumBoard;
 
   constructor(private http: Http) { }
-
-  selectedBoard:ScrumBoard;
-
+  
   getSelectedBoard():ScrumBoard {
-    console.log("get selected board: " + this.selectedBoard);
     return this.selectedBoard;
   }
 
   setSelectedBoard(board:ScrumBoard) {
-    console.log("try to set selected board to: " + board);
     if (board != this.selectedBoard) {
       this.selectedBoard = board;
-      console.log("set selected board: " + this.selectedBoard);
     }
   }
 
