@@ -1,4 +1,4 @@
-export class SystemBoard {
+export class ScrumBoard {
     id: number;
     name: string;
     startDate: Date;

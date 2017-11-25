@@ -4,21 +4,24 @@
   <button class="btn btn-default" (click)="gotoLogin()">Login</button>
   -->
   <p>This is a temporary navbar. Navigate directly to views for testing purposes.</p>
-  <a routerLink="/login" routerLinkActive="active">Login</a>
-  |
-  <a routerLink="/mainMenu" routerLinkActive="active">Main Menu (skip login)</a>
-  |
-  <a routerLink="/assignMembers" routerLinkActive="active">Assign Members</a>
-  |
-  <a routerLink="/createUpdateBoard" routerLinkActive="active">Create/Update Board</a>
-  |
-  <a routerLink="/boardStoryLanes" routerLinkActive="active">Scrum Board</a>
-  |
-  <a routerLink="/createUpdateStory" routerLinkActive="active">Create/Update Story</a>
-  |
-  <a routerLink="/burndownChart" routerLinkActive="active">Burndown Chart</a>
-  |
-  <a routerLink="/login" routerLinkActive="active" (click)="logout()">Logout</a>
+  <nav>
+    <fa name="cog" animation="spin"></fa>
+    <a routerLink="/login" routerLinkActive="active">Login</a>
+    |
+    <a routerLink="/mainMenu" routerLinkActive="active">Main Menu (skip login)</a>
+    |
+    <a routerLink="/assignMembers" routerLinkActive="active">Assign Members</a>
+    |
+    <a routerLink="/createUpdateBoard" routerLinkActive="active">Create/Update Board</a>
+    |
+    <a routerLink="/boardStoryLanes/1" routerLinkActive="active">Scrum Board</a>
+    |
+    <a routerLink="/createUpdateStory" routerLinkActive="active">Create/Update Story</a>
+    |
+    <a routerLink="/burndownChart" routerLinkActive="active">Burndown Chart</a>
+    |
+    <a routerLink="/login" routerLinkActive="active" (click)="logout()">Logout</a>
+  </nav>
   <router-outlet></router-outlet>
 </div>
 
