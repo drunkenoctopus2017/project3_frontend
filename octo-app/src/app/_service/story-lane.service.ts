@@ -5,11 +5,17 @@ import { Http, Response } from '@angular/http';
 @Injectable()
 export class StoryLaneService {
   
+  private storyLanesCache:StoryLane[];
+
   constructor(private http: Http) { }
   
+  getCachedStoryLanes():StoryLane[] {
+    return this.storyLanesCache;
+  }
+
   getStoryLanes(): Promise<StoryLane[]> {
     const url = "octo-story-service/getStoryLanes";
-    return this.http.get(url).toPromise().then(response => response.json() as StoryLane[]).catch(this.handleError);
+    return this.http.get(url).toPromise().then(response => response.json() as StoryLane[]).then(lanes => this.storyLanesCache = lanes).catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {

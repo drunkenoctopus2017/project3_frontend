@@ -12,6 +12,7 @@ import { ScrumBoard } from '../_model/ScrumBoard';
 import { StoryLane } from '../_model/StoryLane';
 import { UserService } from '../_service/user.service';
 import { Story } from '../_model/Story';
+import { UserRole } from '../_model/UserRole';
 
 @Component({
   selector: 'app-board-story-lanes',
@@ -24,7 +25,8 @@ export class BoardStoryLanesComponent implements OnInit {
   storyLanes: StoryLane[];
   stories: Story[];
   members: SystemUser[];
-  
+  role: UserRole = {id: 0, name: ""};
+
   constructor(
     private router: Router, 
     private route: ActivatedRoute, 
@@ -48,17 +50,18 @@ export class BoardStoryLanesComponent implements OnInit {
   }
   
   ngOnInit() {
+    const currentUser:SystemUser = this.cookieService.getObject('user');
+    this.role = currentUser.role;
     this.board = this.boardService.getSelectedBoard();
     
     //There's a better way to do this, I'm sure.
     if (!this.board) {
       this.router.navigate(['/mainMenu']);
     } else {
-      //TODO cache this data in cookie
-      //this.storyLanes = this.cookieService.getObject('storyLanes');
-      //if (!this.storyLanes) {
-      this.storyLaneService.getStoryLanes().then(storyLanes => this.storyLanes = storyLanes);
-      //}
+      this.storyLanes = this.storyLaneService.getCachedStoryLanes();
+      if (!this.storyLanes) {
+        this.storyLaneService.getStoryLanes().then(storyLanes => this.storyLanes = storyLanes);
+      }
       this.userService.getBoardMembersByBoardId(this.board.id).then(members => this.members = members);
       this.storyService.getStoriesByBoardId(this.board.id).then(stories => this.stories = stories);
     }
@@ -79,8 +82,12 @@ export class BoardStoryLanesComponent implements OnInit {
   }
 
   changeLane(story:Story, lane:StoryLane) {
-    //console.log("move story: " + story.name + " to " + lane.name);
+    const origLaneId:number = story.laneId;
     story.laneId = lane.id;
-    this.storyService.updateStory(story);
+    this.storyService.updateStory(story).catch(error => story.laneId = origLaneId);
+  }
+
+  createStory() {
+    this.router.navigate(['/createStory']);
   }
 }
