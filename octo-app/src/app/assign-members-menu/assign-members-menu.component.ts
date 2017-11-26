@@ -36,8 +36,8 @@ export class AssignMembersMenuComponent implements OnInit {
       this.router.navigate(['/login']);
     } else {
       var bId = this.boardID;
+
       //get all board users and store them in a cookie
-      
       this.assignMembersService.getUsersOnBoard(this.boardID).then(function (response) {
         if (response != null) {
           cookie.putObject('board' + bId + 'Users', response);
@@ -122,7 +122,6 @@ export class AssignMembersMenuComponent implements OnInit {
     
   }
   OnItemDeSelect(item: any) {
-    //ditto as above
     
     //verify that users are being deselected correctly
     console.log('user deselected: ' + item.itemName);
