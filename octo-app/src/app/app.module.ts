@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { RouterModule, Routes } from '@angular/router';
 import { CookieService } from 'angular2-cookie';
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 //Install Bootstrap and Bootstrap components according to following:
 //http://www.markupjavascript.com/2017/07/how-to-add-and-use-bootstrap-in-angular-2-cli-project.html
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -39,6 +40,7 @@ import { LoginService } from './_service/login.service';
     BrowserModule, 
     FormsModule, 
     HttpModule, 
+    ChartsModule,
     RouterModule.forRoot([
         {path: 'about', component: AboutComponent}, 
         {path: 'login', component: LoginComponent},
