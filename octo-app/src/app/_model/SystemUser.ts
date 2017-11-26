@@ -11,4 +11,5 @@ export class SystemUser {
     credentialsNonExpired: boolean;
     accountNonExpired: boolean;
     accountNonLocked: boolean;
+   
 }
