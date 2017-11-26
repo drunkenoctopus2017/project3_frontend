@@ -3,14 +3,20 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { RouterModule, Routes } from '@angular/router';
-import { CookieService } from 'angular2-cookie';
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 //Install Bootstrap and Bootstrap components according to following:
 //http://www.markupjavascript.com/2017/07/how-to-add-and-use-bootstrap-in-angular-2-cli-project.html
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { RouterModule, Routes } from '@angular/router';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { CookieService } from 'angular2-cookie';
 
-//import { AppRoutingModule } from './app-routing.module';
+import { BoardService } from './_service/board.service';
+import { LoginService } from './_service/login.service';
+import { StoryService } from './_service/story.service';
+import { StoryLaneService } from './_service/story-lane.service';
+import { AssignMembersService } from './_service/assign-members.service';
+
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
@@ -20,10 +26,11 @@ import { BoardStoryLanesComponent } from './board-story-lanes/board-story-lanes.
 import { CreateUpdateBoardComponent } from './create-update-board/create-update-board.component';
 import { CreateUpdateStoryComponent } from './create-update-story/create-update-story.component';
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
-import { BoardService } from './_service/board.service';
-import { LoginService } from './_service/login.service';
-import { AssignMembersService } from './_service/assign-members.service';
 
+import { UserService } from './_service/user.service';
+
+
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +49,8 @@ import { AssignMembersService } from './_service/assign-members.service';
     FormsModule, 
     HttpModule, 
     AngularMultiSelectModule,
+    AngularFontAwesomeModule, 
+    AppRoutingModule,
     RouterModule.forRoot([
         {path: 'about', component: AboutComponent}, 
         {path: 'login', component: LoginComponent},
@@ -59,10 +68,10 @@ import { AssignMembersService } from './_service/assign-members.service';
       ],
       { useHash: true }
     )
-    //AppRoutingModule
   ],
-
-  providers: [AssignMembersService, CookieService, LoginService, BoardService],
+  providers: [AssignMembersService, CookieService, LoginService, UserService, BoardService, StoryService, StoryLaneService],
   bootstrap: [AppComponent]
 })
+
+
 export class AppModule { }

@@ -1,14 +1,19 @@
 <div class="jumbotron">
-  <p>Login</p>
-  <div class="form-inline">
-    <div class="form-group">
-      <label class="sr-only" for="usernameInput">Username</label>
-      <input id="usernameInput" #username type="text" class="form-control" placeholder="username">
+  <h2>Login</h2>
+  <div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="usernameInput">Username</label>
+      <div class="col-sm-10">
+        <input id="usernameInput" #username type="text" class="form-control" placeholder="username">
+      </div>
     </div>
-    <div class="form-group">
-      <label class="sr-only" for="passwordInput">Password</label>
-      <input id="passwordInput" #password type="password" class="form-control" placeholder="password">
+    
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="passwordInput">Password</label>
+      <div class="col-sm-10">
+        <input id="passwordInput" #password type="password" class="form-control" placeholder="password">
+      </div>
     </div>
-    <button (click)="login(username.value, password.value)" class="btn btn-default">Login</button>
+    <button (click)="login(username.value, password.value)" class="btn btn-primary">Login</button>
   </div>
 </div>
