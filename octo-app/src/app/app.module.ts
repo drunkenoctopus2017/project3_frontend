@@ -16,6 +16,7 @@ import { BoardService } from './_service/board.service';
 import { LoginService } from './_service/login.service';
 import { StoryService } from './_service/story.service';
 import { StoryLaneService } from './_service/story-lane.service';
+import { AssignMembersService } from './_service/assign-members.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -54,7 +55,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     
   ],
 
-  providers: [CookieService, LoginService, UserService, BoardService, StoryService, StoryLaneService],
+  providers: [CookieService, LoginService, UserService, BoardService, StoryService, StoryLaneService, AssignMembersService],
   bootstrap: [AppComponent]
 })
 

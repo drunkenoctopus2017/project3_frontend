@@ -61,16 +61,16 @@ export class AssignMembersMenuComponent implements OnInit {
     });
     //get all users from cookie
     var allUsers = cookie.getObject('users');
-    for (var i = 0; i < allUsers.length; i++) {
-      //display all users in dropdown list
-      this.dropdownList[i] = { "id": allUsers[i].id, "itemName": allUsers[i].firstName + ' ' + allUsers[i].lastName + ': ' + allUsers[i].username };
-    }
-    //get board users from cookie
+    // for (var i = 0; i < allUsers.length; i++) {
+    //   //display all users in dropdown list
+    //   this.dropdownList[i] = { "id": allUsers[i].id, "itemName": allUsers[i].firstName + ' ' + allUsers[i].lastName + ': ' + allUsers[i].username };
+    // }
+    // //get board users from cookie
     var boardUsers = cookie.getObject('board' + this.boardID + 'Users');
-    for (var i = 0; i < boardUsers.length; i++) {
-      //display board users as selected items in the dropdown list
-      this.selectedItems[i] = { "id": boardUsers[i].id, "itemName": boardUsers[i].firstName + ' ' + boardUsers[i].lastName + ': ' + boardUsers[i].username };
-    }
+    // for (var i = 0; i < boardUsers.length; i++) {
+    //   //display board users as selected items in the dropdown list
+    //   this.selectedItems[i] = { "id": boardUsers[i].id, "itemName": boardUsers[i].firstName + ' ' + boardUsers[i].lastName + ': ' + boardUsers[i].username };
+    // }
     
 
     this.dropdownSettings = {
