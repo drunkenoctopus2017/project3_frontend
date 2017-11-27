@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --proxy-config proxy.conf.json",
+    "start": "ng serve", 
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -24,7 +24,9 @@
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.5",
     "angular2-cookie": "^1.2.6",
     "bootstrap": "^4.0.0-beta.2",
+    "chart.js": "^2.7.1",
     "core-js": "^2.4.1",
+    "ng2-charts": "^1.6.0",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"
   },

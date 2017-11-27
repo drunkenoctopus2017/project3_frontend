@@ -13,20 +13,20 @@ import { LoginService } from '../_service/login.service';
   styleUrls: ['./main-menu.component.css']
 })
 export class MainMenuComponent implements OnInit {
-  user: SystemUser;
+  //user: SystemUser;
 
-  // user: SystemUser = {
-  //   id: 1,
-  //   username: "im",
-  //   password: "dabes",
-  //   firstName: "Cool",
-  //   lastName: "Guy",
-  //   role: 200, 
-  //   enabled: true, 
-  //   accountNonExpired: true,
-  //   accountNonLocked: true,
-  //   credentialsNonExpired: true
-  // };
+  user: SystemUser = {
+    id: 1,
+    username: "im",
+    password: "dabes",
+    firstName: "Cool",
+    lastName: "Guy",
+    role: 200, 
+    enabled: true, 
+    accountNonExpired: true,
+    accountNonLocked: true,
+    credentialsNonExpired: true
+  };
   boards: SystemBoard[];
   constructor(private router: Router, private route: ActivatedRoute, private loginService: LoginService, private boardService: BoardService, private cookieService: CookieService) { }
 
@@ -35,11 +35,11 @@ export class MainMenuComponent implements OnInit {
     var currentUser = this.cookieService.getObject('user');
     var loggedIn = this.loginService.isLoggedIn(currentUser);
 
-    if(loggedIn){
-      this.user = currentUser;
-      this.boards = this.boardService.getBoardsByUserID(this.user.id);
+    if(true){//loggedIn){
+      //this.user = currentUser;
+      this.boards = this.boardService.getBoardsByUserID(1);//this.user.id);
     }else{
-      this.router.navigate(['/login']);
+      //this.router.navigate(['/login']);
     }
   }
 
