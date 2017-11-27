@@ -29,7 +29,12 @@ export class MainMenuComponent implements OnInit {
   user: SystemUser;
   boards: ScrumBoard[];
 
-  constructor(private router: Router, private route: ActivatedRoute, private loginService: LoginService, private boardService: BoardService, private cookieService: CookieService) { }
+  constructor(
+    private router: Router, 
+    private route: ActivatedRoute, 
+    private loginService: LoginService, 
+    private boardService: BoardService, 
+    private cookieService: CookieService) { }
 
   ngOnInit() {
     var currentUser = this.cookieService.getObject('user');
@@ -55,6 +60,7 @@ export class MainMenuComponent implements OnInit {
   }
 
   viewBoard(b: ScrumBoard) {
+    
     this.boardService.setSelectedBoard(b);
     this.router.navigate(['/boardStoryLanes']);
   }
