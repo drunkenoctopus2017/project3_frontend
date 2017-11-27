@@ -27,6 +27,7 @@ import { BurndownChartComponent } from './burndown-chart/burndown-chart.componen
 import { UserService } from './_service/user.service';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { BurndownChartService } from './_service/burndown-chart.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +50,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     
   ],
 
-  providers: [CookieService, LoginService, UserService, BoardService, StoryService, StoryLaneService],
+  providers: [CookieService, LoginService, UserService, BoardService, StoryService, StoryLaneService, BurndownChartService],
   bootstrap: [AppComponent]
 })
 

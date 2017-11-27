@@ -16,7 +16,6 @@ export class AssignMembersMenuComponent implements OnInit {
        (params: Params) => {
         this.boardID = params["id"]; //grab the board ID
       }
-    )
+    );
   }
-
 }
