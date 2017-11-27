@@ -7,6 +7,7 @@
 			<p>Start Date: {{getDateString()}}</p>
 			<p>Duration: {{board.duration}} days</p>    
 			<button *ngIf="role.id >= 200" (click)="createStory()" class="btn btn-default" style="cursor: pointer;">Create Story</button>
+			<button (click)="viewChart()" class="btn btn-default" style="cursor: pointer;">View Burndown Chart</button>
 		</div>
 	</div>
 	<div *ngIf="!storyLanes">
