@@ -61,6 +61,7 @@ export class MainMenuComponent implements OnInit {
 
   editScrumBoard(b: ScrumBoard){
     console.log(b.name + "'s edit scrum board method! board ID is: "+b.id);
+    this.boardService.setSelectedBoard(b);
     this.router.navigate(['/createUpdateBoard', false, b.id]); //true means creating, false means editing
   }
 

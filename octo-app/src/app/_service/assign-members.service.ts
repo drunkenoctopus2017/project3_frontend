@@ -5,20 +5,23 @@ import { SystemUser } from '../_model/SystemUser';
 @Injectable()
 export class AssignMembersService {
 
+  // zuulUrl: string = "";
+  zuulUrl: string = "http://localhost:8765/";
+
   constructor(private http: Http) { }
 
   getAllUsers() {
-    let url = "/octo-user-management-service/addUsers";
+    let url = this.zuulUrl+"octo-user-management-service/addUsers";
     return this.http.get(url).toPromise().then(res => res.json() as SystemUser[]).catch(this.handleError);
   }
 
   getUsersOnBoard(boardId: number) {
-    let url = "/octo-user-management-service/getUsersOnBoard/";
+    let url = this.zuulUrl+"octo-user-management-service/getUsersOnBoard/";
     return this.http.get(url + boardId).toPromise().then(res => res.json() as SystemUser[]).catch(this.handleError);
   }
 
   updateBoardUsers(boardId: number, users: SystemUser[]) {
-    let url = "/octo-user-management-service/updateBoardUsers/";
+    let url = this.zuulUrl+"octo-user-management-service/updateBoardUsers/";
     let body = users;
 
     console.log('BODY:');
