@@ -70,7 +70,7 @@ export class BoardStoryLanesComponent implements OnInit {
   getStoriesByLane(lane:StoryLane):Story[] {
     return this.stories.filter(s => s.laneId == lane.id);
   }
-
+//for me
   selectStory(story:Story) {
     this.storyService.setSelectedStory(story);
     const currentUser:SystemUser = this.cookieService.getObject('user');
@@ -87,6 +87,7 @@ export class BoardStoryLanesComponent implements OnInit {
     this.storyService.updateStory(story).catch(error => story.laneId = origLaneId);
   }
 
+  //for me
   createStory() {
     this.router.navigate(['/createStory']);
   }
