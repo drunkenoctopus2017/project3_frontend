@@ -2,7 +2,7 @@
 	<h1>Drunken Octopus Main Menu</h1>
 	<div class="jumbotron">
 		<p>Welcome {{user.firstName}} {{user.lastName}}</p>
-		<button (click)="createScrumBoard()" [hidden]="!(user.role >= 200)"
+		<button (click)="createScrumBoard()" [hidden]="!(user.role.id >= 200)"
 			class="btn btn-secondary">Create New Scrum Board</button>
 	</div>
 	<div *ngIf="!boards">
@@ -15,14 +15,15 @@
 			<div style="float: right" class="btn-group" role="group"
 				aria-label="..." (click)="$event.stopPropagation();">
 				<button type="button" class="btn btn-secondary"
-					(click)="editScrumBoard(b); " [hidden]="!(user.role == 200)">
+					(click)="editScrumBoard(b); " *ngIf="(user.role.id == 200)">
 					<span>Edit</span>
 				</button>
 				<button type="button" class="btn btn-secondary"
 					(click)="getAllUsers(b); ">
 					<span>Users</span>
 				</button>
-				<button type="button" class="btn btn-secondary" (click)="triggerModal(b)" [hidden]="!(user.role == 200)">
+				<button type="button" class="btn btn-secondary" (click)="triggerModal(b)" *ngIf="false"> 
+					<!-- *ngIf="(user.role.id >= 200)"> -->
 					<span>Delete</span>
 				</button>
 								

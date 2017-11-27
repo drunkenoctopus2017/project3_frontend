@@ -5,6 +5,9 @@ import { Http, Response } from '@angular/http';
 @Injectable()
 export class StoryLaneService {
   
+  // zuulUrl: string = "";
+  zuulUrl: string = "http://localhost:8765/";
+
   private storyLanesCache:StoryLane[];
 
   constructor(private http: Http) { }
@@ -14,7 +17,7 @@ export class StoryLaneService {
   }
 
   getStoryLanes(): Promise<StoryLane[]> {
-    const url = "octo-story-service/getStoryLanes";
+    const url = this.zuulUrl+"octo-story-service/getStoryLanes";
     return this.http.get(url).toPromise().then(response => response.json() as StoryLane[]).then(lanes => this.storyLanesCache = lanes).catch(this.handleError);
   }
 

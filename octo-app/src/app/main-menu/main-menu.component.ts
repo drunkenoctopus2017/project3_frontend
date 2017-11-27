@@ -13,6 +13,19 @@ import { LoginService } from '../_service/login.service';
   styleUrls: ['./main-menu.component.css']
 })
 export class MainMenuComponent implements OnInit {
+
+  // user: SystemUser = {
+  //   id: 1,
+  //   username: "im",
+  //   password: "dabes",
+  //   firstName: "Cool",
+  //   lastName: "Guy",
+  //   role: 200, 
+  //   enabled: true, 
+  //   accountNonExpired: true,
+  //   accountNonLocked: true,
+  //   credentialsNonExpired: true
+  // };
   user: SystemUser;
   boards: ScrumBoard[];
 
@@ -26,6 +39,7 @@ export class MainMenuComponent implements OnInit {
   ngOnInit() {
     var currentUser = this.cookieService.getObject('user');
     var loggedIn = this.loginService.isLoggedIn(currentUser);
+
 
     if (loggedIn) {
       this.user = currentUser;
@@ -53,6 +67,7 @@ export class MainMenuComponent implements OnInit {
 
   editScrumBoard(b: ScrumBoard){
     console.log(b.name + "'s edit scrum board method! board ID is: "+b.id);
+    this.boardService.setSelectedBoard(b);
     this.router.navigate(['/createUpdateBoard', false, b.id]); //true means creating, false means editing
   }
 
