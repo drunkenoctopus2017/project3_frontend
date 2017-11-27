@@ -27,6 +27,7 @@ import { BurndownChartComponent } from './burndown-chart/burndown-chart.componen
 import { UserService } from './_service/user.service';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { CreateUpdateTasksComponent } from './create-update-tasks/create-update-tasks.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +38,8 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
     CreateUpdateStoryComponent,
     AssignMembersMenuComponent,
     BoardStoryLanesComponent,
-    BurndownChartComponent
+    BurndownChartComponent,
+    CreateUpdateTasksComponent
   ],
   imports: [
     NgbModule.forRoot(), 

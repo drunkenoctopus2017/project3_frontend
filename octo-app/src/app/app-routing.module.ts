@@ -30,9 +30,13 @@ const appRoutes:Routes = [
   {path: 'createBoard', component: CreateUpdateBoardComponent, data: { mode: 'create' } },
   {path: 'updateBoard', component: CreateUpdateBoardComponent, data: { mode: 'edit' } },
 
-  {path: 'viewStory', component: CreateUpdateBoardComponent, data: { mode: 'view' } },
-  {path: 'editStory', component: CreateUpdateBoardComponent, data: { mode: 'edit' } },
-  {path: 'makeStory', component: CreateUpdateBoardComponent, data: { mode: 'make' } },
+  //how to extract data from router and what its for
+  //view - user can view , update tasks, check/uncheck task OK
+  //edit -for leader can edit story, add tasks, task creation OK
+  //make -for leader creates new story, no task creation
+  {path: 'viewStory', component: CreateUpdateStoryComponent, data: { mode: 'view' } },
+  {path: 'editStory', component: CreateUpdateStoryComponent, data: { mode: 'edit' } },
+  {path: 'makeStory', component: CreateUpdateStoryComponent, data: { mode: 'make' } },
   //----------------------------------------
 
   {path: 'boardStoryLanes', component: BoardStoryLanesComponent },
