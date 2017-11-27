@@ -27,7 +27,7 @@ export class CreateUpdateBoardComponent implements OnInit {
     console.log("this is status => "+this.status);
     if(this.status == "false"){ //if it's in edit mode 
       console.log("editing");
-      let currBoard = this.boardService.getBoardByBoardID(this.boardID);
+      let currBoard = this.boardService.getSelectedBoard();
       this.sbName = currBoard.name;
       this.startDate = this.formatDate(new Date(currBoard.startDate));
       //this.startDate = new Date(currBoard.startDate);
@@ -37,6 +37,9 @@ export class CreateUpdateBoardComponent implements OnInit {
     console.log("done checking status");
   }
 
+  submit() {
+    //call board service create board method
+  }
 
   //debugging purposes
   seeWhatValueItIs() {

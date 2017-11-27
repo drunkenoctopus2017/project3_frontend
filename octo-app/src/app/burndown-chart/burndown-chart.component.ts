@@ -75,7 +75,7 @@ export class BurndownChartComponent implements OnInit {
           type: 'linear',
           position: 'bottom',
           ticks: {
-            max: this.boardService.selectedBoard.duration
+            max: this.boardService.getSelectedBoard().duration
           }
         }]
       }

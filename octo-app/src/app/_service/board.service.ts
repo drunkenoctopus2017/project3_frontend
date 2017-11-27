@@ -1,63 +1,66 @@
 import { Injectable } from '@angular/core';
-import { SystemBoard } from '../_model/SystemBoard';
-import { Http } from '@angular/http';
-  
+import { ScrumBoard } from '../_model/ScrumBoard';
+import { Http, Response } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class BoardService {
-
-  zuulUrl: string = "http://localhost:8765/";
+  private selectedBoard:ScrumBoard;
 
   constructor(private http: Http) { }
-
-  public selectedBoard: SystemBoard = {
-    id: 5,
-    name: "KJASKDJA",
-    startDate: new Date(),
-    duration: 20
-}
-
-  getBoardByBoardID(boardID: number): SystemBoard{
-    return {
-      id: 1,
-      name: "Uno Board",
-      startDate: new Date(),
-      duration: 14
-    };
-  } 
-
-  getBoardsByUserID(userID: number): SystemBoard[] { //eventually should be a promise: Promise<SystemBoard[]>
-    return this.dummyData;
-    // send GET request to this URL /getBoardsForUser/{userId}
+  
+  getSelectedBoard():ScrumBoard {
+    return this.selectedBoard;
   }
 
-  createBoard(name: string, startDate: string, duration: number) {
-    let url = this.zuulUrl+"octo-board-service/login";
-    let body = {name: name, startDate: startDate, duration: duration};
-    return this.http.post(url, body, ).toPromise().then(response => response.json() as SystemBoard).catch(this.handleError);
+  setSelectedBoard(board:ScrumBoard) {
+    if (board != this.selectedBoard) {
+      this.selectedBoard = board;
+    }
   }
 
-  editBoard(boardID: number, name: string, startDate: string, duration: number) {
-    let url = this.zuulUrl+"octo-board-service/login";
-    let body = {id: boardID, name: name, startDate: startDate, duration: duration};
-    return this.http.post(url, body, ).toPromise().then(response => response.json() as SystemBoard).catch(this.handleError);
+  //Should this be moved to a separate service for the sake of differentiation? Would that make it clearer?
+  //For now keep it here since this service is the only one calling this method/endpoint.
+  private getBoardIdsByUserId(userId: number): Promise<number[]> {
+    //Yes, this does indeed go to a different micro-service.
+    const url = "octo-user-management-service/getScrumBoardIdsByUserId/" + userId;
+    return this.http.get(url)
+      .toPromise()
+      //.then(function(response) {
+      //  console.log("boardIds: " + response);
+      //  //var ids:number[] = response.json() as number[]; <- this also works.
+      //  var ids:number[] = response.json() || [];
+      //  console.log("post json parse: " + ids);
+      //  return ids;
+      //})
+      .then(response => response.json() || [])
+      .catch(this.handleError);
   }
 
-  dummyData: SystemBoard[] = [{
-    id: 1,
-    name: "Uno Board",
-    startDate: new Date(),
-    duration: 14
-  },
-  {
-    id: 2,
-    name: "Board Number 2",
-    startDate: new Date(),
-    duration: 15
-  }];
+  private getBoardsByIds(boardIds: number[]): Promise<ScrumBoard[]> {
+    const url = "octo-board-management-service/getBoardsByIds/";
+    return this.http.post(url, boardIds)
+      .toPromise()
+      //.then(function(response) {//use this anonymous function if debugging is required})
+      .then(response => response.json() as ScrumBoard[])
+      .catch(this.handleError);
+  }
+  
+  getBoardsByUserId(userId: number): Promise<ScrumBoard[]> {
+    //I'm extremely pleased this works.
+    return this.getBoardIdsByUserId(userId).then(ids => this.getBoardsByIds(ids));
+  }
+
+  getBoardById(id: number): Promise<ScrumBoard> {
+    const url = "octo-board-management-service/getBoardById/" + id;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json() as ScrumBoard)
+      .catch(this.handleError);
+  }
 
   private handleError(error: any): Promise<any> {
-    console.error('An error occurred in BoardService', error); // for demo purposes only
+    console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
 }
