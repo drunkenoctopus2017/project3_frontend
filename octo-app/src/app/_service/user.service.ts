@@ -2,16 +2,15 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { SystemUser } from '../_model/SystemUser';
 
+import { zuulUrl } from './zuul-url';
+
 @Injectable()
 export class UserService {
-
-  // zuulUrl: string = "";
-  zuulUrl: string = "http://localhost:8765/";
 
   constructor(private http: Http) { }
 
   getBoardMembersByBoardId(boardId: number): Promise<SystemUser[]> {
-    const url = this.zuulUrl+"octo-user-management-service/getBoardMembersByBoardId/" + boardId;
+    const url = zuulUrl+"octo-user-management-service/getBoardMembersByBoardId/" + boardId;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json() as SystemUser[])

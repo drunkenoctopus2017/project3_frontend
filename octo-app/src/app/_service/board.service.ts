@@ -3,11 +3,10 @@ import { ScrumBoard } from '../_model/ScrumBoard';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
+import { zuulUrl } from './zuul-url';
+
 @Injectable()
 export class BoardService {
-
-  // zuulUrl: string = "";
-  zuulUrl: string = "http://localhost:8765/";
 
   private selectedBoard:ScrumBoard;
 
@@ -27,7 +26,7 @@ export class BoardService {
   //For now keep it here since this service is the only one calling this method/endpoint.
   private getBoardIdsByUserId(userId: number): Promise<number[]> {
     //Yes, this does indeed go to a different micro-service.
-    const url = this.zuulUrl+"octo-user-management-service/getScrumBoardIdsByUserId/" + userId;
+    const url = zuulUrl+"octo-user-management-service/getScrumBoardIdsByUserId/" + userId;
     return this.http.get(url)
       .toPromise()
       //.then(function(response) {
@@ -42,7 +41,7 @@ export class BoardService {
   }
 
   private getBoardsByIds(boardIds: number[]): Promise<ScrumBoard[]> {
-    const url = this.zuulUrl+"octo-board-management-service/getBoardsByIds/";
+    const url = zuulUrl+"octo-board-management-service/getBoardsByIds/";
     return this.http.post(url, boardIds)
       .toPromise()
       //.then(function(response) {//use this anonymous function if debugging is required})
@@ -56,7 +55,7 @@ export class BoardService {
   }
 
   getBoardById(id: number): Promise<ScrumBoard> {
-    const url = this.zuulUrl+"octo-board-management-service/getBoardById/" + id;
+    const url = zuulUrl+"octo-board-management-service/getBoardById/" + id;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json() as ScrumBoard)
@@ -64,7 +63,7 @@ export class BoardService {
   }
 
   createUpdateBoard(sb: ScrumBoard): Promise<ScrumBoard> {
-    const url = this.zuulUrl+"octo-board-management-service/createUpdateBoard/";
+    const url = zuulUrl+"octo-board-management-service/createUpdateBoard/";
     return this.http.post(url, sb)
       .toPromise()
       .then(response => response.json() as ScrumBoard)
