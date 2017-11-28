@@ -32,9 +32,12 @@ export class LoginService {
       //this is an Observable
       //optionally use Promise with toPromise()
       .subscribe(response => {
+        for(var i in response){
+          console.log('response[' + i + ']: ' + response[i]);
+        }
         localStorage.setItem('token', response.access_token);
         //before this you'd get the user data/roletype from the DB
-        this.router.navigateByUrl("/home");
+        this.router.navigate(["/mainMenu"]);
       }, (error) => {
         console.log('error in', error);
       });
