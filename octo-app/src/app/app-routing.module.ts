@@ -15,9 +15,7 @@ const appRoutes:Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'mainMenu', component: MainMenuComponent}, 
   {path: 'assignMembers', redirectTo: '/assignMembers/0', pathMatch: 'full' },
-  {path: 'assignMembers/:id', component: AssignMembersMenuComponent}, 
-  {path: 'createUpdateBoard', redirectTo: '/createUpdateBoard/true/0', pathMatch: 'full' },
-  {path: 'createUpdateBoard/:status/:id', component: CreateUpdateBoardComponent}, 
+  {path: 'assignMembers/:id', component: AssignMembersMenuComponent},
 
   //----------------------------------------
   //I think this is how we're supposed to do it.

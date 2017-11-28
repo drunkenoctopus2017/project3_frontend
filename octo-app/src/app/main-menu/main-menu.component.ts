@@ -56,7 +56,7 @@ export class MainMenuComponent implements OnInit {
 
   createScrumBoard() {
     console.log("create scrum board method!");
-    this.router.navigate(['/createUpdateBoard', true, 0]); //creating a board shouldn't need a board ID
+    this.router.navigate(['/createBoard']); //creating a board shouldn't need a board ID
   }
 
   viewBoard(b: ScrumBoard) {
@@ -68,7 +68,7 @@ export class MainMenuComponent implements OnInit {
   editScrumBoard(b: ScrumBoard){
     console.log(b.name + "'s edit scrum board method! board ID is: "+b.id);
     this.boardService.setSelectedBoard(b);
-    this.router.navigate(['/createUpdateBoard', false, b.id]); //true means creating, false means editing
+    this.router.navigate(['/updateBoard']); //true means creating, false means editing
   }
 
   getAllUsers(b: ScrumBoard){
