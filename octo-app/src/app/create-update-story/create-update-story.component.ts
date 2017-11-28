@@ -5,7 +5,6 @@ import 'rxjs/add/operator/filter';
 import {CookieService} from 'angular2-cookie';
 import {StoryService} from '../_service/story.service';
 import {UserService} from '../_service/user.service';
-import {BoardService} from '../_service/board.service';
 
 import { Story } from '../_model/Story';
 import { ScrumBoard } from '../_model/ScrumBoard';
@@ -18,7 +17,6 @@ import { SystemUser } from '../_model/SystemUser';
   styleUrls: ['./create-update-story.component.css']
 })
 export class CreateUpdateStoryComponent implements OnInit {
-  board: ScrumBoard;
   story: Story;
   role: UserRole = {id: 0, name: ""};
   roleFromRoute: string;
@@ -28,8 +26,7 @@ export class CreateUpdateStoryComponent implements OnInit {
     private router: Router,
     private storyService: StoryService,
     private userService: UserService,
-    private cookieService: CookieService,
-    private boardService: BoardService
+    private cookieService: CookieService
   ) {
       this.router.events.filter(e => e instanceof NavigationEnd)
           .forEach(e => {
@@ -40,18 +37,17 @@ export class CreateUpdateStoryComponent implements OnInit {
   ngOnInit() {
     const currentUser:SystemUser = this.cookieService.getObject('user');
     this.role = currentUser.role;
-    this.board = this.boardService.getSelectedBoard();
+    this.story = this.storyService.getSelectedStory();
     const myData = this.route.data;
 
     
-
-    //{"_isScalar":false,"observers":[],"closed":false,"isStopped":false,
-    // "hasError":false,"thrownError":null,"_value":{"mode":"view"}}
     console.log("myData: " + JSON.stringify(myData));
     console.log("roleFromRoute: " + this.roleFromRoute);
-    
   }
 
-  
+  auto_grow_textarea(element){
+    element.style.height = "5px";
+    element.style.height = (element.scrollHeight) + "px";
+  }
 
 }
