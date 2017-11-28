@@ -52,7 +52,7 @@ export class CreateUpdateBoardComponent implements OnInit {
     var sb: ScrumBoard = {
       id: 0,
       name: this.sbName,
-      startDate: new Date(this.parseDate(this.startDate)),
+      startDate: this.parseDate(this.startDate).getTime(),
       duration: this.duration
     }
     if(this.status == "false"){

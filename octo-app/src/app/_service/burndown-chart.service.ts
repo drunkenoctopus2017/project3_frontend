@@ -4,6 +4,9 @@ import { ScrumBoard } from '../_model/ScrumBoard';
 
 @Injectable()
 export class BurndownChartService {
+
+  zuulUrl: string = "http://localhost:8765/";
+
   constructor(private http: Http) { }
 
   getChartData(board:ScrumBoard): Promise<object[]> {
@@ -11,7 +14,7 @@ export class BurndownChartService {
   }
   
   getStoriesByBoardId(board:ScrumBoard): Promise<object[]> {
-    const url = "octo-story-history-service/getStoryProfilesByBoardId/" + board.id;
+    const url = this.zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/" + board.id;
     return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
   }
 
