@@ -31,4 +31,8 @@ export class LoginComponent implements OnInit {
     });
     
   }
+
+  authenticate(username:string, password:string) {
+    this.loginService.authenticate(username, password);
+  }
 }

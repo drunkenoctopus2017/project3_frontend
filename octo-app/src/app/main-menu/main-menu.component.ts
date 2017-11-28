@@ -37,6 +37,8 @@ export class MainMenuComponent implements OnInit {
     private cookieService: CookieService) { }
 
   ngOnInit() {
+    //moved to AuthGuard
+    /*
     var currentUser = this.cookieService.getObject('user');
     var loggedIn = this.loginService.isLoggedIn(currentUser);
 
@@ -47,6 +49,9 @@ export class MainMenuComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
+    */
+    this.user = this.cookieService.getObject('user');
+    this.boardService.getBoardsByUserId(this.user.id).then(boards => this.boards = boards);
   }
 
   percentComplete(b: ScrumBoard): string {

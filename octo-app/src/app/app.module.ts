@@ -32,6 +32,7 @@ import { UserService } from './_service/user.service';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { BurndownChartService } from './_service/burndown-chart.service';
+import { AuthGuard } from './_service/auth-guard.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,11 +53,20 @@ import { BurndownChartService } from './_service/burndown-chart.service';
     ChartsModule,
     AngularMultiSelectModule,
     AngularFontAwesomeModule, 
-    AppRoutingModule
-    
+    AppRoutingModule  
   ],
 
-  providers: [AssignMembersService, CookieService, LoginService, UserService, BoardService, StoryService, StoryLaneService, BurndownChartService],
+  providers: [
+    AuthGuard, 
+    AssignMembersService, 
+    CookieService, 
+    LoginService, 
+    UserService, 
+    BoardService, 
+    StoryService, 
+    StoryLaneService, 
+    BurndownChartService
+  ],
   bootstrap: [AppComponent]
 })
 
