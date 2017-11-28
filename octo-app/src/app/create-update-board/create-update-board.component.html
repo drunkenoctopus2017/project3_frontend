@@ -1,24 +1,26 @@
 <p>Populate fields with data if this is an existing Board that was selected from the Main Menu</p>  
 <p>Fill with blank data if this is a NEW board.</p>
 
-<h2>Create mode? {{status}}</h2>
-<h2>If in edit mode, this is ID of board to edit: {{boardID}}</h2>
-
 <div class="container">
 	<div class="jumbotron">
 
-		<p [hidden]="!(status == true)" >Create New Scrum Board</p>
-		<p [hidden]="!(status == false)" >Edit {{boardName}}<p>
+		<p [hidden]="!(status == 'true')" >Create New Scrum Board</p>
+		<p [hidden]="!(status == 'false')" >Edit {{sbName}}<p>
 
 		<div>
 			<div class="form-group">
 				<label for="sbNameInput">Name</label>
 				<input id="sbNameInput" [(ngModel)]="sbName" type="text" class="form-control" placeholder="Scrum Board Name (required)">
 			</div>
-			<div class="form-group">
+			<div class="form-group" [hidden]="!(status == 'true')">
 				<label for="startDateInput">Start Date</label>
                 <input id="startDateInput" [(ngModel)]="startDate" type="date" class="form-control" placeholder="mm/dd/yyyy (defaults to today)"
                     (ngModelChange)="seeWhatValueItIs()">
+			</div>
+			<div class="form-group" [hidden]="!(status == 'false')">
+					<label for="startDateInput">Start Date</label>
+					<input id="startDateInput" [(ngModel)]="startDate" type="date" class="form-control" placeholder="mm/dd/yyyy (defaults to today)"
+						(ngModelChange)="seeWhatValueItIs()" disabled>
 			</div>
 			<div class="form-group">
 				<label for="durationInput">Duration</label>
@@ -29,7 +31,12 @@
                   </small>
 			</div>
 
-			<button (click)="submit()" class="btn btn-secondary">Submit</button>
+			<button (click)="submit()" class="btn btn-primary">Submit</button>
+			<button (click)="cancel()" class="btn btn-secondary">Cancel</button>
+
+			
+
+			
 
 		</div>
 	</div>

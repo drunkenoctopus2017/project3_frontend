@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Story } from '../_model/Story';
 
+import { zuulUrl } from './zuul-url';
+
 @Injectable()
 export class StoryService {
-
-  // zuulUrl: string = "";
-  zuulUrl: string = "http://localhost:8765/";
 
   private selectedStory:Story;
 
@@ -23,12 +22,12 @@ export class StoryService {
   }
 
   getStoriesByBoardId(boardId:number): Promise<Story[]> {
-    const url = this.zuulUrl+"octo-story-service/getStoriesByBoardId/" + boardId;
+    const url = zuulUrl+"octo-story-service/getStoriesByBoardId/" + boardId;
     return this.http.get(url).toPromise().then(response => response.json() as Story[]).catch(this.handleError);
   }
 
   updateStory(story:Story): Promise<Story> {
-    const url = this.zuulUrl+"octo-story-service/updateStory/";
+    const url = zuulUrl+"octo-story-service/updateStory/";
     return this.http.post(url, story).toPromise().then(response => response.json() as Story).catch(this.handleError);
   }
 
