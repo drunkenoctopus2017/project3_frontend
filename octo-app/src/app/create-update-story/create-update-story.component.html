@@ -3,37 +3,46 @@
 <p>Cancel and Save should return to the Scrum Board</p>
   <h2>ID of board to create/update story to is: {{boardID}}</h2>
   <div class="jumbotron">
-    <div *ngIf="story">
+    
       <div class="form-group">
-        <div *ngIf="roleFromRoute ==='view'">
-          <label class="col-sm-2 col-form-label" for="usernameInput">Story Name</label><br>
-          <h2>{{story.name}}</h2>        
-    
-          <label class="col-sm-2 col-form-label" for="usernameInput">Story Points</label><br>      
-          <h2>{{story.points}}</h2>
+          <div *ngIf="roleFromRoute == 'make'">
+              <label class="col-sm-2 col-form-label">Story Name</label>        
+              <input type="text" placeholder="">
+        
+              <label class="col-sm-2 col-form-label">Story Points</label>      
+              <input type="text" placeholder=""><br>
+        
+              <label class="col-sm-2 col-form-label">Story Description</label>
+              <textarea class="form-control" rows="5" placeholder=""></textarea>
+          </div>
+          <div *ngIf="roleFromRoute == 'view'">
+            <label class="col-sm-2 col-form-label">Story Name</label><br>
+            <h2>{{story.name}}</h2>        
+      
+            <label class="col-sm-2 col-form-label">Story Points</label><br>      
+            <h2>{{story.points}}</h2>
 
-          <label class="col-sm-2 col-form-label" for="usernameInput">Story Description</label><br>
-          <h2>{{story.description}}</h2>
-      </div>
-      <div *ngIf="roleFromRoute === 'edit'|| roleFromRoute ==='make'">
-          <label class="col-sm-2 col-form-label" for="usernameInput">Story Name</label>        
-          <input type="text" placeholder={{story.name}}>
-    
-          <label class="col-sm-2 col-form-label" for="usernameInput">Story Points</label>      
-          <input type="text" placeholder={{story.points}}><br>
-     
-          <label class="col-sm-2 col-form-label" for="usernameInput">Story Description</label>
-          <textarea class="form-control" rows="5" placeholder="{{story.description}}"></textarea>
-      </div>
-
-
-      </div>
+            <label class="col-sm-2 col-form-label">Story Description</label><br>
+            <h2>{{story.description}}</h2>
+        </div>
+        <div *ngIf="roleFromRoute == 'edit'">
+            <label class="col-sm-2 col-form-label">Story Name</label>        
+            <input type="text" [(ngModel)]="story.name">
+      
+            <label class="col-sm-2 col-form-label">Story Points</label>      
+            <input type="text" [(ngModel)]="story.points"><br>
+      
+            <label class="col-sm-2 col-form-label">Story Description</label>
+            <textarea class="form-control" rows="5" [(ngModel)]="story.description"></textarea>
+        </div>
+      
     </div>
 
     <div>
-      <button class="btn btn-primary" >Make</button>     
-      <button *ngIf="role.id >= 200" class="btn btn-primary">Edit</button>            
-      <button class="btn btn-danger">Cancel</button>
+      <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute == 'make'" class="btn btn-primary" >Make</button>     
+      <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute == 'edit'" class="btn btn-primary">Submit</button>     
+      <button (click)="edit()" *ngIf="(roleFromRoute == 'view' && role.id >= 200)" class="btn btn-primary">Edit</button>        
+      <button (click)="cancel()" class="btn btn-danger">Cancel</button>
     </div>
   </div>
 

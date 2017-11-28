@@ -45,9 +45,18 @@ export class CreateUpdateStoryComponent implements OnInit {
     console.log("roleFromRoute: " + this.roleFromRoute);
   }
 
-  auto_grow_textarea(element){
-    element.style.height = "5px";
-    element.style.height = (element.scrollHeight) + "px";
+  submitOrMakeStory(){
+    this.storyService.updateStory(this.story);
+    this.router.navigate(['/boardStoryLanes']);
+    
+  }
+
+  edit(){
+    this.router.navigate(['/editStory']);
+  }
+
+  cancel(){
+    this.router.navigate(['/boardStoryLanes']);
   }
 
 }

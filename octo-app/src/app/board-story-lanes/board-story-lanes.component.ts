@@ -50,10 +50,11 @@ export class BoardStoryLanesComponent implements OnInit {
   }
   
   ngOnInit() {
+    console.log("In board story lanes")
     const currentUser:SystemUser = this.cookieService.getObject('user');
     this.role = currentUser.role;
     this.board = this.boardService.getSelectedBoard();
-    
+    this.storyService.setSelectedStory(null);  
     //There's a better way to do this, I'm sure.
     if (!this.board) {
       this.router.navigate(['/mainMenu']);
@@ -74,11 +75,9 @@ export class BoardStoryLanesComponent implements OnInit {
   selectStory(story:Story) {
     this.storyService.setSelectedStory(story);
     const currentUser:SystemUser = this.cookieService.getObject('user');
-    if (currentUser.role.id > 100) {
-      this.router.navigate(['/editStory']);
-    } else {
-      this.router.navigate(['/viewStory']);
-    }
+
+    this.router.navigate(['/viewStory']);
+    
   }
 
   changeLane(story:Story, lane:StoryLane) {
@@ -89,6 +88,6 @@ export class BoardStoryLanesComponent implements OnInit {
 
   //for me
   createStory() {
-    this.router.navigate(['/createStory']);
+    this.router.navigate(['/makeStory']);
   }
 }

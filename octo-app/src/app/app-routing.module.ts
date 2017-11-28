@@ -32,7 +32,7 @@ const appRoutes:Routes = [
 
   //how to extract data from router and what its for
   //view - user can view , update tasks, check/uncheck task OK
-  //edit -for leader can edit story, add tasks, task creation OK
+  //edit -for leader can edit story, task creation OK
   //make -for leader creates new story, no task creation
   {path: 'viewStory', component: CreateUpdateStoryComponent, data: { mode: 'view' } },
   {path: 'editStory', component: CreateUpdateStoryComponent, data: { mode: 'edit' } },
