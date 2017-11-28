@@ -20,6 +20,8 @@ import { UserRole } from '../_model/UserRole';
   styleUrls: ['./board-story-lanes.component.css'], 
 })
 
+
+
 export class BoardStoryLanesComponent implements OnInit {
   board: ScrumBoard;
   storyLanes: StoryLane[];
@@ -64,14 +66,15 @@ export class BoardStoryLanesComponent implements OnInit {
         this.storyLaneService.getStoryLanes().then(storyLanes => this.storyLanes = storyLanes);
       }
       this.userService.getBoardMembersByBoardId(this.board.id).then(members => this.members = members);
-      this.storyService.getStoriesByBoardId(this.board.id).then(stories => this.stories = stories);
+      console.log("got board members by board id");
+      this.storyService.getStoriesByBoardId(this.board.id).then(stories =>{this.stories = stories; console.log(this.stories)} );
     }
   }
 
   getStoriesByLane(lane:StoryLane):Story[] {
     return this.stories.filter(s => s.laneId == lane.id);
   }
-//for me
+
   selectStory(story:Story) {
     this.storyService.setSelectedStory(story);
     const currentUser:SystemUser = this.cookieService.getObject('user');
@@ -86,7 +89,7 @@ export class BoardStoryLanesComponent implements OnInit {
     this.storyService.updateStory(story).catch(error => story.laneId = origLaneId);
   }
 
-  //for me
+  
   createStory() {
     this.router.navigate(['/makeStory']);
   }

@@ -10,6 +10,7 @@ import { Story } from '../_model/Story';
 import { ScrumBoard } from '../_model/ScrumBoard';
 import { UserRole } from '../_model/UserRole';
 import { SystemUser } from '../_model/SystemUser';
+import { BoardService } from '../_service/board.service';
 
 @Component({
   selector: 'app-create-update-story',
@@ -26,7 +27,8 @@ export class CreateUpdateStoryComponent implements OnInit {
     private router: Router,
     private storyService: StoryService,
     private userService: UserService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private boardService: BoardService
   ) {
       this.router.events.filter(e => e instanceof NavigationEnd)
           .forEach(e => {
@@ -46,9 +48,7 @@ export class CreateUpdateStoryComponent implements OnInit {
   }
 
   submitOrMakeStory(){
-    this.storyService.updateStory(this.story);
-    this.router.navigate(['/boardStoryLanes']);
-    
+    this.storyService.updateStory(this.story).then(response => this.router.navigate(['/boardStoryLanes']));    
   }
 
   edit(){
