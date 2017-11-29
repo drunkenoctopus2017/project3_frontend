@@ -29,8 +29,11 @@ import { CreateUpdateBoardComponent } from './create-update-board/create-update-
 import { CreateUpdateStoryComponent } from './create-update-story/create-update-story.component';
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
 import { UserService } from './_service/user.service';
+import { TaskService } from './_service/task.service';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
+import { CreateUpdateTasksComponent } from './create-update-tasks/create-update-tasks.component';
 import { BurndownChartService } from './_service/burndown-chart.service';
 import { TaskService } from './_service/task.service';
 import { ModalComponent } from './modal/modal.component';
@@ -46,6 +49,7 @@ import { ModalComponent } from './modal/modal.component';
     AssignMembersMenuComponent,
     BoardStoryLanesComponent,
     BurndownChartComponent,
+    CreateUpdateTasksComponent, 
     ModalComponent
   ],
   imports: [
@@ -60,8 +64,9 @@ import { ModalComponent } from './modal/modal.component';
     
   ],
 
-  providers: [TaskService, AssignMembersService, CookieService, LoginService, UserService, 
-              BoardService, StoryService, StoryLaneService, BurndownChartService],
+  providers: [TaskService, CookieService, LoginService, UserService, 
+              BoardService, StoryService, StoryLaneService, BurndownChartService, AssignMembersService],
+
   bootstrap: [AppComponent]
 })
 

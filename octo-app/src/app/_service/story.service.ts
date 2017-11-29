@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Story } from '../_model/Story';
+import 'rxjs/add/operator/toPromise';
 
 import { zuulUrl } from './zuul-url';
 
@@ -10,14 +11,14 @@ export class StoryService {
   private selectedStory:Story;
 
   constructor(private http: Http) { }
-  
+
   getSelectedStory():Story {
     return this.selectedStory;
   }
 
-  setSelectedStory(board:Story) {
-    if (board != this.selectedStory) {
-      this.selectedStory = board;
+  setSelectedStory(story:Story) {
+    if (story != this.selectedStory) {
+      this.selectedStory = story;
     }
   }
 

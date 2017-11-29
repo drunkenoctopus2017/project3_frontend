@@ -26,7 +26,6 @@ const appRoutes:Routes = [
   */
   {path: 'createBoard', component: CreateUpdateBoardComponent, data: { mode: 'create' } },
   {path: 'updateBoard', component: CreateUpdateBoardComponent, data: { mode: 'edit' } },
-
   {path: 'viewStory', component: CreateUpdateStoryComponent, data: { mode: 'view' } },
   {path: 'editStory', component: CreateUpdateStoryComponent, data: { mode: 'edit' } },
   {path: 'makeStory', component: CreateUpdateStoryComponent, data: { mode: 'make' } },

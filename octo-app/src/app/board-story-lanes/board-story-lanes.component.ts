@@ -21,6 +21,8 @@ import { BurndownChartService } from '../_service/burndown-chart.service';
   styleUrls: ['./board-story-lanes.component.css'], 
 })
 
+
+
 export class BoardStoryLanesComponent implements OnInit {
   board: ScrumBoard;
   storyLanes: StoryLane[];
@@ -52,10 +54,11 @@ export class BoardStoryLanesComponent implements OnInit {
   }
   
   ngOnInit() {
+    console.log("In board story lanes")
     const currentUser:SystemUser = this.cookieService.getObject('user');
     this.role = currentUser.role;
     this.board = this.boardService.getSelectedBoard();
-    
+    this.storyService.setSelectedStory(null);  
     //There's a better way to do this, I'm sure.
     if (!this.board) {
       this.router.navigate(['/mainMenu']);
@@ -66,7 +69,8 @@ export class BoardStoryLanesComponent implements OnInit {
         this.storyLaneService.getStoryLanes().then(storyLanes => this.storyLanes = storyLanes);
       }
       this.userService.getBoardMembersByBoardId(this.board.id).then(members => this.members = members);
-      this.storyService.getStoriesByBoardId(this.board.id).then(stories => this.stories = stories);
+      console.log("got board members by board id");
+      this.storyService.getStoriesByBoardId(this.board.id).then(stories =>{this.stories = stories; console.log(this.stories)} );
     }
   }
 
@@ -75,17 +79,15 @@ export class BoardStoryLanesComponent implements OnInit {
   }
 
   createStory() {
-    this.router.navigate(['/createStory']);
+    this.router.navigate(['/makeStory']);
   }
 
   selectStory(story:Story) {
     this.storyService.setSelectedStory(story);
     const currentUser:SystemUser = this.cookieService.getObject('user');
-    if (currentUser.role.id > 100) {
-      this.router.navigate(['/editStory']);
-    } else {
-      this.router.navigate(['/viewStory']);
-    }
+
+    this.router.navigate(['/viewStory']);
+    
   }
 
   changeLane(story:Story, lane:StoryLane) {

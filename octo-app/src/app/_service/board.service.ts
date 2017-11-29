@@ -17,9 +17,7 @@ export class BoardService {
   }
 
   setSelectedBoard(board:ScrumBoard) {
-    if (board != this.selectedBoard) {
       this.selectedBoard = board;
-    }
   }
 
   //Should this be moved to a separate service for the sake of differentiation? Would that make it clearer?
