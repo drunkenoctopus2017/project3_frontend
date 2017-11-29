@@ -95,7 +95,11 @@ export class BoardStoryLanesComponent implements OnInit {
   }
 
   viewChart() {
-    this.burndownChartService.getChartData(this.board).then(results => console.log("done with burndown chart data"));
-    
+    var r = this.router;
+    this.burndownChartService.getChartData(this.board)
+      .then(results => {
+        // console.log("done with burndown chart data");
+        r.navigate(['/burndownChart']);
+      });
   }
 }

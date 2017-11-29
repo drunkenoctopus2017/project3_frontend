@@ -7,10 +7,23 @@ import { zuulUrl } from './zuul-url';
 @Injectable()
 export class BurndownChartService {
 
+    private burndownChartDatasource: Object[];
+
   constructor(private http: Http) { }
 
+  getBurndownChartDatasource() {
+      return this.burndownChartDatasource;
+  }
+
+  setBurndownChartDatasource(data: Object[]) {
+      this.burndownChartDatasource = data;
+      return this.burndownChartDatasource;
+  }
+
   getChartData(board:ScrumBoard): Promise<object[]> {
-    return this.getStoriesByBoardId(board).then(storyProfiles => this.flattenChartData(storyProfiles, board));
+    return this.getStoriesByBoardId(board).then(
+        storyProfiles => this.setBurndownChartDatasource(this.flattenChartData(storyProfiles, board))
+    );
   }
   
   getStoriesByBoardId(board:ScrumBoard): Promise<object[]> {
@@ -22,7 +35,7 @@ export class BurndownChartService {
     let chartData:object[] = new Array<object>();
     //initialize the data.
     while (chartData.length < board.duration) {
-        chartData.push({x: chartData.length, y: 0});
+        chartData.push({x: chartData.length+1, y: 0});
     }
     const ONE_DAY:number = 86400000;
     const n:number = storyProfiles.length;

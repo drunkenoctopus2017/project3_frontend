@@ -70,6 +70,11 @@ export class BoardService {
       .catch(this.handleError);
   }
 
+  deleteBoardById(boardId:number) {
+    const url = zuulUrl+"octo-board-service/deleteBoardById/" + boardId;
+    return this.http.get(url).toPromise().then().catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred in board service: ', error); // for demo purposes only
     return Promise.reject(error.message || error);

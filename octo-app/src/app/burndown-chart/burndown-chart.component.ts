@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 import { ViewChild } from '@angular/core';
 import { BoardService } from '../_service/board.service';
+import { BurndownChartService } from '../_service/burndown-chart.service';
 
 @Component({
   selector: 'app-burndown-chart',
@@ -12,44 +13,44 @@ import { BoardService } from '../_service/board.service';
 export class BurndownChartComponent implements OnInit {
   boardID: number;
 
-  constructor(private route: ActivatedRoute, private boardService: BoardService) { }
+  constructor(private route: ActivatedRoute, 
+              private boardService: BoardService,
+              private burndownChartService: BurndownChartService) { }
 
   ngOnInit() {
-    this.route.params.forEach(
-      (params: Params) => {
-        this.boardID = params["id"];
-      }
-    )
-  }
-
-
-
-    // lineChart
-    public lineChartData:Array<any> = [
+    this.boardID = this.boardService.getSelectedBoard().id;
+    this.lineChartData = [
       {
         //data: [110, 97, 80, 80, 56, 55, 40], 
-        data:[{x:0,y:66},
-        {x:1,y:56},
-        //{x:2,y:56},
-        {x:3,y:51},
-        {x:4,y:40},
-        //{x:5,y:40},
-        {x:6,y:35},
-        
-        //{x:7,y:35},
-        //{x:8,y:35},
-        {x:9,y:25},
-        //{x:10,y:25},
-        {x:11,y:10},
-        //{x:12,y:10},
-        {x:13,y:5},
-        // {x:14,y:5},
-        {x:18,y:30}],
+        data: this.burndownChartService.getBurndownChartDatasource(),
+        // [{x:0,y:66},
+        //   {x:1,y:56},
+        //   //{x:2,y:56},
+        //   {x:3,y:51},
+        //   {x:4,y:40},
+        //   //{x:5,y:40},
+        //   {x:6,y:35},
+          
+        //   //{x:7,y:35},
+        //   //{x:8,y:35},
+        //   {x:9,y:25},
+        //   //{x:10,y:25},
+        //   {x:11,y:10},
+        //   //{x:12,y:10},
+        //   {x:13,y:5},
+        //   // {x:14,y:5},
+        //   {x:18,y:30}],
         cubicInterpolationMode: "monotone",
         steppedLine: true,
         spanGaps: false
       }
     ];
+  }
+
+
+
+    // lineChart
+    public lineChartData: Array<any>;
     //public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
     public lineChartOptions:any = {
       responsive: true,
@@ -66,7 +67,7 @@ export class BurndownChartComponent implements OnInit {
         xAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Days Since Start'
+            labelString: 'Project Day #'//'Days Since Start'
           },
           // type: 'time',
           // time: {
@@ -75,6 +76,7 @@ export class BurndownChartComponent implements OnInit {
           type: 'linear',
           position: 'bottom',
           ticks: {
+            min: 1,
             max: this.boardService.getSelectedBoard().duration
           }
         }]
