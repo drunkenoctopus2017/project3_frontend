@@ -6,6 +6,7 @@ import { SystemUser } from '../_model/SystemUser';
 import { ScrumBoard } from '../_model/ScrumBoard';
 import { BoardService } from '../_service/board.service';
 import { LoginService } from '../_service/login.service';
+import { UserService } from '../_service/user.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -32,7 +33,8 @@ export class MainMenuComponent implements OnInit {
   constructor(
     private router: Router, 
     private route: ActivatedRoute, 
-    private loginService: LoginService, 
+    private loginService: LoginService,
+    private userService: UserService, 
     private boardService: BoardService, 
     private cookieService: CookieService) { }
 
@@ -78,6 +80,16 @@ export class MainMenuComponent implements OnInit {
   }
 
   triggerModal(b: ScrumBoard){
+    let r = this.router;
     console.log(b.name + "'s trigger delete board method!");
+    this.userService.deleteBoard(b.id).then(response =>
+      r.navigate(['/mainMenu'])
+    ).catch(this.handleError)
+    
+  }
+
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred in main menu component: ', error); // for demo purposes only
+    return Promise.reject(error.message || error);
   }
 }

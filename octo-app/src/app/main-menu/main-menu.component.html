@@ -8,23 +8,26 @@
 	<div *ngIf="!boards">
 		<fa name="cog" animation="spin"></fa>
 	</div>
-	<div class="card mb-4" *ngFor="let b of boards">
-		<div class="card-body" style="cursor: pointer"
+	<div class="card" *ngFor="let b of boards">
+		<div class="card-body" 
 			(click)="viewBoard(b)">
 			<h4 class="card-title">{{b.name}}</h4>
 			<div style="float: right" class="btn-group" role="group"
 				aria-label="..." (click)="$event.stopPropagation();">
 				<button type="button" class="btn btn-secondary"
 					(click)="editScrumBoard(b); " *ngIf="(user.role.id == 200)">
-					<span>Edit</span>
+					<span><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+					</span>
 				</button>
 				<button type="button" class="btn btn-secondary"
 					(click)="getAllUsers(b); ">
-					<span>Users</span>
+					<span><i class="fa fa-users" aria-hidden="true"></i>
+					</span>
 				</button>
-				<button type="button" class="btn btn-secondary" (click)="triggerModal(b)" *ngIf="false"> 
-					<!-- *ngIf="(user.role.id >= 200)"> -->
-					<span>Delete</span>
+				<button type="button" class="btn btn-secondary" (click)="triggerModal(b)" *ngIf="(user.role.id >= 200)"
+					(click)="triggerModal(b)"> 
+					<span><i class="fa fa-times" aria-hidden="true"></i>
+					</span>
 				</button>
 								
 			</div>
