@@ -98,7 +98,7 @@ export class BoardStoryLanesComponent implements OnInit {
     var r = this.router;
     this.burndownChartService.getChartData(this.board)
       .then(results => {
-        console.log("done with burndown chart data");
+        // console.log("done with burndown chart data");
         r.navigate(['/burndownChart']);
       });
   }
