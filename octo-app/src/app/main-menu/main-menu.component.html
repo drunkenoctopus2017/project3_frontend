@@ -52,7 +52,7 @@
 					<p>Are you suuuuuuuuuuuuper sure?</p>
 				</div>
 				<div class="app-modal-footer">
-					<button type="button" class="btn btn-danger" (click)="deleteScrumBoard(b)">Yes</button>
+					<button type="button" class="btn btn-danger" (click)="deleteScrumBoard(b); modal2.hide(); modal1.hide()">Yes</button>
 					  <button type="button" class="btn btn-secondary" (click)="modal2.hide(); modal1.hide()">No</button>
 				</div>
 			  </app-modal>
