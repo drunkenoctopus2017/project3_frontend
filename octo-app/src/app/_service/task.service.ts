@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { Task } from '../_model/Task';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-
 import { zuulUrl } from './zuul-url';
-import { Http } from '@angular/http';
-
 
 @Injectable()
 export class TaskService {
