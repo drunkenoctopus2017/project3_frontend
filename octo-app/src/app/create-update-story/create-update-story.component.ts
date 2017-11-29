@@ -39,14 +39,24 @@ export class CreateUpdateStoryComponent implements OnInit {
   ngOnInit() {
     const currentUser:SystemUser = this.cookieService.getObject('user');
     this.role = currentUser.role;
-    this.story = this.storyService.getSelectedStory();
     const myData = this.route.data;
 
+    if(this.roleFromRoute === 'make'){
+      this.story = new Story();
+      console.log("Board id is:" + this.boardService.getSelectedBoard().id);
+      this.story.boardId = this.boardService.getSelectedBoard().id;
+      this.story.laneId = 10;
+    } else {
+
+      this.story = this.storyService.getSelectedStory();
+      
+    }
     console.log("myData: " + JSON.stringify(myData));
     console.log("roleFromRoute: " + this.roleFromRoute);
   }
 
   submitOrMakeStory(){
+    
     this.storyService.updateStory(this.story).then(response => this.router.navigate(['/boardStoryLanes']));    
   }
 

@@ -4,13 +4,13 @@
       <div class="form-group">
           <div *ngIf="roleFromRoute === 'make'">
               <label class="col-sm-2 col-form-label">Story Name</label>        
-              <input type="text" placeholder="">
+              <input type="text" placeholder="" [(ngModel)]="story.name">
         
               <label class="col-sm-2 col-form-label">Story Points</label>      
-              <input type="text" placeholder=""><br>
+              <input type="text" placeholder="" [(ngModel)]="story.points"><br>
         
               <label class="col-sm-2 col-form-label">Story Description</label>
-              <textarea class="form-control" rows="5" placeholder=""></textarea>
+              <textarea class="form-control" rows="5" placeholder="" [(ngModel)]="story.description"></textarea>
           </div>
           <div *ngIf="roleFromRoute === 'view'">
             <label class="col-sm-2 col-form-label">Story Name</label><br>
