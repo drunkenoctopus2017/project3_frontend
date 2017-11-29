@@ -161,4 +161,8 @@ export class AssignMembersMenuComponent implements OnInit {
       console.log(response);
     });
   }
+
+  goBackToMainMenu() {
+    this.router.navigate(['/mainMenu']);
+  }
 }
