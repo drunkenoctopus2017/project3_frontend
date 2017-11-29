@@ -35,7 +35,6 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { CreateUpdateTasksComponent } from './create-update-tasks/create-update-tasks.component';
 import { BurndownChartService } from './_service/burndown-chart.service';
-import { TaskService } from './_service/task.service';
 import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
