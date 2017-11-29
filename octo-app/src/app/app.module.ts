@@ -33,6 +33,7 @@ import { UserService } from './_service/user.service';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { BurndownChartService } from './_service/burndown-chart.service';
 import { TaskService } from './_service/task.service';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { TaskService } from './_service/task.service';
     CreateUpdateStoryComponent,
     AssignMembersMenuComponent,
     BoardStoryLanesComponent,
-    BurndownChartComponent
+    BurndownChartComponent,
+    ModalComponent
   ],
   imports: [
     NgbModule.forRoot(), 

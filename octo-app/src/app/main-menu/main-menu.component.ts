@@ -8,6 +8,7 @@ import { BoardService } from '../_service/board.service';
 import { LoginService } from '../_service/login.service';
 import { UserService } from '../_service/user.service';
 
+
 @Component({
   selector: 'app-main-menu',
   templateUrl: './main-menu.component.html',
@@ -79,7 +80,7 @@ export class MainMenuComponent implements OnInit {
     this.router.navigate(['/assignMembers']);
   }
 
-  triggerModal(b: ScrumBoard){
+  deleteScrumBoard(b: ScrumBoard){
     let r = this.router;
     console.log(b.name + "'s trigger delete board method!");
     this.userService.deleteBoard(b.id).then(response =>
