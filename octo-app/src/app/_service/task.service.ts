@@ -1,15 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../_model/Task';
+import { Http } from '@angular/http';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class TaskService {
 
-  constructor() {
+  constructor(private http: Http) {
      
    }
-   getTaskById(storyId: number){
+
+   //create/update function this is on elvis-backend
+   //let patrick know after you copy the method on 
+   //elvis's page
+   createUpdateTask(task:Task) :Promise<Task>{
+    const url = "octo-task-service/createUpdateTask/";
+    return this.http.post(url, task)
+      .toPromise()
+      .then(response => response.json() as Task)
+      .catch(this.handleError);
    }
 
+   getTaskByStoryId(storyId: number) :Promise<Task[]>{
+    const url = "octo-task-service/getTaskByStoryId/" + storyId;
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json() as Task[])
+      .catch(this.handleError);
+   }
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only

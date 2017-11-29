@@ -25,6 +25,7 @@ import { CreateUpdateBoardComponent } from './create-update-board/create-update-
 import { CreateUpdateStoryComponent } from './create-update-story/create-update-story.component';
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
 import { UserService } from './_service/user.service';
+import { TaskService } from './_service/task.service';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { CreateUpdateTasksComponent } from './create-update-tasks/create-update-tasks.component';
@@ -51,7 +52,7 @@ import { CreateUpdateTasksComponent } from './create-update-tasks/create-update-
     
   ],
 
-  providers: [CookieService, LoginService, UserService, BoardService, StoryService, StoryLaneService],
+  providers: [CookieService, LoginService, UserService, BoardService, StoryService, StoryLaneService, TaskService],
   bootstrap: [AppComponent]
 })
 

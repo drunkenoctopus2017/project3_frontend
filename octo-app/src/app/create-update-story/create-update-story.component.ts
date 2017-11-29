@@ -42,7 +42,6 @@ export class CreateUpdateStoryComponent implements OnInit {
     this.story = this.storyService.getSelectedStory();
     const myData = this.route.data;
 
-    
     console.log("myData: " + JSON.stringify(myData));
     console.log("roleFromRoute: " + this.roleFromRoute);
   }

@@ -37,7 +37,11 @@ export class StoryService {
 
   updateStory(story:Story): Promise<Story> {
     const url = "octo-story-service/updateStory/";
-    return this.http.post(url, story)
+    var storyToString = JSON.stringify(story);
+    console.log("storyToString: " + storyToString);
+    var storyToJSON = JSON.parse(storyToString);
+    console.log("storyToJSON: " +storyToJSON);
+    return this.http.post(url, storyToJSON)
       .toPromise()
       .then(response => response.json() as Story)
       .catch(this.handleError);
