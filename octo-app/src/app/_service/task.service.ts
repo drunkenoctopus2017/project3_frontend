@@ -29,7 +29,7 @@ export class TaskService {
    }
 
   deleteTasksByStoryId(storyId: number) {
-    const url = zuulUrl+"octo-story-service/getStoriesByBoardId/" + storyId;
+    const url = zuulUrl+"octo-task-service/deleteTasksByStoryId/" + storyId;
     return this.http.get(url).toPromise().then().catch(this.handleError);
   }
 

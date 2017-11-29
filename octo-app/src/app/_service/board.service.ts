@@ -69,7 +69,7 @@ export class BoardService {
   }
 
   deleteBoardById(boardId:number) {
-    const url = zuulUrl+"octo-board-service/deleteBoardById/" + boardId;
+    const url = zuulUrl+"octo-board-management-service/deleteBoardById/" + boardId;
     return this.http.get(url).toPromise().then().catch(this.handleError);
   }
 

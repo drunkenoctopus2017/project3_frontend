@@ -46,6 +46,7 @@ export class MainMenuComponent implements OnInit {
 
     if (loggedIn) {
       this.user = currentUser;
+      console.log("pulling fresh boards from the oven");
       this.boardService.getBoardsByUserId(this.user.id).then(boards => this.boards = boards);
     } else {
       this.router.navigate(['/login']);
@@ -83,9 +84,10 @@ export class MainMenuComponent implements OnInit {
   deleteScrumBoard(b: ScrumBoard){
     let r = this.router;
     console.log(b.name + "'s trigger delete board method!");
-    this.userService.deleteBoard(b.id).then(response =>
-      r.navigate(['/mainMenu'])
-    ).catch(this.handleError)
+    this.userService.deleteBoard(b.id).then(() => {
+      console.log("pulling fresh boards from the oven");
+      this.boardService.getBoardsByUserId(this.user.id).then(boards => this.boards = boards);
+    }).catch(this.handleError)
     
   }
 

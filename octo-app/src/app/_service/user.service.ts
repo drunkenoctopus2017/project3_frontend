@@ -31,29 +31,52 @@ export class UserService {
 
   deleteBoard(boardId: number): Promise<any> {
     // Hahaha
-    // octo-user-management-service/updateBoardUsers/{boardId} update this board's list of users to empty
-    this.assignMembersService.updateBoardUsers(boardId, []);
-    // octo-story-service/getStoriesByBoardId/{boardId} for each story on this board
     let t = this.taskService;
     let s = this.storyService;
     let b = this.boardService;
-    this.storyService.getStoriesByBoardId(boardId)
-      .then(response => {
-        let storiesToBeDeleted: Story[] = response;
-        for(var i = 0; i < storiesToBeDeleted.length; i++){
-          // octo-task-service/deleteTasksByStoryId/{storyId} delete all tasks for each story
-          t.deleteTasksByStoryId(storiesToBeDeleted[i].id);
-        }
-        // octo-story-service/deleteStoriesByBoardId/{boardId} delete all stories after deleting all tasks
-        s.deleteStoriesByBoardId(boardId).then().catch(this.handleError);
-        // octo-board-service/deleteBoardById/{id} delete the board
-        b.deleteBoardById(boardId).then().catch(this.handleError);
-      })
-      .catch(this.handleError);
-    // octo-user-management-service/deleteScrumBoardIdFromUser/{id} remove this board from user's list of board ID's
-    let url = zuulUrl+"octo-user-management-service/deleteScrumBoardIdFromUser/"+boardId;
-    let body = this.cookieService.getObject('user');
-    return this.http.get(url, body).toPromise().then(() => console.log("finished deleting?")).catch(this.handleError);
+    let c = this.cookieService;
+
+    // octo-user-management-service/updateBoardUsers/{boardId} update this board's list of users to empty
+    console.log("about to update users");
+    let boardUsers: SystemUser[] = [];
+    return this.assignMembersService.updateBoardUsers(boardId, boardUsers).then(response => {
+      console.log("updated users for this board: "+boardId);
+      console.log("about to retrieve stories");
+      // octo-story-service/getStoriesByBoardId/{boardId} for each story on this board
+      s.getStoriesByBoardId(boardId)
+        .then(response => {
+          console.log("retrieved all the stories for this board: "+boardId);
+          let storiesToBeDeleted: Story[] = response;
+    
+          for(var i = 0; i < storiesToBeDeleted.length; i++){
+            // octo-task-service/deleteTasksByStoryId/{storyId} delete all tasks for each story
+            console.log("about to delete tasks for this story"+storiesToBeDeleted[i].id);
+            t.deleteTasksByStoryId(storiesToBeDeleted[i].id).then(response =>
+              console.log("deleted tasks for this story: "+storiesToBeDeleted[i].id)
+            )
+            
+          }
+
+          // octo-story-service/deleteStoriesByBoardId/{boardId} delete all stories after deleting all tasks
+          console.log("about to delete stories");
+          s.deleteStoriesByBoardId(boardId).then(response =>
+            console.log("deleted stories for this board: "+boardId)
+          )
+          
+          // octo-board-service/deleteBoardById/{id} delete the board
+          console.log("about to delete this board: "+boardId);
+          b.deleteBoardById(boardId).then(response =>
+            console.log("deleted this board: "+boardId)
+          )
+        })
+
+      // octo-user-management-service/deleteScrumBoardIdFromUser/{id} remove this board from user's list of board ID's
+      let url = zuulUrl+"octo-user-management-service/deleteScrumBoardIdFromUser/"+boardId;
+      let body = c.getObject('user');
+      this.http.post(url, body).toPromise().then(response => {response.json(); console.log("finished deleting?")}).catch(this.handleError);
+    })
+    .catch(this.handleError)
+    
   }
 
   private handleError(error: any): Promise<any> {
