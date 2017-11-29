@@ -156,9 +156,11 @@ export class AssignMembersMenuComponent implements OnInit {
   }
 
   updateBoardUsers(boardNum: number) {
+    let r = this.router;
     this.assignMembersService.updateBoardUsers(boardNum, this.cookieService.getObject('board' + boardNum + 'Users')).then(function (response) {
       console.log('RESPONSE:');
       console.log(response);
+      r.navigate(['/mainMenu']);
     });
   }
 
