@@ -73,7 +73,8 @@ export class MainMenuComponent implements OnInit {
 
   getAllUsers(b: ScrumBoard){
     console.log(b.name + "'s get users view method! board ID is: "+b.id);
-    this.router.navigate(['/assignMembers', b.id]);
+    this.boardService.setSelectedBoard(b);
+    this.router.navigate(['/assignMembers']);
   }
 
   triggerModal(b: ScrumBoard){

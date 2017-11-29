@@ -14,8 +14,7 @@ const appRoutes:Routes = [
   {path: 'about', component: AboutComponent}, 
   {path: 'login', component: LoginComponent},
   {path: 'mainMenu', component: MainMenuComponent}, 
-  {path: 'assignMembers', redirectTo: '/assignMembers/0', pathMatch: 'full' },
-  {path: 'assignMembers/:id', component: AssignMembersMenuComponent},
+  {path: 'assignMembers', component: AssignMembersMenuComponent},
 
   //----------------------------------------
   //I think this is how we're supposed to do it.
@@ -28,17 +27,14 @@ const appRoutes:Routes = [
   {path: 'createBoard', component: CreateUpdateBoardComponent, data: { mode: 'create' } },
   {path: 'updateBoard', component: CreateUpdateBoardComponent, data: { mode: 'edit' } },
 
-  {path: 'viewStory', component: CreateUpdateBoardComponent, data: { mode: 'view' } },
-  {path: 'editStory', component: CreateUpdateBoardComponent, data: { mode: 'edit' } },
-  {path: 'makeStory', component: CreateUpdateBoardComponent, data: { mode: 'make' } },
+  {path: 'viewStory', component: CreateUpdateStoryComponent, data: { mode: 'view' } },
+  {path: 'editStory', component: CreateUpdateStoryComponent, data: { mode: 'edit' } },
+  {path: 'makeStory', component: CreateUpdateStoryComponent, data: { mode: 'make' } },
   //----------------------------------------
 
   {path: 'boardStoryLanes', component: BoardStoryLanesComponent },
   //{path: 'boardStoryLanes/:id', component: BoardStoryLanesComponent}, 
-  {path: 'createUpdateStory', redirectTo: '/createUpdateStory/0', pathMatch: 'full' },
-  {path: 'createUpdateStory/:id', component: CreateUpdateStoryComponent}, 
-  {path: 'burndownChart', redirectTo: '/burndownChart/0', pathMatch: 'full' },
-  {path: 'burndownChart/:id', component: BurndownChartComponent}, 
+  {path: 'burndownChart', component: BurndownChartComponent}, 
   { path: '',   redirectTo: '/login', pathMatch: 'full' }, 
   //TODO { path: '**', component: PageNotFoundComponent }
 ];

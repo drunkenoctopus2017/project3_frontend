@@ -15,11 +15,7 @@ export class BurndownChartComponent implements OnInit {
   constructor(private route: ActivatedRoute, private boardService: BoardService) { }
 
   ngOnInit() {
-    this.route.params.forEach(
-      (params: Params) => {
-        this.boardID = params["id"];
-      }
-    )
+    this.boardID = this.boardService.getSelectedBoard().id;
   }
 
 
