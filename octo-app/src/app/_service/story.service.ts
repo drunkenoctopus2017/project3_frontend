@@ -27,8 +27,10 @@ export class StoryService {
     return this.http.get(url).toPromise().then(response => response.json() as Story[]).catch(this.handleError);
   }
 
-  updateStory(story:Story): Promise<Story> {
-    const url = this.zuulUrl+"octo-story-service/updateStory/";
+  //updateStory(story:Story): Promise<Story> {
+  updateStory(story:Story): Promise<string> {
+    //const url = this.zuulUrl+"octo-story-service/updateStory/";
+    const url = this.zuulUrl + "octo-story-update-manager/updateStory/";
     return this.http.post(url, story).toPromise().then(response => response.json() as Story).catch(this.handleError);
   }
 

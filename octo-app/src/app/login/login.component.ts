@@ -23,16 +23,16 @@ export class LoginComponent implements OnInit {
   login(username: string, password: string) {
     var c = this.cookieService;
     var r = this.router;
-
+    /*
     this.loginService.login(username, password).then(function(user) {
       console.log(user);
       c.putObject('user', user);
       r.navigate(['/mainMenu']);
     });
-    
-  }
-
-  authenticate(username:string, password:string) {
-    this.loginService.authenticate(username, password);
+    */
+    this.loginService.authenticate(username, password).then(user => {
+      this.cookieService.putObject('user', user);
+      this.router.navigate(['/mainMenu']);
+    });
   }
 }

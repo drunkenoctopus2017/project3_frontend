@@ -18,7 +18,7 @@ export class LoginService {
   updatedUser: string;
   
   //login
-  authenticate(username, password) {
+  authenticate(username, password):Promise<SystemUser> {
     const url = "http://localhost:8090/auth/oauth/token";
     const headers:Headers = new Headers({
       "Content-Type": "application/x-www-form-urlencoded",
@@ -27,38 +27,18 @@ export class LoginService {
     const options:RequestOptions = new RequestOptions({headers: headers});
     const credentials:string = 'grant_type=client_credentials';
     // this.creds = 'grant_type=authorization_code';
-    this.http.post(url, credentials, options)
-      .map(res => res.json())
-      //this is an Observable
-      //optionally use Promise with toPromise()
-      .subscribe(response => {
-        for(var i in response){
-          console.log('response[' + i + ']: ' + response[i]);
-        }
-        localStorage.setItem('token', response.access_token);
-        //before this you'd get the user data/roletype from the DB
-        this.router.navigate(["/mainMenu"]);
-      }, (error) => {
-        console.log('error in', error);
-      });
+    return this.http.post(url, credentials, options)
+      .toPromise()
+      .then(response => localStorage.setItem('token', response.json().access_token))
+      .then(response => this.login(username, password))
+      .catch(this.handleError);
   }
 
-
-  login(username: string, password: string) {
+  login(username: string, password: string):Promise<SystemUser> {
     //http://localhost:8765/ <-- set by proxy server setting
-    
     let url = this.zuulUrl+"octo-user-management-service/login/";
     let body = {username: username, password: password};
     return this.http.post(url, body, ).toPromise().then(response => response.json() as SystemUser).catch(this.handleError);
-  }
-  isLoggedIn(user: any): boolean{
-    if(user != null){
-      return true;
-    }else{
-      return false;
-    }
-
-    
   }
 
   private handleError(error: any): Promise<any> {
