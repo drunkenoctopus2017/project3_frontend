@@ -3,3 +3,19 @@
 </p>
 
 <h2>ID of board that this burndown chart is for: {{boardID}}</h2>
+
+
+
+<div class="container">
+    <canvas baseChart width="auto" height="auto"
+                [datasets]="lineChartData"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+                <!--  [labels]="lineChartLabels" -->
+</div>
+  
+

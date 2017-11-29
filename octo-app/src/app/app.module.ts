@@ -2,17 +2,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+
 //Install Bootstrap and Bootstrap components according to following:
 //http://www.markupjavascript.com/2017/07/how-to-add-and-use-bootstrap-in-angular-2-cli-project.html
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
-
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { CookieService } from 'angular2-cookie';
 
 import { BoardService } from './_service/board.service';
 import { LoginService } from './_service/login.service';
 import { StoryService } from './_service/story.service';
 import { StoryLaneService } from './_service/story-lane.service';
+import { AssignMembersService } from './_service/assign-members.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,7 +32,12 @@ import { UserService } from './_service/user.service';
 import { TaskService } from './_service/task.service';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
 import { CreateUpdateTasksComponent } from './create-update-tasks/create-update-tasks.component';
+import { BurndownChartService } from './_service/burndown-chart.service';
+import { TaskService } from './_service/task.service';
+import { ModalComponent } from './modal/modal.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,19 +49,24 @@ import { CreateUpdateTasksComponent } from './create-update-tasks/create-update-
     AssignMembersMenuComponent,
     BoardStoryLanesComponent,
     BurndownChartComponent,
-    CreateUpdateTasksComponent
+    CreateUpdateTasksComponent, 
+    ModalComponent
   ],
   imports: [
     NgbModule.forRoot(), 
     BrowserModule, 
     FormsModule, 
     HttpModule, 
+    ChartsModule,
+    AngularMultiSelectModule,
     AngularFontAwesomeModule, 
     AppRoutingModule
     
   ],
 
-  providers: [CookieService, LoginService, UserService, BoardService, StoryService, StoryLaneService, TaskService],
+  providers: [TaskService, CookieService, LoginService, UserService, 
+              BoardService, StoryService, StoryLaneService, BurndownChartService, AssignMembersService],
+
   bootstrap: [AppComponent]
 })
 

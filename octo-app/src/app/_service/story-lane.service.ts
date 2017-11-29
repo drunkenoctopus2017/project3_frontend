@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { StoryLane } from '../_model/StoryLane';
 import { Http, Response } from '@angular/http';
 
+import { zuulUrl } from './zuul-url';
+
 @Injectable()
 export class StoryLaneService {
-  
+
   private storyLanesCache:StoryLane[];
 
   constructor(private http: Http) { }
@@ -14,7 +16,7 @@ export class StoryLaneService {
   }
 
   getStoryLanes(): Promise<StoryLane[]> {
-    const url = "octo-story-service/getStoryLanes";
+    const url = zuulUrl+"octo-story-service/getStoryLanes";
     return this.http.get(url).toPromise().then(response => response.json() as StoryLane[]).then(lanes => this.storyLanesCache = lanes).catch(this.handleError);
   }
 

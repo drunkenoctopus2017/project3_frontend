@@ -13,6 +13,7 @@ import { StoryLane } from '../_model/StoryLane';
 import { UserService } from '../_service/user.service';
 import { Story } from '../_model/Story';
 import { UserRole } from '../_model/UserRole';
+import { BurndownChartService } from '../_service/burndown-chart.service';
 
 @Component({
   selector: 'app-board-story-lanes',
@@ -36,7 +37,8 @@ export class BoardStoryLanesComponent implements OnInit {
     private boardService: BoardService,
     private storyService: StoryService, 
     private storyLaneService: StoryLaneService, 
-    private userService: UserService
+    private userService: UserService, 
+    private burndownChartService: BurndownChartService
   ) {
     
   }
@@ -61,6 +63,7 @@ export class BoardStoryLanesComponent implements OnInit {
     if (!this.board) {
       this.router.navigate(['/mainMenu']);
     } else {
+      
       this.storyLanes = this.storyLaneService.getCachedStoryLanes();
       if (!this.storyLanes) {
         this.storyLaneService.getStoryLanes().then(storyLanes => this.storyLanes = storyLanes);
@@ -73,6 +76,10 @@ export class BoardStoryLanesComponent implements OnInit {
 
   getStoriesByLane(lane:StoryLane):Story[] {
     return this.stories.filter(s => s.laneId == lane.id);
+  }
+
+  createStory() {
+    this.router.navigate(['/makeStory']);
   }
 
   selectStory(story:Story) {
@@ -89,8 +96,12 @@ export class BoardStoryLanesComponent implements OnInit {
     this.storyService.updateStory(story).catch(error => story.laneId = origLaneId);
   }
 
-  
-  createStory() {
-    this.router.navigate(['/makeStory']);
+  viewChart() {
+    var r = this.router;
+    this.burndownChartService.getChartData(this.board)
+      .then(results => {
+        // console.log("done with burndown chart data");
+        r.navigate(['/burndownChart']);
+      });
   }
 }

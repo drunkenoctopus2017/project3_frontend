@@ -1,6 +1,6 @@
 export class ScrumBoard {
     id: number;
     name: string;
-    startDate: Date;
+    startDate: number;
     duration: number;
 }
