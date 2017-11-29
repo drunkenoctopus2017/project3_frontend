@@ -5,8 +5,8 @@
             <button (click)="createOrEditTask()" class="btn btn-primary">create task</button>         
     </div>
 </form>
-<div class="form-group">       
-    <div *ngFor="let task of tasks">
-        <label><input type="checkbox" value="">{{task.description}}</label> 
-    </div>
-</div>
+<ul class="list-group" *ngFor="let task of tasks">
+    <li class="list-group-item">{{task.description}}</li>
+    <button class="btn btn-danger" (click)="deleteTask(task)"></button>
+</ul>
+

@@ -51,8 +51,14 @@ export class CreateUpdateTasksComponent implements OnInit {
       this.taskService.getTaskByStoryId(this.task.storyId).then(response => this.tasks = response  );  
       this.task.description = "";    
       this.router.navigate(['/viewStory']);
-  })
-    
+   }); 
+  }
+
+  deleteTask(task: Task){
+    this.taskService.deleteTaskById(task.id).then(response => {
+      this.taskService.getTaskByStoryId(this.task.storyId).then(response => this.tasks = response )
+      this.router.navigate(['/viewStory']);
+    })
   }
 
 }
