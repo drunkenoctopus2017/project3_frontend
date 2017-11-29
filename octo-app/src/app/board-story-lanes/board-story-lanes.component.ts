@@ -85,7 +85,7 @@ export class BoardStoryLanesComponent implements OnInit {
   selectStory(story:Story) {
     this.storyService.setSelectedStory(story);
     const currentUser:SystemUser = this.cookieService.getObject('user');
-
+    console.log("board-story-lanes storyId: " + this.storyService.getSelectedStory().id)
     this.router.navigate(['/viewStory']);
     
   }

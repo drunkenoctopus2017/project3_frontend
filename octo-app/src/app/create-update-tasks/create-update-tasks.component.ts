@@ -29,27 +29,30 @@ export class CreateUpdateTasksComponent implements OnInit {
     }
 
   ngOnInit() {
+
     if(this.roleFromRoute !== 'make')
     {
-      var selectedStoryId = this.storyService.getSelectedStory().id;
-      this.taskService.getTaskByStoryId(selectedStoryId).then(response => this.tasks = response  );
+      this.task = new Task();
+      
+      console.log(this.storyService.getSelectedStory().id);
+      this.task.storyId = this.storyService.getSelectedStory().id;
+      
+      console.log("From create-update-tasks, storyId: " + this.task.storyId);
+      this.taskService.getTaskByStoryId(this.task.storyId).then(response => this.tasks = response  );
     }
 
     console.log(this.tasks);
   }
 
   createOrEditTask(){
-    if(this.roleFromRoute === 'make')
-    {
-      var t : Task = {
-        id: 0,
-        description: this.task.description,
-        status: 1
-      }
-    }
-
-
-    this.taskService.createUpdateTask(this.task).then(response => this.router.navigate(['/viewStory']))
+    this.task.status = 1;
+    console.log(this.task);
+    this.taskService.createUpdateTask(this.task).then(response => {
+      this.taskService.getTaskByStoryId(this.task.storyId).then(response => this.tasks = response  );  
+      this.task.description = "";    
+      this.router.navigate(['/viewStory']);
+  })
+    
   }
 
 }
