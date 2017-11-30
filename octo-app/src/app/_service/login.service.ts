@@ -22,12 +22,14 @@ export class LoginService {
     const url = "http://localhost:8090/auth/oauth/token";
     const headers:Headers = new Headers({
       "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": "Basic " + Base64.encode(username + ':' + password)
+      //"Authorization": "Basic " + Base64.encode(username + ':' + password)
+      "Authorization": "Basic " + Base64.encode('drunkenOctopus:secret')
     });
     const options:RequestOptions = new RequestOptions({headers: headers});
-    const credentials:string = 'grant_type=client_credentials';
+    const requestBody:string = 'grant_type=password&username=' + username + '&password=' + password;
+    
     // this.creds = 'grant_type=authorization_code';
-    return this.http.post(url, credentials, options)
+    return this.http.post(url, requestBody, options)
       .toPromise()
       .then(response => localStorage.setItem('token', response.json().access_token))
       .then(response => this.login(username, password))
