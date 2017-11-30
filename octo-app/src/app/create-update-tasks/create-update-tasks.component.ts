@@ -53,7 +53,12 @@ export class CreateUpdateTasksComponent implements OnInit {
 
     this.taskService.createUpdateTask(task).then(response => {
       this.taskService.getTaskByStoryId(task.storyId).then(response => this.tasks = response  );  
-      this.router.navigate(['/viewStory']);
+      if(this.roleFromRoute === 'view'){
+        this.router.navigate(['/viewStory']);        
+      } 
+      if(this.roleFromRoute === 'edit'){
+        this.router.navigate(['/editStory']);        
+      } 
    }); 
     console.log(task.status);
   }
@@ -63,15 +68,25 @@ export class CreateUpdateTasksComponent implements OnInit {
     console.log(this.task);
     this.taskService.createUpdateTask(this.task).then(response => {
       this.taskService.getTaskByStoryId(this.task.storyId).then(response => this.tasks = response  );  
-      this.task.description = "";    
-      this.router.navigate(['/viewStory']);
+      this.task.description = "";   
+      if(this.roleFromRoute === 'view'){
+        this.router.navigate(['/viewStory']);        
+      } 
+      if(this.roleFromRoute === 'edit'){
+        this.router.navigate(['/editStory']);        
+      } 
    }); 
   }
 
   deleteTask(task: Task){
     this.taskService.deleteTaskById(task.id).then(response => {
       this.taskService.getTaskByStoryId(this.task.storyId).then(response => this.tasks = response )
-      this.router.navigate(['/viewStory']);
+      if(this.roleFromRoute === 'view'){
+        this.router.navigate(['/viewStory']);        
+      } 
+      if(this.roleFromRoute === 'edit'){
+        this.router.navigate(['/editStory']);        
+      } 
     })
   }
 

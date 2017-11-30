@@ -37,8 +37,8 @@ export class CreateUpdateStoryComponent implements OnInit {
    }
   
   ngOnInit() {
-    //const currentUser:SystemUser = this.cookieService.getObject('user');
-    //this.role = currentUser.role;
+
+    this.role = this.cookieService.getObject('user').role;
     const myData = this.route.data;
 
     if(this.roleFromRoute === 'make'){
@@ -51,6 +51,7 @@ export class CreateUpdateStoryComponent implements OnInit {
       
     }
     
+    console.log("role.ID: " + this.role.id)
     console.log("roleFromRoute: " + this.roleFromRoute);
   }
 
