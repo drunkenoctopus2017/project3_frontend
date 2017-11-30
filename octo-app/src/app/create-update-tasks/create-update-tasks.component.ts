@@ -16,7 +16,7 @@ export class CreateUpdateTasksComponent implements OnInit {
   roleFromRoute: string;
   tasks: Task[];
   task: Task;
-  isComplete : boolean;
+
   constructor(
     private router: Router,
     private storyService: StoryService,
