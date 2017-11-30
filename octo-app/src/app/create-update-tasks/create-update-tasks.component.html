@@ -1,12 +1,15 @@
-<form class="form-inline" *ngIf="roleFromRoute !== 'make'">
+<!--Todo: change rolefromroute to edit, then create a new html block that will show the tasks as regular labels-->
+<form class="form-inline" *ngIf="roleFromRoute === 'edit'">
     <div  class="form-group">
-            <label class="col-sm-2 col-form-label" >Task Description</label>
-            <input type="text" [(ngModel)] = "task.description" name="description">   
-            <button (click)="createOrEditTask()" class="btn btn-primary">create task</button>         
-    </div>
+        <label class="col-sm-2 col-form-label" >Task Description</label>
+        <input type="text" [(ngModel)] = "task.description" name="description">   
+        <button (click)="createOrEditTask()" class="btn btn-primary">create task</button>         
+    </div>      
 </form>
 <ul class="list-group" *ngFor="let task of tasks">
-    <li class="list-group-item">{{task.description}}</li>
-    <button class="btn btn-danger" (click)="deleteTask(task)"></button>
-</ul>
+    <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" [(ngModel)]="task.status" checked="x == (task.status == 1)">{{task.description}} {{task.status}}
+        <!--<button class="btn btn-danger" (click)="deleteTask(task)">Delete</button>        -->
+    </label>
+</ul>  
 

@@ -15,7 +15,7 @@ export class CreateUpdateTasksComponent implements OnInit {
   roleFromRoute: string;
   tasks: Task[];
   task: Task;
-
+  isCompleted : boolean;
   constructor(
     private router: Router,
     private storyService: StoryService,
@@ -44,8 +44,22 @@ export class CreateUpdateTasksComponent implements OnInit {
     console.log(this.tasks);
   }
 
+  //needed?
+  changeStatus(event, task:Task){
+    if(event.target.checked){
+      task.status = 1;
+    } else {
+      task.status = 0;
+    }
+    this.taskService.createUpdateTask(this.task).then(response => {
+      this.taskService.getTaskByStoryId(this.task.storyId).then(response => this.tasks = response  );  
+      this.router.navigate(['/viewStory']);
+   }); 
+    console.log(task.status);
+  }
+
   createOrEditTask(){
-    this.task.status = 1;
+    this.task.status = 0;
     console.log(this.task);
     this.taskService.createUpdateTask(this.task).then(response => {
       this.taskService.getTaskByStoryId(this.task.storyId).then(response => this.tasks = response  );  
