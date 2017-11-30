@@ -89,7 +89,7 @@ export class BoardStoryLanesComponent implements OnInit {
     this.router.navigate(['/viewStory']);
     
   }
-
+  
   changeLane(story:Story, lane:StoryLane) {
     const origLaneId:number = story.laneId;
     story.laneId = lane.id;

@@ -34,29 +34,23 @@ export class AssignMembersMenuComponent implements OnInit {
     this.boardID = this.boardService.getSelectedBoard().id;
     var cookie = this.cookieService;
     this.user = cookie.getObject('user');
-    var loggedIn = this.loginService.isLoggedIn(this.user);
-    if (!loggedIn) {
-      this.router.navigate(['/login']);
-    } else {
-      var bId = this.boardID;
+    
+    var bId = this.boardID;
 
-      //get all board users and store them in a cookie
-      this.assignMembersService.getUsersOnBoard(this.boardID).then(function (response) {
-        if (response != null) {
-          cookie.putObject('board' + bId + 'Users', response);
-          console.log(response);
-        } else {
-          console.log('error! there are no users on this board.');
-        }
-
-      });
-      
-      this.assignMembersService.getUsersOnBoard(this.boardID)
-        .then(usersOnBoard => this.selectedItems = this.parseData(usersOnBoard));
-      this.assignMembersService.getAllUsers()
-        .then(allUsers => this.dropdownList = this.parseData(allUsers));
-    }
-
+    //get all board users and store them in a cookie
+    this.assignMembersService.getUsersOnBoard(this.boardID).then(function (response) {
+      if (response != null) {
+        cookie.putObject('board' + bId + 'Users', response);
+        console.log(response);
+      } else {
+        console.log('error! there are no users on this board.');
+      }
+    });
+    
+    this.assignMembersService.getUsersOnBoard(this.boardID)
+      .then(usersOnBoard => this.selectedItems = this.parseData(usersOnBoard));
+    this.assignMembersService.getAllUsers()
+      .then(allUsers => this.dropdownList = this.parseData(allUsers));
     
     //store all users in cookie
     this.assignMembersService.getAllUsers().then(function (response) {
