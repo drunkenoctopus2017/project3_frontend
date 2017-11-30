@@ -14,16 +14,10 @@ import { AuthGuard } from './_service/auth-guard.service';
 const appRoutes:Routes = [
   {path: 'about', component: AboutComponent}, 
   {path: 'login', component: LoginComponent},
-<<<<<<< HEAD
   {path: 'mainMenu', component: MainMenuComponent, canActivate: [AuthGuard]}, 
   {path: 'assignMembers/:id', component: AssignMembersMenuComponent, canActivate: [AuthGuard]}, 
   {path: 'createUpdateBoard', redirectTo: '/createUpdateBoard/true/0', pathMatch: 'full' },
   {path: 'createUpdateBoard/:status/:id', component: CreateUpdateBoardComponent}, 
-=======
-  {path: 'mainMenu', component: MainMenuComponent}, 
-  {path: 'assignMembers', component: AssignMembersMenuComponent},
->>>>>>> be7c5dfebf2d8d1f6a5ecb3dd1d78c64e6ecaa40
-
   //----------------------------------------
   //I think this is how we're supposed to do it.
   /*
@@ -32,19 +26,6 @@ const appRoutes:Routes = [
   Use it to store items such as page titles, breadcrumb text, and other read-only, static data. 
   You'll use the resolve guard to retrieve dynamic data.
   */
-<<<<<<< HEAD
-  {path: 'createBoard', component: CreateUpdateBoardComponent, data: { mode: 'create' }, canActivate: [AuthGuard] },
-  {path: 'updateBoard', component: CreateUpdateBoardComponent, data: { mode: 'edit' }, canActivate: [AuthGuard] },
-
-  {path: 'viewStory', component: CreateUpdateBoardComponent, data: { mode: 'view' }, canActivate: [AuthGuard] },
-  {path: 'editStory', component: CreateUpdateBoardComponent, data: { mode: 'edit' }, canActivate: [AuthGuard] },
-  {path: 'makeStory', component: CreateUpdateBoardComponent, data: { mode: 'make' }, canActivate: [AuthGuard] },
-  //----------------------------------------
-
-  {path: 'boardStoryLanes', component: BoardStoryLanesComponent, canActivate: [AuthGuard] },
-  {path: 'burndownChart', redirectTo: '/burndownChart/0', pathMatch: 'full', canActivate: [AuthGuard] },
-  {path: 'burndownChart/:id', component: BurndownChartComponent}, 
-=======
   {path: 'createBoard', component: CreateUpdateBoardComponent, data: { mode: 'create' } },
   {path: 'updateBoard', component: CreateUpdateBoardComponent, data: { mode: 'edit' } },
   {path: 'viewStory', component: CreateUpdateStoryComponent, data: { mode: 'view' } },
@@ -55,7 +36,6 @@ const appRoutes:Routes = [
   {path: 'boardStoryLanes', component: BoardStoryLanesComponent },
   //{path: 'boardStoryLanes/:id', component: BoardStoryLanesComponent}, 
   {path: 'burndownChart', component: BurndownChartComponent}, 
->>>>>>> be7c5dfebf2d8d1f6a5ecb3dd1d78c64e6ecaa40
   { path: '',   redirectTo: '/login', pathMatch: 'full' }, 
   //TODO { path: '**', component: PageNotFoundComponent }
 ];

@@ -35,12 +35,10 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { CreateUpdateTasksComponent } from './create-update-tasks/create-update-tasks.component';
 import { BurndownChartService } from './_service/burndown-chart.service';
-<<<<<<< HEAD
+
 import { AuthGuard } from './_service/auth-guard.service';
-=======
 import { ModalComponent } from './modal/modal.component';
 
->>>>>>> be7c5dfebf2d8d1f6a5ecb3dd1d78c64e6ecaa40
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +64,7 @@ import { ModalComponent } from './modal/modal.component';
     AppRoutingModule  
   ],
 
-<<<<<<< HEAD
+
   providers: [
     AuthGuard, 
     AssignMembersService, 
@@ -76,13 +74,11 @@ import { ModalComponent } from './modal/modal.component';
     BoardService, 
     StoryService, 
     StoryLaneService, 
-    BurndownChartService
-  ],
-=======
-  providers: [TaskService, CookieService, LoginService, UserService, 
-              BoardService, StoryService, StoryLaneService, BurndownChartService, AssignMembersService],
+    BurndownChartService, 
+    TaskService,
 
->>>>>>> be7c5dfebf2d8d1f6a5ecb3dd1d78c64e6ecaa40
+  ],
+
   bootstrap: [AppComponent]
 })
 
