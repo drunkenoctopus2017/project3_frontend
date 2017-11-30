@@ -2,19 +2,32 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { ScrumBoard } from '../_model/ScrumBoard';
 
+import { zuulUrl } from './zuul-url';
+
 @Injectable()
 export class BurndownChartService {
 
-  zuulUrl: string = "http://localhost:8765/";
+    private burndownChartDatasource: Object[];
 
   constructor(private http: Http) { }
 
+  getBurndownChartDatasource() {
+      return this.burndownChartDatasource;
+  }
+
+  setBurndownChartDatasource(data: Object[]) {
+      this.burndownChartDatasource = data;
+      return this.burndownChartDatasource;
+  }
+
   getChartData(board:ScrumBoard): Promise<object[]> {
-    return this.getStoriesByBoardId(board).then(storyProfiles => this.flattenChartData(storyProfiles, board));
+    return this.getStoriesByBoardId(board).then(
+        storyProfiles => this.setBurndownChartDatasource(this.flattenChartData(storyProfiles, board))
+    );
   }
   
   getStoriesByBoardId(board:ScrumBoard): Promise<object[]> {
-    const url = this.zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/" + board.id;
+    const url = zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/" + board.id;
     return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
   }
 
@@ -22,7 +35,7 @@ export class BurndownChartService {
     let chartData:object[] = new Array<object>();
     //initialize the data.
     while (chartData.length < board.duration) {
-        chartData.push({x: chartData.length, y: 0});
+        chartData.push({x: chartData.length+1, y: 0});
     }
     const ONE_DAY:number = 86400000;
     const n:number = storyProfiles.length;

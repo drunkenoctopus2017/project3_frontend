@@ -5,6 +5,7 @@ import { CookieService } from 'angular2-cookie';
 import { LoginService } from '../_service/login.service';
 import { SystemUser } from '../_model/SystemUser';
 import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
+import { BoardService } from '../_service/board.service';
 
 
 @Component({
@@ -21,14 +22,16 @@ export class AssignMembersMenuComponent implements OnInit {
   selectedItems = [];
   dropdownSettings = {};
 
-  constructor(private loginService: LoginService, private cookieService: CookieService, private assignMembersService: AssignMembersService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private loginService: LoginService, 
+              private cookieService: CookieService, 
+              private assignMembersService: AssignMembersService, 
+              private router: Router, 
+              private route: ActivatedRoute,
+              private boardService: BoardService
+            ) { }
 
   ngOnInit() {
-    this.route.params.forEach(
-       (params: Params) => {
-        this.boardID = params["id"]; //grab the board ID
-      }
-    )
+    this.boardID = this.boardService.getSelectedBoard().id;
     var cookie = this.cookieService;
     this.user = cookie.getObject('user');
     var loggedIn = this.loginService.isLoggedIn(this.user);
@@ -157,5 +160,9 @@ export class AssignMembersMenuComponent implements OnInit {
       console.log('RESPONSE:');
       console.log(response);
     });
+  }
+
+  goBackToMainMenu() {
+    this.router.navigate(['/mainMenu']);
   }
 }
