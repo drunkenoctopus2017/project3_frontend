@@ -2,14 +2,17 @@
 <form class="form-inline" *ngIf="roleFromRoute === 'edit'">
     <div  class="form-group">
         <label class="col-sm-2 col-form-label" >Task Description</label>
-        <input type="text" [(ngModel)] = "task.description" name="description">   
+        <input type="text" [(ngModel)]="task.description" name="description">   
         <button (click)="createOrEditTask()" class="btn btn-primary">create task</button>         
     </div>      
 </form>
 <ul class="list-group" *ngFor="let task of tasks">
     <label class="form-check-label">
-        <input type="checkbox" class="form-check-input" [(ngModel)]="task.status" checked="x == (task.status == 1)">{{task.description}} {{task.status}}
-        <!--<button class="btn btn-danger" (click)="deleteTask(task)">Delete</button>        -->
+        <input type="checkbox" class="form-check-input" [checked]="task.status" (change)="changeStatus(task)" >{{task.description}} {{task.status}}
+        <div class="pull-right">
+            <button class="btn btn-danger" (click)="deleteTask(task)">Delete</button>    
+        </div>
+            
     </label>
 </ul>  
 

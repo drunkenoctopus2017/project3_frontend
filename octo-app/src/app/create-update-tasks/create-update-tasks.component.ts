@@ -5,6 +5,7 @@ import {Task } from '../_model/Task';
 import { StoryService } from '../_service/story.service';
 import { TaskService } from '../_service/task.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-create-update-tasks',
@@ -15,7 +16,7 @@ export class CreateUpdateTasksComponent implements OnInit {
   roleFromRoute: string;
   tasks: Task[];
   task: Task;
-  isCompleted : boolean;
+  isComplete : boolean;
   constructor(
     private router: Router,
     private storyService: StoryService,
@@ -30,29 +31,28 @@ export class CreateUpdateTasksComponent implements OnInit {
 
   ngOnInit() {
 
-    if(this.roleFromRoute !== 'make')
-    {
+    if(this.roleFromRoute !== 'make'){
       this.task = new Task();
       
       console.log(this.storyService.getSelectedStory().id);
       this.task.storyId = this.storyService.getSelectedStory().id;
       
       console.log("From create-update-tasks, storyId: " + this.task.storyId);
-      this.taskService.getTaskByStoryId(this.task.storyId).then(response => this.tasks = response  );
+      this.taskService.getTaskByStoryId(this.task.storyId).then(response =>{
+        this.tasks = response;
+      });
     }
-
-    console.log(this.tasks);
   }
 
-  //needed?
-  changeStatus(event, task:Task){
-    if(event.target.checked){
-      task.status = 1;
+  changeStatus(task:Task){
+    if(task.status === 0){
+      task.status = 1; 
     } else {
       task.status = 0;
     }
-    this.taskService.createUpdateTask(this.task).then(response => {
-      this.taskService.getTaskByStoryId(this.task.storyId).then(response => this.tasks = response  );  
+
+    this.taskService.createUpdateTask(task).then(response => {
+      this.taskService.getTaskByStoryId(task.storyId).then(response => this.tasks = response  );  
       this.router.navigate(['/viewStory']);
    }); 
     console.log(task.status);
