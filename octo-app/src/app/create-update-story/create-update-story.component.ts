@@ -37,7 +37,6 @@ export class CreateUpdateStoryComponent implements OnInit {
    }
   
   ngOnInit() {
-
     this.role = this.cookieService.getObject('user').role;
     const myData = this.route.data;
 
