@@ -31,6 +31,10 @@ export class BurndownChartService {
     return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
   }
 
+  getPercentageCompletion() {
+
+  }
+
   private flattenChartData(storyProfiles:any[], board:ScrumBoard):object[] {
     let chartData:object[] = new Array<object>();
     //initialize the data.
@@ -175,6 +179,11 @@ export class BurndownChartService {
           {x:13,y:5},
           // {x:14,y:5},
           {x:18,y:30}]*/
+
+deleteStoryProfilesByBoardId(boardId:number) {
+    const url = zuulUrl+"octo-story-history-service/deleteStoryProfilesByBoardId/" + boardId;
+    return this.http.get(url).toPromise().then().catch(this.handleError);
+  }
 
   private handleError(error: any): Promise<any> {
     return Promise.reject(error.message || error);

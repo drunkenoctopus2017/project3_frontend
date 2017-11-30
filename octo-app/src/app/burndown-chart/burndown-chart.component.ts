@@ -21,7 +21,6 @@ export class BurndownChartComponent implements OnInit {
     this.boardID = this.boardService.getSelectedBoard().id;
     this.lineChartData = [
       {
-        //data: [110, 97, 80, 80, 56, 55, 40], 
         data: this.burndownChartService.getBurndownChartDatasource(),
         // [{x:0,y:66},
         //   {x:1,y:56},

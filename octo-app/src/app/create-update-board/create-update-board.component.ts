@@ -66,10 +66,10 @@ export class CreateUpdateBoardComponent implements OnInit {
     var c = this.cookies;
     b.createUpdateBoard(sb).then(board => {
       b.setSelectedBoard(board);
-      console.log("this is now the selected board: "+b.getSelectedBoard());
       var u: SystemUser[] = [c.getObject('user')];
-      a.updateBoardUsers(board.id, u);
-      r.navigate(['/boardStoryLanes']);
+      a.updateBoardUsers(board.id, u).then(success => 
+        r.navigate(['/boardStoryLanes'])
+      )
     })
   }
 

@@ -10,6 +10,7 @@ import { AssignMembersService } from './assign-members.service';
 import { StoryService } from './story.service';
 import { TaskService } from './task.service';
 import { BoardService } from './board.service';
+import { BurndownChartService } from './burndown-chart.service';
 
 @Injectable()
 export class UserService {
@@ -19,6 +20,7 @@ export class UserService {
               private storyService: StoryService,
               private taskService: TaskService,
               private boardService: BoardService,
+              private burndownChartService: BurndownChartService,
               private cookieService: CookieService) { }
 
   getBoardMembersByBoardId(boardId: number): Promise<SystemUser[]> {
@@ -34,6 +36,7 @@ export class UserService {
     let t = this.taskService;
     let s = this.storyService;
     let b = this.boardService;
+    let bu = this.burndownChartService;
     let c = this.cookieService;
 
     // octo-user-management-service/updateBoardUsers/{boardId} update this board's list of users to empty
@@ -61,6 +64,12 @@ export class UserService {
           console.log("about to delete stories");
           s.deleteStoriesByBoardId(boardId).then(response =>
             console.log("deleted stories for this board: "+boardId)
+          )
+
+          // octo-story-history-service/deleteStoryProfilesByBoardId/{boardId}
+          console.log("about to delete story profiles");
+          bu.deleteStoryProfilesByBoardId(boardId).then(response =>
+            console.log("deleted story profiles for this board: "+boardId)
           )
           
           // octo-board-service/deleteBoardById/{id} delete the board

@@ -40,22 +40,10 @@
 				<p>Are you sure you want to delete this board? All data on this board will be lost.</p>
 			</div>
 			<div class="app-modal-footer">
-				<button type="button" class="btn btn-danger" (click)="modal2.show()">Yes</button>
+				<button type="button" class="btn btn-danger" (click)="deleteScrumBoard(b); modal1.hide()">Yes</button>
 			  	<button type="button" class="btn btn-secondary" (click)="modal1.hide()">No</button>
 			</div>
 		  </app-modal>
-		  <app-modal #modal2>
-				<div class="app-modal-header">
-					
-				</div>
-				<div class="app-modal-body">
-					<p>Are you suuuuuuuuuuuuper sure?</p>
-				</div>
-				<div class="app-modal-footer">
-					<button type="button" class="btn btn-danger" (click)="deleteScrumBoard(b); modal2.hide(); modal1.hide()">Yes</button>
-					  <button type="button" class="btn btn-secondary" (click)="modal2.hide(); modal1.hide()">No</button>
-				</div>
-			  </app-modal>
 		<div class="card-body" style="cursor: pointer"
 			(click)="viewBoard(b)">
 			<div class="progress">
