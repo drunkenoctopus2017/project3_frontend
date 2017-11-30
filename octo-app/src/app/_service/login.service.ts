@@ -20,7 +20,7 @@ export class LoginService {
   
   //login
   authenticate(username, password):Promise<SystemUser> {
-    const url = "http://localhost:8090/auth/oauth/token";
+    const url = zuulUrl+"octo-auth/auth/oauth/token";
     const headers:Headers = new Headers({
       "Content-Type": "application/x-www-form-urlencoded",
       //"Authorization": "Basic " + Base64.encode(username + ':' + password)
