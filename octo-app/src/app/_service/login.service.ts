@@ -28,8 +28,6 @@ export class LoginService {
     });
     const options:RequestOptions = new RequestOptions({headers: headers});
     const requestBody:string = 'grant_type=password&username=' + username + '&password=' + password;
-    
-<<<<<<< HEAD
     // this.creds = 'grant_type=authorization_code';
     return this.http.post(url, requestBody, options)
       .toPromise()
@@ -40,10 +38,7 @@ export class LoginService {
 
   login(username: string, password: string):Promise<SystemUser> {
     //http://localhost:8765/ <-- set by proxy server setting
-    let url = this.zuulUrl+"octo-user-management-service/login/";
-=======
     let url = zuulUrl+"octo-user-management-service/login/";
->>>>>>> develop
     let body = {username: username, password: password};
     return this.http.post(url, body, ).toPromise().then(response => response.json() as SystemUser).catch(this.handleError);
   }

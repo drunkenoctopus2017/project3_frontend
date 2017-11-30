@@ -89,7 +89,7 @@ export class BoardStoryLanesComponent implements OnInit {
     this.router.navigate(['/viewStory']);
     
   }
-
+  
   changeLane(story:Story, lane:StoryLane) {
     const origLaneId:number = story.laneId;
     story.laneId = lane.id;
@@ -97,15 +97,11 @@ export class BoardStoryLanesComponent implements OnInit {
   }
 
   viewChart() {
-<<<<<<< HEAD
-    this.burndownChartService.getChartData(this.board).then(results => console.log("done with burndown chart data"));
-=======
     var r = this.router;
     this.burndownChartService.getChartData(this.board)
       .then(results => {
         // console.log("done with burndown chart data");
         r.navigate(['/burndownChart']);
       });
->>>>>>> develop
   }
 }
