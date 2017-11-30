@@ -1,0 +1,12 @@
+<form class="form-inline" *ngIf="roleFromRoute !== 'make'">
+    <div  class="form-group">
+            <label class="col-sm-2 col-form-label">Task Description</label>
+            <input type="text" [ngModel]="task.description">   
+            <button (click)="createOrEditTask()" class="btn btn-primary">create task</button>         
+    </div>
+</form>
+<div class="form-group">       
+    <div *ngFor="let task of tasks">
+        <label><input type="checkbox" value="">{{task.description}}</label> 
+    </div>
+</div>

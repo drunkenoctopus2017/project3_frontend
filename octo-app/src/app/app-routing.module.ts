@@ -13,31 +13,16 @@ import { AuthGuard } from './_service/auth-guard.service';
 
 const appRoutes:Routes = [
   {path: 'about', component: AboutComponent}, 
-  {path: 'login', component: LoginComponent},
-  {path: 'mainMenu', component: MainMenuComponent, canActivate: [AuthGuard]}, 
-  {path: 'assignMembers/:id', component: AssignMembersMenuComponent, canActivate: [AuthGuard]}, 
-  {path: 'createUpdateBoard', redirectTo: '/createUpdateBoard/true/0', pathMatch: 'full' },
-  {path: 'createUpdateBoard/:status/:id', component: CreateUpdateBoardComponent}, 
-
-  //----------------------------------------
-  //I think this is how we're supposed to do it.
-  /*
-  The data property in the third route is a place to store arbitrary data associated with this specific route. 
-  The data property is accessible within each activated route. 
-  Use it to store items such as page titles, breadcrumb text, and other read-only, static data. 
-  You'll use the resolve guard to retrieve dynamic data.
-  */
+  {path: 'login', component: LoginComponent}, 
+  {path: 'mainMenu', component: MainMenuComponent, canActivate: [AuthGuard] },
+  {path: 'assignMembers', component: AssignMembersMenuComponent, canActivate: [AuthGuard] },
   {path: 'createBoard', component: CreateUpdateBoardComponent, data: { mode: 'create' }, canActivate: [AuthGuard] },
   {path: 'updateBoard', component: CreateUpdateBoardComponent, data: { mode: 'edit' }, canActivate: [AuthGuard] },
-
-  {path: 'viewStory', component: CreateUpdateBoardComponent, data: { mode: 'view' }, canActivate: [AuthGuard] },
-  {path: 'editStory', component: CreateUpdateBoardComponent, data: { mode: 'edit' }, canActivate: [AuthGuard] },
-  {path: 'makeStory', component: CreateUpdateBoardComponent, data: { mode: 'make' }, canActivate: [AuthGuard] },
-  //----------------------------------------
-
+  {path: 'viewStory', component: CreateUpdateStoryComponent, data: { mode: 'view' }, canActivate: [AuthGuard] },
+  {path: 'editStory', component: CreateUpdateStoryComponent, data: { mode: 'edit' }, canActivate: [AuthGuard] },
+  {path: 'makeStory', component: CreateUpdateStoryComponent, data: { mode: 'make' }, canActivate: [AuthGuard] },
   {path: 'boardStoryLanes', component: BoardStoryLanesComponent, canActivate: [AuthGuard] },
-  {path: 'burndownChart', redirectTo: '/burndownChart/0', pathMatch: 'full', canActivate: [AuthGuard] },
-  {path: 'burndownChart/:id', component: BurndownChartComponent}, 
+  {path: 'burndownChart', component: BurndownChartComponent, canActivate: [AuthGuard] },
   { path: '',   redirectTo: '/login', pathMatch: 'full' }, 
   //TODO { path: '**', component: PageNotFoundComponent }
 ];

@@ -29,10 +29,16 @@ import { CreateUpdateBoardComponent } from './create-update-board/create-update-
 import { CreateUpdateStoryComponent } from './create-update-story/create-update-story.component';
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
 import { UserService } from './_service/user.service';
+import { TaskService } from './_service/task.service';
 
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
+import { CreateUpdateTasksComponent } from './create-update-tasks/create-update-tasks.component';
 import { BurndownChartService } from './_service/burndown-chart.service';
 import { AuthGuard } from './_service/auth-guard.service';
+
+import { ModalComponent } from './modal/modal.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +49,9 @@ import { AuthGuard } from './_service/auth-guard.service';
     CreateUpdateStoryComponent,
     AssignMembersMenuComponent,
     BoardStoryLanesComponent,
-    BurndownChartComponent
+    BurndownChartComponent,
+    CreateUpdateTasksComponent, 
+    ModalComponent
   ],
   imports: [
     NgbModule.forRoot(), 
@@ -55,7 +63,6 @@ import { AuthGuard } from './_service/auth-guard.service';
     AngularFontAwesomeModule, 
     AppRoutingModule  
   ],
-
   providers: [
     AuthGuard, 
     AssignMembersService, 
@@ -65,6 +72,7 @@ import { AuthGuard } from './_service/auth-guard.service';
     BoardService, 
     StoryService, 
     StoryLaneService, 
+    TaskService, 
     BurndownChartService
   ],
   bootstrap: [AppComponent]
