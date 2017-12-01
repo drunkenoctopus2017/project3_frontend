@@ -18,13 +18,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {}
 
-  noAuthLogin(username: string, password: string) {
-    this.loginService.login(username, password).then(user => {
-      this.cookieService.putObject('user', user);
-      this.router.navigate(['/mainMenu']);
-    });
-  }
-  
   login(username: string, password: string) {
     var c = this.cookieService;
     var r = this.router;

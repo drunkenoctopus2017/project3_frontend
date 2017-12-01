@@ -35,7 +35,7 @@
 						</a>
 					</div>
 					<div class="card-body" (click)="selectStory(story)" style="cursor: pointer; margin: 4px; padding: 4px;">
-						<h5 class="card-title">{{story.name}} {{story.id}}</h5>
+						<h5 class="card-title">{{story.name}}</h5>
 						<p *ngIf="story.description" class="card-text">{{story.description.slice(0, 100)}}</p>
 					</div>
 				</div>
