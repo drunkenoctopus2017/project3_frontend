@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/mainMenu']);
     });
   }
-  /*
+  
   login(username: string, password: string) {
     var c = this.cookieService;
     var r = this.router;
@@ -40,5 +40,5 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/mainMenu']);
     });
   }
-  */
+  
 }

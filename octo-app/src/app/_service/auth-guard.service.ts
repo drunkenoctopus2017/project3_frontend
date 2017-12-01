@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 import {CookieService} from 'angular2-cookie';
+import { SystemUser } from '../_model/SystemUser';
 
 @Injectable()
 export class AuthGuard {
@@ -11,7 +12,7 @@ export class AuthGuard {
     //Basically checks if you got through OAuth2 or not.
     console.log("route.url: " + route.url);
 
-    const currentUser = this.cookieService.getObject('user');
+    const currentUser: SystemUser = this.cookieService.getObject('user');
     
     const path:string = route.url.toString();
     switch (path) {
@@ -20,7 +21,7 @@ export class AuthGuard {
     }
 
 
-    return true;
+    return (currentUser!=null);
     /*
     if (localStorage.getItem('currentUser')) {
       // logged in so return true

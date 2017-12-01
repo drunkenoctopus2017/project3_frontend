@@ -10,17 +10,17 @@ export class AssignMembersService {
   constructor(private http: Http) { }
 
   getAllUsers() {
-    let url = zuulUrl+"octo-user-management-service/addUsers";
+    let url = zuulUrl+"octo-user-management-service/addUsers"+"?access_token="+localStorage.getItem('token');
     return this.http.get(url).toPromise().then(res => res.json() as SystemUser[]).catch(this.handleError);
   }
 
   getUsersOnBoard(boardId: number) {
-    let url = zuulUrl+"octo-user-management-service/getUsersOnBoard/";
+    let url = zuulUrl+"octo-user-management-service/getUsersOnBoard/"+"?access_token="+localStorage.getItem('token');
     return this.http.get(url + boardId).toPromise().then(res => res.json() as SystemUser[]).catch(this.handleError);
   }
 
   updateBoardUsers(boardId: number, users: SystemUser[]) {
-    let url = zuulUrl+"octo-user-management-service/updateBoardUsers/";
+    let url = zuulUrl+"octo-user-management-service/updateBoardUsers/"+"?access_token="+localStorage.getItem('token');
     let body = users;
 
     console.log('BODY:');

@@ -24,7 +24,7 @@ export class UserService {
               private cookieService: CookieService) { }
 
   getBoardMembersByBoardId(boardId: number): Promise<SystemUser[]> {
-    const url = zuulUrl+"octo-user-management-service/getBoardMembersByBoardId/" + boardId;
+    const url = zuulUrl+"octo-user-management-service/getBoardMembersByBoardId/"+boardId+"?access_token="+localStorage.getItem('token');;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json() as SystemUser[])
@@ -80,7 +80,7 @@ export class UserService {
         })
 
       // octo-user-management-service/deleteScrumBoardIdFromUser/{id} remove this board from user's list of board ID's
-      let url = zuulUrl+"octo-user-management-service/deleteScrumBoardIdFromUser/"+boardId;
+      let url = zuulUrl+"octo-user-management-service/deleteScrumBoardIdFromUser/"+boardId+"?access_token="+localStorage.getItem('token');;
       let body = c.getObject('user');
       this.http.post(url, body).toPromise().then(response => {response.json(); console.log("finished deleting?")}).catch(this.handleError);
     })

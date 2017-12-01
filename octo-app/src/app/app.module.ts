@@ -20,7 +20,6 @@ import { AssignMembersService } from './_service/assign-members.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { AssignMembersMenuComponent } from './assign-members-menu/assign-members-menu.component';
@@ -42,7 +41,6 @@ import { ModalComponent } from './modal/modal.component';
 @NgModule({
   declarations: [
     AppComponent,
-    AboutComponent,
     LoginComponent,
     MainMenuComponent,
     CreateUpdateBoardComponent,

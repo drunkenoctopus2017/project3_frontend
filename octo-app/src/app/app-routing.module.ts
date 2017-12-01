@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { AssignMembersMenuComponent } from './assign-members-menu/assign-members-menu.component';
@@ -11,8 +10,7 @@ import { CreateUpdateStoryComponent } from './create-update-story/create-update-
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
 import { AuthGuard } from './_service/auth-guard.service';
 
-const appRoutes:Routes = [
-  {path: 'about', component: AboutComponent}, 
+const appRoutes:Routes = [ 
   {path: 'login', component: LoginComponent}, 
   {path: 'mainMenu', component: MainMenuComponent, canActivate: [AuthGuard] },
   {path: 'assignMembers', component: AssignMembersMenuComponent, canActivate: [AuthGuard] },

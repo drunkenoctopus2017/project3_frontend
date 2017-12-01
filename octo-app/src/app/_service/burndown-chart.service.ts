@@ -27,7 +27,7 @@ export class BurndownChartService {
   }
   
   getStoriesByBoardId(board:ScrumBoard): Promise<object[]> {
-    const url = zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/" + board.id;
+    const url = zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/"+board.id+"?access_token="+localStorage.getItem('token');
     return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
   }
 
@@ -181,7 +181,7 @@ export class BurndownChartService {
           {x:18,y:30}]*/
 
 deleteStoryProfilesByBoardId(boardId:number) {
-    const url = zuulUrl+"octo-story-history-service/deleteStoryProfilesByBoardId/" + boardId;
+    const url = zuulUrl+"octo-story-history-service/deleteStoryProfilesByBoardId/"+boardId+"?access_token="+localStorage.getItem('token');
     return this.http.get(url).toPromise().then().catch(this.handleError);
   }
 
