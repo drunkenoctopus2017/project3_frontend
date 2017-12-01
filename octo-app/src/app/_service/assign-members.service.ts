@@ -15,19 +15,19 @@ export class AssignMembersService {
   }
 
   getUsersOnBoard(boardId: number) {
-    let url = zuulUrl+"octo-user-management-service/getUsersOnBoard/"+"?access_token="+localStorage.getItem('token');
-    return this.http.get(url + boardId).toPromise().then(res => res.json() as SystemUser[]).catch(this.handleError);
+    let url = zuulUrl+"octo-user-management-service/getUsersOnBoard/"+boardId+"?access_token="+localStorage.getItem('token');
+    return this.http.get(url).toPromise().then(res => res.json() as SystemUser[]).catch(this.handleError);
   }
 
   updateBoardUsers(boardId: number, users: SystemUser[]) {
-    let url = zuulUrl+"octo-user-management-service/updateBoardUsers/"+"?access_token="+localStorage.getItem('token');
+    let url = zuulUrl+"octo-user-management-service/updateBoardUsers/"+boardId+"?access_token="+localStorage.getItem('token');
     let body = users;
 
     console.log('BODY:');
     console.log(body);
 
     
-    return this.http.post(url + boardId, body).toPromise().then(res => res.json() as SystemUser[]).catch(this.handleError);
+    return this.http.post(url, body).toPromise().then(res => res.json() as SystemUser[]).catch(this.handleError);
   }
   
   private handleError(error: any): Promise<any> {
