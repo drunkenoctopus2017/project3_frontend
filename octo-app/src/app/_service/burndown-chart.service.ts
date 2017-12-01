@@ -3,29 +3,38 @@ import { Http } from '@angular/http';
 import { ScrumBoard } from '../_model/ScrumBoard';
 
 import { zuulUrl } from './zuul-url';
+import { StoryService } from './story.service';
+import { Story } from '../_model/Story';
 
 @Injectable()
 export class BurndownChartService {
 
-    private burndownChartDatasource: Object[];
+  private burndownChartDatasource: Object;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private storyService:StoryService) { }
 
   getBurndownChartDatasource() {
-      return this.burndownChartDatasource;
+    return this.burndownChartDatasource;
   }
 
-  setBurndownChartDatasource(data: Object[]) {
-      this.burndownChartDatasource = data;
-      return this.burndownChartDatasource;
+  setBurndownChartDatasource(data: Object) {
+    this.burndownChartDatasource = data;
+    return this.burndownChartDatasource;
   }
 
-  getChartData(board:ScrumBoard): Promise<object[]> {
+  getChartData(board:ScrumBoard): Promise<any> {
     return this.getStoriesByBoardId(board).then(
-        storyProfiles => this.setBurndownChartDatasource(this.flattenChartData(storyProfiles, board))
+      storyProfiles => this.setBurndownChartDatasource(this.flattenChartData(storyProfiles, board))
+      //storyProfiles => this.flattenChartData(storyProfiles, board)
     );
   }
-  
+
+  /**
+   * Returns {
+   *    data: array of {x, y}
+   *    maxY: total points of the story
+   * }
+   */
   getStoriesByBoardId(board:ScrumBoard): Promise<object[]> {
     const url = zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/"+board.id+"?access_token="+localStorage.getItem('token');
     return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
@@ -35,12 +44,13 @@ export class BurndownChartService {
 
   }
 
-  private flattenChartData(storyProfiles:any[], board:ScrumBoard):object[] {
+  private flattenChartData(storyProfiles:any[], board:ScrumBoard):object {
     let chartData:object[] = new Array<object>();
     //initialize the data.
     while (chartData.length < board.duration) {
         chartData.push({x: chartData.length+1, y: 0});
     }
+    let totalPoints:number = 0;
     const ONE_DAY:number = 86400000;
     const n:number = storyProfiles.length;
     const startDate:number = board.startDate;
@@ -51,6 +61,7 @@ export class BurndownChartService {
     
     for (let i:number = 0; i < n; i++) {
       let storyProfile:any = storyProfiles[i];
+      totalPoints += storyProfile.points;
       console.log("\tpoints: " + storyProfile.points);
       //initally assume story is unfinished:
       let done:number = 0; //0 or 1 for true/false
@@ -76,7 +87,6 @@ export class BurndownChartService {
         }
       }
       
-      
       while (lastUpdateIndex < board.duration) {
         chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
       }
@@ -88,8 +98,12 @@ export class BurndownChartService {
       console.log("s: " + s);
     }
     console.log(chartData);
-    return chartData;
+    return {
+        data: chartData, 
+        maxY: totalPoints
+    }
   }
+  
   //TODO parse data along the following: 
     /*
     from this:

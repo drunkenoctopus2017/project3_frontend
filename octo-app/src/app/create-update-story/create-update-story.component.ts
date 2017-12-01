@@ -18,6 +18,7 @@ import { BoardService } from '../_service/board.service';
   styleUrls: ['./create-update-story.component.css']
 })
 export class CreateUpdateStoryComponent implements OnInit {
+  board:ScrumBoard;
   story: Story;
   role: UserRole = {id: 0, name: ""};
   roleFromRoute: string;
@@ -30,41 +31,35 @@ export class CreateUpdateStoryComponent implements OnInit {
     private cookieService: CookieService,
     private boardService: BoardService
   ) {
-      this.router.events.filter(e => e instanceof NavigationEnd)
-          .forEach(e => {
-            this.roleFromRoute = route.root.firstChild.snapshot.data['mode'];
-          });
+    this.router.events.filter(e => e instanceof NavigationEnd)
+      .forEach(e => {
+        this.roleFromRoute = route.root.firstChild.snapshot.data['mode'];
+      });
    }
   
   ngOnInit() {
     this.role = this.cookieService.getObject('user').role;
     const myData = this.route.data;
-
-    if(this.roleFromRoute === 'make'){
+    this.board = this.boardService.getSelectedBoard();
+    if(this.roleFromRoute == 'make') {
       this.story = new Story();
-      this.story.boardId = this.boardService.getSelectedBoard().id;
       this.story.laneId = 10;
+      this.story.boardId = this.board.id;
+      this.storyService.setSelectedStory(this.story);
     } else {
-
       this.story = this.storyService.getSelectedStory();
-      
     }
-    
-    console.log("role.ID: " + this.role.id)
-    console.log("roleFromRoute: " + this.roleFromRoute);
   }
 
-  submitOrMakeStory(){
-    
+  submitOrMakeStory() {
     this.storyService.updateStory(this.story).then(response => this.router.navigate(['/boardStoryLanes']));    
   }
 
-  edit(){
+  edit() {
     this.router.navigate(['/editStory']);
   }
 
-  cancel(){
+  cancel() {
     this.router.navigate(['/boardStoryLanes']);
   }
-
 }

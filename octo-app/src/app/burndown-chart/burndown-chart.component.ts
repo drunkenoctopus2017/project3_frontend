@@ -19,99 +19,64 @@ export class BurndownChartComponent implements OnInit {
 
   ngOnInit() {
     this.boardID = this.boardService.getSelectedBoard().id;
-    this.lineChartData = [
-      {
-        data: this.burndownChartService.getBurndownChartDatasource(),
-        // [{x:0,y:66},
-        //   {x:1,y:56},
-        //   //{x:2,y:56},
-        //   {x:3,y:51},
-        //   {x:4,y:40},
-        //   //{x:5,y:40},
-        //   {x:6,y:35},
-          
-        //   //{x:7,y:35},
-        //   //{x:8,y:35},
-        //   {x:9,y:25},
-        //   //{x:10,y:25},
-        //   {x:11,y:10},
-        //   //{x:12,y:10},
-        //   {x:13,y:5},
-        //   // {x:14,y:5},
-        //   {x:18,y:30}],
-        cubicInterpolationMode: "monotone",
-        steppedLine: true,
-        spanGaps: false
-      }
-    ];
-  }
-
-
-
-    // lineChart
-    public lineChartData: Array<any>;
-    //public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-    public lineChartOptions:any = {
-      responsive: true,
-      scales: {
-        yAxes: [{
-            scaleLabel: {
-              display: true,
-              labelString: 'Burndown Points'
-            },
-            ticks: {
-                min: 0,
+    this.burndownChartService.getChartData(this.boardService.getSelectedBoard())
+      .then(
+        chartData => {
+          this.lineChartData = [{data: chartData.data, cubicInterpolationMode: "monotone", steppedLine: true, spanGaps: false}];
+          this.lineChartOptions = {
+            responsive: true,
+            scales: {
+              yAxes: [{
+                scaleLabel: {display: true, labelString: 'Burndown Points'},
+                ticks: {min: 0, max: chartData.maxY}
+              }],
+              xAxes: [{
+                scaleLabel: {display: true, labelString: 'Project Day #'},
+                type: 'linear',
+                position: 'bottom',
+                ticks: {min: 1, max: this.boardService.getSelectedBoard().duration}
+              }]
             }
-        }],
-        xAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Project Day #'//'Days Since Start'
-          },
-          // type: 'time',
-          // time: {
-          //   unit: 'day'
-          // }
-          type: 'linear',
-          position: 'bottom',
-          ticks: {
-            min: 1,
-            max: this.boardService.getSelectedBoard().duration
-          }
-        }]
-      }
-    };
-    public lineChartColors:Array<any> = [
-      { // blueish color
-        backgroundColor: 'rgba(0, 160, 234,0.2)',
-        borderColor: 'rgba(0, 160, 234,1)',
-        pointBackgroundColor: 'rgba(0, 160, 234,1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(0, 160, 234,0.8)'
-      }
-    ];
-    public lineChartLegend:boolean = false;
-    public lineChartType:string = 'line';
-
-    public randomize():void {
-      let _lineChartData:Array<any> = new Array(this.lineChartData.length);
-      for (let i = 0; i < this.lineChartData.length; i++) {
-        _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
-        for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-          _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
+          };
         }
+      );
+  }
+  
+  // lineChart
+  public lineChartData: Array<any>;
+  //public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public lineChartOptions:any;
+  public lineChartColors:Array<any> = [
+    { // blueish color
+      backgroundColor: 'rgba(0, 160, 234,0.2)',
+      borderColor: 'rgba(0, 160, 234,1)',
+      pointBackgroundColor: 'rgba(0, 160, 234,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(0, 160, 234,0.8)'
+    }
+  ];
+  public lineChartLegend:boolean = false;
+  public lineChartType:string = 'line';
+
+  public randomize():void {
+    let _lineChartData:Array<any> = new Array(this.lineChartData.length);
+    for (let i = 0; i < this.lineChartData.length; i++) {
+      _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
+      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
+        _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
       }
-      this.lineChartData = _lineChartData;
     }
-   
-    // events
-    public chartClicked(e:any):void {
-      console.log(e);
-    }
-   
-    public chartHovered(e:any):void {
-      console.log(e);
-    }
+    this.lineChartData = _lineChartData;
+  }
+  
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+  
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
   
 }

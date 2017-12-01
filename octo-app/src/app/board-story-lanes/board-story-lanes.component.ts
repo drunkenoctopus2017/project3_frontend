@@ -46,11 +46,21 @@ export class BoardStoryLanesComponent implements OnInit {
   /**
    * Return a YYYY/MM/DD date string with leading zeros for single digits.
    */
-  getDateString(): string {
+  private formatDateString(date:Date) {
+    let mm = date.getMonth() + 1;
+    let dd = date.getDate();
+    return date.getFullYear() + "/" + (mm < 10 ? "0" + mm : mm) + "/" + (dd < 10 ? "0" + dd : dd);
+  }
+
+  getStartDateString(): string {
     const d: Date = new Date(this.board.startDate);
-    let mm = d.getMonth() + 1;
-    let dd = d.getDate();
-    return d.getFullYear() + "/" + (mm < 10 ? "0" + mm : mm) + "/" + (dd < 10 ? "0" + dd : dd);
+    return this.formatDateString(d);
+  }
+
+  getEndDateString():string {
+    const d: Date = new Date(this.board.startDate);
+    d.setDate(d.getDate() + this.board.duration - 1);
+    return this.formatDateString(d);
   }
   
   ngOnInit() {
@@ -85,9 +95,7 @@ export class BoardStoryLanesComponent implements OnInit {
   selectStory(story:Story) {
     this.storyService.setSelectedStory(story);
     const currentUser:SystemUser = this.cookieService.getObject('user');
-    console.log("board-story-lanes storyId: " + this.storyService.getSelectedStory().id)
     this.router.navigate(['/viewStory']);
-    
   }
   
   changeLane(story:Story, lane:StoryLane) {
@@ -103,5 +111,9 @@ export class BoardStoryLanesComponent implements OnInit {
         // console.log("done with burndown chart data");
         r.navigate(['/burndownChart']);
       });
+  }
+
+  goBackToMainMenu() {
+    this.router.navigate(['/mainMenu']);
   }
 }
