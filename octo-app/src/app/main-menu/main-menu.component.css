@@ -3,5 +3,6 @@
     margin-bottom: 1.5rem;
 }
 .card:hover {
-    background-color: rgb(201, 201, 201);
+    background-color: #f8f8f8;
+    outline: -webkit-focus-ring-color auto 5px;
 }

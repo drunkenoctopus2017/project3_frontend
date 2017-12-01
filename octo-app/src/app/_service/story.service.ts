@@ -23,12 +23,12 @@ export class StoryService {
   }
 
   getStoriesByBoardId(boardId:number): Promise<Story[]> {
-    const url = zuulUrl+"octo-story-service/getStoriesByBoardId/" + boardId;
+    const url = zuulUrl+"octo-story-service/getStoriesByBoardId/"+boardId+"?access_token="+localStorage.getItem('token');
     return this.http.get(url).toPromise().then(response => response.json() as Story[]).catch(this.handleError);
   }
   
   updateStory(story:Story): Promise<Story> {
-    const url = zuulUrl+"octo-story-service/updateStory/";
+    const url = zuulUrl+"octo-story-update-manager/updateStory/"+"?access_token="+localStorage.getItem('token');
     return this.http.post(url, story).toPromise().then(response => response.json() as Story).catch(this.handleError);
   }
 
@@ -41,7 +41,7 @@ export class StoryService {
   */
 
   deleteStoriesByBoardId(boardId:number) {
-    const url = zuulUrl+"octo-story-service/deleteStoriesByBoardId/" + boardId;
+    const url = zuulUrl+"octo-story-service/deleteStoriesByBoardId/"+boardId+"?access_token="+localStorage.getItem('token');
     return this.http.get(url).toPromise().then().catch(this.handleError);
   }
 

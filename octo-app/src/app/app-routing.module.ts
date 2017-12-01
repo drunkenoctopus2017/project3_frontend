@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { AssignMembersMenuComponent } from './assign-members-menu/assign-members-menu.component';
@@ -9,31 +8,19 @@ import { BoardStoryLanesComponent } from './board-story-lanes/board-story-lanes.
 import { CreateUpdateBoardComponent } from './create-update-board/create-update-board.component';
 import { CreateUpdateStoryComponent } from './create-update-story/create-update-story.component';
 import { BurndownChartComponent } from './burndown-chart/burndown-chart.component';
+import { AuthGuard } from './_service/auth-guard.service';
 
-const appRoutes:Routes = [
-  {path: 'about', component: AboutComponent}, 
-  {path: 'login', component: LoginComponent},
-  {path: 'mainMenu', component: MainMenuComponent}, 
-  {path: 'assignMembers', component: AssignMembersMenuComponent},
-
-  //----------------------------------------
-  //I think this is how we're supposed to do it.
-  /*
-  The data property in the third route is a place to store arbitrary data associated with this specific route. 
-  The data property is accessible within each activated route. 
-  Use it to store items such as page titles, breadcrumb text, and other read-only, static data. 
-  You'll use the resolve guard to retrieve dynamic data.
-  */
-  {path: 'createBoard', component: CreateUpdateBoardComponent, data: { mode: 'create' } },
-  {path: 'updateBoard', component: CreateUpdateBoardComponent, data: { mode: 'edit' } },
-  {path: 'viewStory', component: CreateUpdateStoryComponent, data: { mode: 'view' } },
-  {path: 'editStory', component: CreateUpdateStoryComponent, data: { mode: 'edit' } },
-  {path: 'makeStory', component: CreateUpdateStoryComponent, data: { mode: 'make' } },
-  //----------------------------------------
-
-  {path: 'boardStoryLanes', component: BoardStoryLanesComponent },
-  //{path: 'boardStoryLanes/:id', component: BoardStoryLanesComponent}, 
-  {path: 'burndownChart', component: BurndownChartComponent}, 
+const appRoutes:Routes = [ 
+  {path: 'login', component: LoginComponent}, 
+  {path: 'mainMenu', component: MainMenuComponent, canActivate: [AuthGuard] },
+  {path: 'assignMembers', component: AssignMembersMenuComponent, canActivate: [AuthGuard] },
+  {path: 'createBoard', component: CreateUpdateBoardComponent, data: { mode: 'create' }, canActivate: [AuthGuard] },
+  {path: 'updateBoard', component: CreateUpdateBoardComponent, data: { mode: 'edit' }, canActivate: [AuthGuard] },
+  {path: 'viewStory', component: CreateUpdateStoryComponent, data: { mode: 'view' }, canActivate: [AuthGuard] },
+  {path: 'editStory', component: CreateUpdateStoryComponent, data: { mode: 'edit' }, canActivate: [AuthGuard] },
+  {path: 'makeStory', component: CreateUpdateStoryComponent, data: { mode: 'make' }, canActivate: [AuthGuard] },
+  {path: 'boardStoryLanes', component: BoardStoryLanesComponent, canActivate: [AuthGuard] },
+  {path: 'burndownChart', component: BurndownChartComponent, canActivate: [AuthGuard] },
   { path: '',   redirectTo: '/login', pathMatch: 'full' }, 
   //TODO { path: '**', component: PageNotFoundComponent }
 ];

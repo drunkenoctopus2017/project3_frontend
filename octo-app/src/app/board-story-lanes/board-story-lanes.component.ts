@@ -97,7 +97,7 @@ export class BoardStoryLanesComponent implements OnInit {
     const currentUser:SystemUser = this.cookieService.getObject('user');
     this.router.navigate(['/viewStory']);
   }
-
+  
   changeLane(story:Story, lane:StoryLane) {
     const origLaneId:number = story.laneId;
     story.laneId = lane.id;

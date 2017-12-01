@@ -20,7 +20,6 @@ import { AssignMembersService } from './_service/assign-members.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { AssignMembersMenuComponent } from './assign-members-menu/assign-members-menu.component';
@@ -35,12 +34,13 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { CreateUpdateTasksComponent } from './create-update-tasks/create-update-tasks.component';
 import { BurndownChartService } from './_service/burndown-chart.service';
+import { AuthGuard } from './_service/auth-guard.service';
+
 import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AboutComponent,
     LoginComponent,
     MainMenuComponent,
     CreateUpdateBoardComponent,
@@ -59,13 +59,20 @@ import { ModalComponent } from './modal/modal.component';
     ChartsModule,
     AngularMultiSelectModule,
     AngularFontAwesomeModule, 
-    AppRoutingModule
-    
+    AppRoutingModule  
   ],
-
-  providers: [TaskService, CookieService, LoginService, UserService, 
-              BoardService, StoryService, StoryLaneService, BurndownChartService, AssignMembersService],
-
+  providers: [
+    AuthGuard, 
+    AssignMembersService, 
+    CookieService, 
+    LoginService, 
+    UserService, 
+    BoardService, 
+    StoryService, 
+    StoryLaneService, 
+    TaskService, 
+    BurndownChartService
+  ],
   bootstrap: [AppComponent]
 })
 
