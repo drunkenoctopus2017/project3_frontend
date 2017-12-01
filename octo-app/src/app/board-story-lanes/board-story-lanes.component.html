@@ -7,8 +7,8 @@
 			<p>Start Date: {{getStartDateString()}}<br />
 			End Date: {{getEndDateString()}}<br />
 			Duration: {{board.duration}} days</p>    
-			<button *ngIf="role.id >= 200" (click)="createStory()" class="btn btn-default" style="cursor: pointer;">Create Story</button>
-			<button (click)="viewChart()" class="btn btn-default" style="cursor: pointer;">View Burndown Chart</button>
+			<button *ngIf="role.id >= 200" (click)="createStory()" class="btn btn-secondary">Create Story</button>
+			<button (click)="viewChart()" class="btn btn-secondary">View Burndown Chart</button>
 			<button (click)="goBackToMainMenu()" class="btn btn-secondary">Back</button>
 		</div>
 	</div>
@@ -35,7 +35,7 @@
 						</a>
 					</div>
 					<div class="card-body" (click)="selectStory(story)" style="cursor: pointer; margin: 4px; padding: 4px;">
-						<h5 class="card-title">{{story.name}} {{story.id}}</h5>
+						<h5 class="card-title">{{story.name}}</h5>
 						<p *ngIf="story.description" class="card-text">{{story.description.slice(0, 100)}}</p>
 					</div>
 				</div>

@@ -28,7 +28,7 @@ export class StoryService {
   }
   
   updateStory(story:Story): Promise<Story> {
-    const url = zuulUrl+"octo-story-update-manager/updateStory/"+"?access_token="+localStorage.getItem('token');
+    const url = zuulUrl+"octo-story-service/updateStory/"+"?access_token="+localStorage.getItem('token');
     return this.http.post(url, story).toPromise().then(response => response.json() as Story).catch(this.handleError);
   }
 

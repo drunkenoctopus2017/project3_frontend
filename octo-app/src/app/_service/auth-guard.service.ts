@@ -13,23 +13,14 @@ export class AuthGuard {
     console.log("route.url: " + route.url);
 
     const currentUser: SystemUser = this.cookieService.getObject('user');
-    
+    const token = localStorage.getItem('token');
+    /*
     const path:string = route.url.toString();
     switch (path) {
       case "mainMenu": return currentUser != null;
       default: console.log("default guard pass for " + path);
     }
-
-
-    return (currentUser!=null);
-    /*
-    if (localStorage.getItem('currentUser')) {
-      // logged in so return true
-      return true;
-    } else {
-      this.router.navigate(['/login']);
-      return false;
-    }
     */
+    return (currentUser != null && token != null);
   }
 }

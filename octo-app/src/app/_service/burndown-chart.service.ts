@@ -12,20 +12,11 @@ export class BurndownChartService {
   private burndownChartDatasource: Object;
 
   constructor(private http: Http, private storyService:StoryService) { }
-
-  getBurndownChartDatasource() {
-    return this.burndownChartDatasource;
-  }
-
-  setBurndownChartDatasource(data: Object) {
-    this.burndownChartDatasource = data;
-    return this.burndownChartDatasource;
-  }
-
+  
   getChartData(board:ScrumBoard): Promise<any> {
     return this.getStoriesByBoardId(board).then(
-      storyProfiles => this.setBurndownChartDatasource(this.flattenChartData(storyProfiles, board))
-      //storyProfiles => this.flattenChartData(storyProfiles, board)
+      //storyProfiles => this.setBurndownChartDatasource(this.flattenChartData(storyProfiles, board))
+      storyProfiles => this.flattenChartData(storyProfiles, board)
     );
   }
 
@@ -41,7 +32,7 @@ export class BurndownChartService {
   }
 
   getPercentageCompletion() {
-
+    //todo
   }
 
   private flattenChartData(storyProfiles:any[], board:ScrumBoard):object {
@@ -97,7 +88,7 @@ export class BurndownChartService {
       }
       console.log("s: " + s);
     }
-    console.log(chartData);
+    //console.log(chartData);
     return {
         data: chartData, 
         maxY: totalPoints
