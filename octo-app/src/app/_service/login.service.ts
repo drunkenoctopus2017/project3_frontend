@@ -42,7 +42,7 @@ export class LoginService {
       .catch(this.handleError);
   }
 
-  login(username: string, password: string):Promise<SystemUser> {
+  private login(username: string, password: string):Promise<SystemUser> {
     //http://localhost:8765/ <-- set by proxy server setting
     let url = zuulUrl+"octo-user-management-service/login/"+"?access_token="+localStorage.getItem('token');
     let body = {username: username, password: password};

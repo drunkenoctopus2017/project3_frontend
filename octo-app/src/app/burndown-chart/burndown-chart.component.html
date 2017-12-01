@@ -1,21 +1,27 @@
-<p>
-  burndown-chart works!
-</p>
-
-<h2>ID of board that this burndown chart is for: {{boardID}}</h2>
-
-
-
-<div class="container">
-    <canvas baseChart width="auto" height="auto"
-                [datasets]="lineChartData"
-                [options]="lineChartOptions"
-                [colors]="lineChartColors"
-                [legend]="lineChartLegend"
-                [chartType]="lineChartType"
-                (chartHover)="chartHovered($event)"
-                (chartClick)="chartClicked($event)"></canvas>
-                <!--  [labels]="lineChartLabels" -->
+<div class="container-fluid">
+	<h1>Project History Burndown Chart</h1>
+	<div *ngIf="board" class="card">
+    <div class="card-header">
+      <h3>{{board.name}}</h3>
+    </div>
+    
+    <div class="card-body">
+      <div *ngIf="lineChartData">
+        <canvas baseChart width="auto" height="auto" 
+          [datasets]="lineChartData" 
+          [options]="lineChartOptions" 
+          [colors]="lineChartColors" 
+          [legend]="lineChartLegend" 
+          [chartType]="lineChartType" 
+          (chartHover)="chartHovered($event)" 
+          (chartClick)="chartClicked($event)">
+        </canvas>
+      </div>
+      <!--  [labels]="lineChartLabels" -->
+      <p>Start Date: {{getStartDateString()}}<br />
+      End Date: {{getEndDateString()}}<br />
+      Duration: {{board.duration}} days</p>    
+      <button (click)="goBack()" class="btn btn-secondary">Back</button>
+    </div>
+  </div>
 </div>
-  
-
