@@ -27,7 +27,7 @@
             <input type="text" [(ngModel)]="story.name">
       
             <label class="col-sm-2 col-form-label">Story Points</label>      
-            <input type="text" [(ngModel)]="story.points"><br>
+            <input type="number" class="form-control" min="1" max="90" [(ngModel)]="story.points"><br>
       
             <label class="col-sm-2 col-form-label">Story Description</label>
             <textarea class="form-control" rows="5" [(ngModel)]="story.description"></textarea>

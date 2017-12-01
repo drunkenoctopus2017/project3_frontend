@@ -3,29 +3,31 @@ import { Http } from '@angular/http';
 import { ScrumBoard } from '../_model/ScrumBoard';
 
 import { zuulUrl } from './zuul-url';
+import { StoryService } from './story.service';
+import { Story } from '../_model/Story';
 
 @Injectable()
 export class BurndownChartService {
 
-    private burndownChartDatasource: Object[];
+  private burndownChartDatasource: Object[];
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private storyService:StoryService) { }
 
   getBurndownChartDatasource() {
-      return this.burndownChartDatasource;
+    return this.burndownChartDatasource;
   }
 
   setBurndownChartDatasource(data: Object[]) {
-      this.burndownChartDatasource = data;
-      return this.burndownChartDatasource;
+    this.burndownChartDatasource = data;
+    return this.burndownChartDatasource;
   }
 
   getChartData(board:ScrumBoard): Promise<object[]> {
     return this.getStoriesByBoardId(board).then(
-        storyProfiles => this.setBurndownChartDatasource(this.flattenChartData(storyProfiles, board))
+      storyProfiles => this.setBurndownChartDatasource(this.flattenChartData(storyProfiles, board))
     );
   }
-  
+
   getStoriesByBoardId(board:ScrumBoard): Promise<object[]> {
     const url = zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/" + board.id;
     return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
@@ -72,7 +74,6 @@ export class BurndownChartService {
         }
       }
       
-      
       while (lastUpdateIndex < board.duration) {
         chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
       }
@@ -86,6 +87,7 @@ export class BurndownChartService {
     console.log(chartData);
     return chartData;
   }
+  
   //TODO parse data along the following: 
     /*
     from this:
