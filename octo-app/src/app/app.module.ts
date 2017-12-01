@@ -37,6 +37,7 @@ import { BurndownChartService } from './_service/burndown-chart.service';
 import { AuthGuard } from './_service/auth-guard.service';
 
 import { ModalComponent } from './modal/modal.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,7 @@ import { ModalComponent } from './modal/modal.component';
     BoardStoryLanesComponent,
     BurndownChartComponent,
     CreateUpdateTasksComponent, 
-    ModalComponent
+    ModalComponent, NavbarComponent,
   ],
   imports: [
     NgbModule.forRoot(), 

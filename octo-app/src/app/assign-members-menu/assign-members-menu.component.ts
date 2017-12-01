@@ -32,6 +32,7 @@ export class AssignMembersMenuComponent implements OnInit {
 
   ngOnInit() {
     this.boardID = this.boardService.getSelectedBoard().id;
+    this.boardName = this.boardService.getSelectedBoard().name;
     var cookie = this.cookieService;
     this.user = cookie.getObject('user');
     

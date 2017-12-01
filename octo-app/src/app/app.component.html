@@ -1,28 +1,15 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="container-fluid">
+  <app-navbar></app-navbar>
+</div>
+<br>
+<div class="container-fluid">
   <!--
   <button class="btn btn-default" (click)="gotoLogin()">Login</button>
   -->
-  <nav>
-    <!--
-    <fa name="cog" animation="spin"></fa>
-    <a routerLink="/login" routerLinkActive="active">Login</a>
-    |
-    <a routerLink="/mainMenu" routerLinkActive="active">Main Menu (skip login)</a>
-    |
-    <a routerLink="/assignMembers" routerLinkActive="active">Assign Members</a>
-    |
-    <a routerLink="/createUpdateBoard" routerLinkActive="active">Create/Update Board</a>
-    |
-    <a routerLink="/boardStoryLanes/1" routerLinkActive="active">Scrum Board</a>
-    |
-    <a routerLink="/createUpdateStory" routerLinkActive="active">Create/Update Story</a>
-    |
-    <a routerLink="/burndownChart" routerLinkActive="active">Burndown Chart</a>
-    |
-    -->
+  <!-- <nav>
     <a routerLink="/login" routerLinkActive="active" (click)="logout()">Logout</a>
-  </nav>
+  </nav> -->
+
   <router-outlet></router-outlet>
 </div>
-

@@ -40,8 +40,9 @@ export class BurndownChartService {
     return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
   }
 
-  getPercentageCompletion() {
-
+  getPercentageCompletion(b: ScrumBoard): number {
+    // TODO: calculate percentage logic
+    return 50;
   }
 
   private flattenChartData(storyProfiles:any[], board:ScrumBoard):object {
