@@ -2,12 +2,14 @@
 	<h1>Drunken Octopus Scrum Board System</h1>
 	<div class="jumbotron">
     	<div *ngIf="board">
-    		<h3>{{board.name}}</h3><br />
+    		<h3>{{board.name}}</h3>
 			<p>Members: <span *ngFor="let member of members; last as isLast">{{member.firstName}} {{member.lastName}}{{isLast ? '' : ', '}}</span></p>
-			<p>Start Date: {{getDateString()}}</p>
-			<p>Duration: {{board.duration}} days</p>    
+			<p>Start Date: {{getStartDateString()}}<br />
+			End Date: {{getEndDateString()}}<br />
+			Duration: {{board.duration}} days</p>    
 			<button *ngIf="role.id >= 200" (click)="createStory()" class="btn btn-default" style="cursor: pointer;">Create Story</button>
 			<button (click)="viewChart()" class="btn btn-default" style="cursor: pointer;">View Burndown Chart</button>
+			<button (click)="goBackToMainMenu()" class="btn btn-secondary">Back</button>
 		</div>
 	</div>
 	<div *ngIf="!storyLanes">
@@ -33,7 +35,7 @@
 						</a>
 					</div>
 					<div class="card-body" (click)="selectStory(story)" style="cursor: pointer; margin: 4px; padding: 4px;">
-						<h5 class="card-title">{{story.name}}</h5>
+						<h5 class="card-title">{{story.name}} {{story.id}}</h5>
 						<p *ngIf="story.description" class="card-text">{{story.description.slice(0, 100)}}</p>
 					</div>
 				</div>

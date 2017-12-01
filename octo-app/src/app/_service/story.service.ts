@@ -26,11 +26,19 @@ export class StoryService {
     const url = zuulUrl+"octo-story-service/getStoriesByBoardId/" + boardId;
     return this.http.get(url).toPromise().then(response => response.json() as Story[]).catch(this.handleError);
   }
-
+  
   updateStory(story:Story): Promise<Story> {
     const url = zuulUrl+"octo-story-service/updateStory/";
     return this.http.post(url, story).toPromise().then(response => response.json() as Story).catch(this.handleError);
   }
+
+  /*
+  //Rabbit MQ messaging disabled. It simply doesn't work for what we need right now.
+  updateStory(story:Story):Promise<any> {
+    const url = zuulUrl+"octo-story-update-manager/updateStory/";
+    return this.http.post(url, story).toPromise().catch(this.handleError);
+  }
+  */
 
   deleteStoriesByBoardId(boardId:number) {
     const url = zuulUrl+"octo-story-service/deleteStoriesByBoardId/" + boardId;

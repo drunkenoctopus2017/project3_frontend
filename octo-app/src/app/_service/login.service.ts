@@ -25,8 +25,6 @@ export class LoginService {
     }else{
       return false;
     }
-
-    
   }
 
   private handleError(error: any): Promise<any> {
