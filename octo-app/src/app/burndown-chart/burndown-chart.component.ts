@@ -19,32 +19,10 @@ export class BurndownChartComponent implements OnInit {
 
   ngOnInit() {
     this.boardID = this.boardService.getSelectedBoard().id;
-    this.lineChartData = [
-      {
-        //data: [110, 97, 80, 80, 56, 55, 40], 
-        data: this.burndownChartService.getBurndownChartDatasource(),
-        // [{x:0,y:66},
-        //   {x:1,y:56},
-        //   //{x:2,y:56},
-        //   {x:3,y:51},
-        //   {x:4,y:40},
-        //   //{x:5,y:40},
-        //   {x:6,y:35},
-          
-        //   //{x:7,y:35},
-        //   //{x:8,y:35},
-        //   {x:9,y:25},
-        //   //{x:10,y:25},
-        //   {x:11,y:10},
-        //   //{x:12,y:10},
-        //   {x:13,y:5},
-        //   // {x:14,y:5},
-        //   {x:18,y:30}],
-        cubicInterpolationMode: "monotone",
-        steppedLine: true,
-        spanGaps: false
-      }
-    ];
+    this.burndownChartService.getChartData(this.boardService.getSelectedBoard())
+      .then(chartData => this.lineChartData = [
+        {data: chartData.data, cubicInterpolationMode: "monotone", steppedLine: true, spanGaps: false}
+      ])
   }
 
 
