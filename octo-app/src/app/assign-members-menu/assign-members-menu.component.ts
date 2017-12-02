@@ -6,7 +6,6 @@ import { LoginService } from '../_service/login.service';
 import { SystemUser } from '../_model/SystemUser';
 import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
 import { BoardService } from '../_service/board.service';
-import { UserRole } from '../_model/UserRole';
 import { ScrumBoard } from '../_model/ScrumBoard';
 
 
