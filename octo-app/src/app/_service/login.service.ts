@@ -60,6 +60,13 @@ export class LoginService {
     this.router.navigate(['/login']);
   }
 
+  isLoggedIn(){
+    const currentUser: SystemUser = this.cookieService.getObject('user');
+    const token = localStorage.getItem('token');
+
+    return(currentUser != null && token != null);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

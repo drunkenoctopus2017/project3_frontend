@@ -1,12 +1,29 @@
 <!--Todo: change rolefromroute to edit, then create a new html block that will show the tasks as regular labels-->
 <form class="form-inline" *ngIf="roleFromRoute === 'edit'">
-    <div  class="form-group">
-        <label class="col-sm-2 col-form-label" >Task Description</label>
-        <input type="text" [(ngModel)]="task.description" name="description">   
-        <button (click)="createOrEditTask()" class="btn btn-primary">create task</button>         
-    </div>      
+    <div class="form-group">
+        <label class="col-sm-2 col-form-label">Task Description</label>
+        <input type="text" [(ngModel)]="task.description" name="description">
+        <button (click)="createOrEditTask()" class="btn btn-primary">create task</button>
+    </div>
 </form>
-<ul class="list-group" *ngFor="let task of tasks">
+
+<div class="list-group">
+    <a *ngFor="let task of tasks" class="list-group-item list-group-item-action">
+        <!-- <label class="form-check-label"> -->
+            <input type="checkbox" class="form-check-input" [checked]="task.status" (change)="changeStatus(task)">{{task.description}} {{task.status}}
+            <div class="pull-right">
+                <button class="btn btn-danger" (click)="deleteTask(task)">
+                    <span>
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </span>
+                </button>
+            </div>
+        <!-- </label> -->
+    </a>
+</div>
+
+
+<!-- <ul class="list-group" *ngFor="let task of tasks">
     <label class="form-check-label">
         <input type="checkbox" class="form-check-input" [checked]="task.status" (change)="changeStatus(task)" >{{task.description}} {{task.status}}
         <div class="pull-right">
@@ -16,5 +33,4 @@
             </button>    
         </div>
     </label>
-</ul>  
-
+</ul>   -->

@@ -1,7 +1,12 @@
 <!-- Image and text -->
-<nav class="navbar navbar-light bg-light">
-    <a class="navbar-brand" href="#">
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+    <a class="navbar-brand"  (click)="goHome()">
       <img src="/assets/img/Logo-DO_combined.png" style="max-width: 100px; margin-top: -3px;" alt="">
-      v2.0
+      2.0
     </a>
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a *ngIf="isLoggedIn()" class="nav-link" (click)="logout()">Logout <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
   </nav>
