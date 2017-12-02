@@ -1,46 +1,69 @@
-  <h2>ID of board to create/update story to is: {{boardID}}</h2>
-  <div class="jumbotron">
-    
-      <div class="form-group">
-          <div *ngIf="roleFromRoute === 'make'">
-              <label class="col-sm-2 col-form-label">Story Name</label>        
-              <input type="text" placeholder="" [(ngModel)]="story.name">
-        
-              <label class="col-sm-2 col-form-label">Story Points</label>      
-              <input type="text" placeholder="" [(ngModel)]="story.points"><br>
-        
-              <label class="col-sm-2 col-form-label">Story Description</label>
-              <textarea class="form-control" rows="5" placeholder="" [(ngModel)]="story.description"></textarea>
-          </div>
-          <div *ngIf="roleFromRoute === 'view'">
-            <label class="col-sm-2 col-form-label">Story Name</label>
-            <label>{{story.name}}</label>    
+<h4>Create/Update Story</h4>
+<!--<form class="form-inline">
+    <label class="sr-only" for="inlineFormInputName2">Name</label>
+    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="Jane Doe">
+
+    <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+        <div class="input-group-addon">@</div>
+        <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
+    </div>
+
+    <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+        <label class="form-check-label">
+            <input class="form-check-input" type="checkbox"> Remember me
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form> -->
+<div class="jumbotron">
+
+    <div class="form-group">
+        <div *ngIf="roleFromRoute === 'make'">
+            <div class="form-inline">
+                <label class="col-sm-2 col-form-label">Story Name</label>
+                <input type="text" placeholder="" [(ngModel)]="story.name">
+
+                <label class="col-sm-2 col-form-label">Story Points</label>
+                <input type="text" placeholder="" [(ngModel)]="story.points">
+            </div>
             <br>
-            <label class="col-sm-2 col-form-label">Story Points</label>     
+
+            <label class="col-sm-2 col-form-label">Story Description</label>
+            <textarea class="form-control" rows="5" placeholder="" [(ngModel)]="story.description"></textarea>
+        </div>
+        <div *ngIf="roleFromRoute === 'view'">
+            <label class="col-sm-2 col-form-label">Story Name</label>
+            <label>{{story.name}}</label>
+            <br>
+            <label class="col-sm-2 col-form-label">Story Points</label>
             <label>{{story.points}}</label>
-            <br>            
+            <br>
             <label class="col-sm-2 col-form-label">Story Description</label>
             <label>{{story.description}}</label>
         </div>
         <div *ngIf="roleFromRoute === 'edit'">
-            <label class="col-sm-2 col-form-label">Story Name</label>        
-            <input type="text" [(ngModel)]="story.name">
-      
-            <label class="col-sm-2 col-form-label">Story Points</label>      
-            <input type="number" class="form-control" min="1" max="90" [(ngModel)]="story.points"><br>
-      
+            <div class="form-inline">
+                <label class="col-sm-1 col-form-label">Story Name</label>
+                <input type="text" class="form-control" [(ngModel)]="story.name">
+
+                <label class="col-sm-1 col-form-label">Story Points</label>
+                <input type="number" class="form-control" min="1" max="90" [(ngModel)]="story.points">
+            </div>
+            <br>
+
             <label class="col-sm-2 col-form-label">Story Description</label>
             <textarea class="form-control" rows="5" [(ngModel)]="story.description"></textarea>
         </div>
-      
+
     </div>
     <app-create-update-tasks></app-create-update-tasks>
     <br>
     <div>
-      <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'make'" class="btn btn-primary" >Make</button>     
-      <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'edit'" class="btn btn-primary">Submit</button>     
-      <button (click)="edit()" *ngIf="(roleFromRoute === 'view' && role.id >= 200)" class="btn btn-primary">Edit</button>        
-      <button (click)="cancel()" class="btn btn-danger">Cancel</button>
+        <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'make'" class="btn btn-primary">Make</button>
+        <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'edit'" class="btn btn-primary">Submit</button>
+        <button (click)="edit()" *ngIf="(roleFromRoute === 'view' && role.id >= 200)" class="btn btn-primary">Edit</button>
+        <button (click)="cancel()" class="btn btn-danger">Cancel</button>
     </div>
-  </div>
-
+</div>
