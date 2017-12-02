@@ -37,8 +37,8 @@
     <app-create-update-tasks></app-create-update-tasks>
 
     <div>
-      <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'make'" class="btn btn-primary" >Make</button>     
-      <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'edit'" class="btn btn-primary">Submit</button>     
+      <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'make'" class="btn btn-primary" >Submit</button>     
+      <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'edit'" class="btn btn-primary">Update</button>     
       <button (click)="edit()" *ngIf="(roleFromRoute === 'view' && role.id >= 200)" class="btn btn-primary">Edit</button>        
       <button (click)="cancel()" class="btn btn-danger">Cancel</button>
     </div>

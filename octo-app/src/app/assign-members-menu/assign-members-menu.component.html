@@ -2,8 +2,12 @@
 <p>Show which users are already assigned to this board.</p>
 <p>Reach goal: have the lists side by side with left and right arrows to assign/unassign them.</p> -->
 
-<div class="container">
+<div class="jumbotron">
     <h2>{{boardName}}</h2>
+    <br>
+    <h4 *ngIf="roleId==200">Update Users</h4>
+    <h4 *ngIf="roleId==100">View Users</h4>
+    <br>
     <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" 
     [settings]="dropdownSettings" 
     (onSelect)="onItemSelect($event)" 

@@ -42,14 +42,15 @@ export class BurndownChartComponent implements OnInit {
     this.burndownChartService.getChartData(this.boardService.getSelectedBoard())
       .then(
         chartData => {
-          console.log("Chart data: " + chartData);
+          console.log("Chart data: ");
+          console.log(chartData);
           this.lineChartData = [{data: chartData.data, cubicInterpolationMode: "monotone", steppedLine: true, spanGaps: false}];
           this.lineChartOptions = {
             responsive: true,
             scales: {
               yAxes: [{
                 scaleLabel: {display: true, labelString: 'Burndown Points'},
-                ticks: {min: 0, max: chartData.maxY}
+                ticks: {min: 0}//, max: chartData.maxY}
               }],
               xAxes: [{
                 scaleLabel: {display: true, labelString: 'Project Day #'},
