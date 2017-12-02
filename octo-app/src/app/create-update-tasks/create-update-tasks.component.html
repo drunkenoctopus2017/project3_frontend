@@ -8,12 +8,12 @@
 </form>
 
 <div class="list-group">
-    <a *ngFor="let task of tasks" class="list-group-item list-group-item-action">
+    <a *ngFor="let task of tasks" (click)="changeStatus(task)" class="list-group-item list-group-item-action">
         <div class="pull-left">
-            <span class="input-group-addon">
-                <input type="checkbox" class="form-check-input" [checked]="task.status" (change)="changeStatus(task)">
-            </span>
-            {{task.description}} {{task.status}}
+            <div class="input-group">
+                <input type="checkbox" [checked]="task.status" (change)="changeStatus(task)">
+                {{task.description}}{{task.status}}
+            </div>
         </div>
         <div class="pull-right">
             <button class="btn btn-danger" (click)="deleteTask(task)">

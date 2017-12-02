@@ -13,14 +13,14 @@
               <textarea class="form-control" rows="5" placeholder="" [(ngModel)]="story.description"></textarea>
           </div>
           <div *ngIf="roleFromRoute === 'view'">
-            <label class="col-sm-2 col-form-label">Story Name</label><br>
-            <h2>{{story.name}}</h2>        
-      
-            <label class="col-sm-2 col-form-label">Story Points</label><br>      
-            <h2>{{story.points}}</h2>
-
-            <label class="col-sm-2 col-form-label">Story Description</label><br>
-            <h2>{{story.description}}</h2>
+            <label class="col-sm-2 col-form-label">Story Name</label>
+            <label>{{story.name}}</label>    
+            <br>
+            <label class="col-sm-2 col-form-label">Story Points</label>     
+            <label>{{story.points}}</label>
+            <br>            
+            <label class="col-sm-2 col-form-label">Story Description</label>
+            <label>{{story.description}}</label>
         </div>
         <div *ngIf="roleFromRoute === 'edit'">
             <label class="col-sm-2 col-form-label">Story Name</label>        
@@ -35,7 +35,7 @@
       
     </div>
     <app-create-update-tasks></app-create-update-tasks>
-
+    <br>
     <div>
       <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'make'" class="btn btn-primary" >Make</button>     
       <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'edit'" class="btn btn-primary">Submit</button>     
