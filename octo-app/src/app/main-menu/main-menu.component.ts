@@ -7,6 +7,7 @@ import { ScrumBoard } from '../_model/ScrumBoard';
 import { BoardService } from '../_service/board.service';
 import { LoginService } from '../_service/login.service';
 import { UserService } from '../_service/user.service';
+import { BurndownChartService } from '../_service/burndown-chart.service';
 
 
 @Component({
@@ -37,7 +38,8 @@ export class MainMenuComponent implements OnInit {
     private loginService: LoginService,
     private userService: UserService, 
     private boardService: BoardService, 
-    private cookieService: CookieService) { }
+    private cookieService: CookieService,
+    private burnDownChartService: BurndownChartService) { }
 
   ngOnInit() {
     //moved to AuthGuard
@@ -59,8 +61,8 @@ export class MainMenuComponent implements OnInit {
   }
 
   percentComplete(b: ScrumBoard): string {
-    //insert percentage calculation logic call here
-    return 40+"%";
+    let percentage: number = this.burnDownChartService.getPercentageCompletion(b);
+    return percentage+"%";
   }
 
   createScrumBoard() {

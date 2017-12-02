@@ -54,18 +54,17 @@ export class LoginService {
     return this.http.post(url, body, options).toPromise().then(response => response.json() as SystemUser).catch(this.handleError);
   }
 
-  isLoggedIn(user: any): boolean{
-    if(user != null){
-      return true;
-    }else{
-      return false;
-    }
-  }
-
   logout(){
     localStorage.clear();
     this.cookieService.removeAll();
     this.router.navigate(['/login']);
+  }
+
+  isLoggedIn(){
+    const currentUser: SystemUser = this.cookieService.getObject('user');
+    const token = localStorage.getItem('token');
+
+    return(currentUser != null && token != null);
   }
 
   private handleError(error: any): Promise<any> {
