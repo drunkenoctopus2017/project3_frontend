@@ -6,6 +6,7 @@ import { LoginService } from '../_service/login.service';
 import { SystemUser } from '../_model/SystemUser';
 import { PACKAGE_ROOT_URL } from '@angular/core/src/application_tokens';
 import { BoardService } from '../_service/board.service';
+import { ScrumBoard } from '../_model/ScrumBoard';
 
 
 @Component({
@@ -14,9 +15,11 @@ import { BoardService } from '../_service/board.service';
   styleUrls: ['./assign-members-menu.component.css']
 })
 export class AssignMembersMenuComponent implements OnInit {
+  board: ScrumBoard;
   boardID: number;
   boardName: string;
   user: SystemUser;
+  roleId: number;
   usersOnBoard: SystemUser[];
   dropdownList = [];
   selectedItems = [];
@@ -31,12 +34,15 @@ export class AssignMembersMenuComponent implements OnInit {
             ) { }
 
   ngOnInit() {
-    this.boardID = this.boardService.getSelectedBoard().id;
+    this.board = this.boardService.getSelectedBoard();
+    this.boardID = this.board.id;
+    this.boardName = this.board.name;
+    
     var cookie = this.cookieService;
     this.user = cookie.getObject('user');
+    this.roleId = this.user.role.id;
     
     var bId = this.boardID;
-
     //get all board users and store them in a cookie
     this.assignMembersService.getUsersOnBoard(this.boardID).then(function (response) {
       if (response != null) {
@@ -129,24 +135,29 @@ export class AssignMembersMenuComponent implements OnInit {
 
     var newUsersList = [];
     var boardUsers = this.cookieService.getObject('board' + this.boardID + 'Users');
+    var loggedInUser = this.cookieService.getObject('user');
     //loop through board users
     for (var i in boardUsers) {
-      //as long as board user is not the deselected item, add to new list
-      if (boardUsers[i].id != item.id) {
+      //as long as board user is not the deselected item, or is the logged in user, add to new list
+      if (boardUsers[i].id != item.id || boardUsers[i].id == loggedInUser.id) {
         newUsersList.push(boardUsers[i]);
       }
-      this.cookieService.putObject('board' + this.boardID + 'Users', newUsersList);
     }
+    this.cookieService.putObject('board' + this.boardID + 'Users', newUsersList);
     console.log('COOKIE: ');
     console.log(this.cookieService.getObject('board' + this.boardID + 'Users'));
   }
+  //when all selected, set board#Users cookie equal to 'users' cookie (contains all users)
   onSelectAll(items: any) {
     console.log('ALL SELECTED:');
     console.log(items);
+    this.cookieService.putObject('board' + this.boardID + 'Users', this.cookieService.getObject('users'));
   }
+  //when all deselected, set board#Users cookie equal to logged in user (can't remove self)
   onDeSelectAll(items: any) {
     console.log('ALL DESELECTED');
     console.log(items);
+    this.cookieService.putObject('board' + this.boardID + 'Users', [this.cookieService.getObject('user')]);
   }
 
   updateBoardUsers(boardNum: number) {
