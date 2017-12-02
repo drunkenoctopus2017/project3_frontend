@@ -3,16 +3,16 @@
 <p>Reach goal: have the lists side by side with left and right arrows to assign/unassign them.</p> -->
 
 <div class="container">
-    <h2>ID of board: {{boardID}}</h2>
+    <h2>{{boardName}}</h2>
     <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" 
     [settings]="dropdownSettings" 
     (onSelect)="onItemSelect($event)" 
-    (onDeSelect)="OnItemDeSelect($event)"
-    (onSelectAll)="onSelectAll($event)"
+    (onDeSelect)="OnItemDeSelect($event)" 
+    (onSelectAll)="onSelectAll($event)" 
     (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
     <br>
     <div>
-        <button class="btn btn-primary"(click)="updateBoardUsers(boardID)">Update</button>
+        <button class="btn btn-primary" (click)="updateBoardUsers(boardID)" *ngIf="roleId==200" >Update</button>
         <button class="btn btn-secondary" (click)="goBackToMainMenu()">Back</button>
     </div>
 </div>
