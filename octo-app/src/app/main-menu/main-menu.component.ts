@@ -31,6 +31,7 @@ export class MainMenuComponent implements OnInit {
   // };
   user: SystemUser;
   boards: ScrumBoard[];
+  boardsWithPercent: Array<any> = [];
 
   constructor(
     private router: Router, 
@@ -42,31 +43,38 @@ export class MainMenuComponent implements OnInit {
     private burnDownChartService: BurndownChartService) { }
 
   ngOnInit() {
-    //moved to AuthGuard
-    /*
-    var currentUser = this.cookieService.getObject('user');
-    var loggedIn = this.loginService.isLoggedIn(currentUser);
-
-
-    if (loggedIn) {
-      this.user = currentUser;
-      console.log("pulling fresh boards from the oven");
-      this.boardService.getBoardsByUserId(this.user.id).then(boards => this.boards = boards);
-    } else {
-      this.router.navigate(['/login']);
-    }
-    */
     this.user = this.cookieService.getObject('user');
-    this.boardService.getBoardsByUserId(this.user.id).then(boards => this.boards = boards);
+    this.boardService.getBoardsByUserId(this.user.id).then(boards => {
+      this.boards = boards;
+      let bwp = this.boardsWithPercent;
+      for(let board of boards){
+        this.burnDownChartService.getChartData(board).then(chartObj => {
+          console.log(board);
+          let stuff: object = {
+            board: board, 
+            percent: this.percentComplete(chartObj.data[chartObj.data.length-1]["y"],chartObj.maxY)
+          }
+          bwp.push(
+            {
+              board: board, 
+              percent: this.percentComplete(chartObj.data[chartObj.data.length-1]["y"],chartObj.maxY)
+            }
+          )
+        })
+      }
+
+    });
+   
+    //this.burnDownChartService.getChartData()
   }
 
-  percentComplete(b: ScrumBoard): string {
-    let percentage: number = this.burnDownChartService.getPercentageCompletion(b);
+  percentComplete(lastY: number, maxY: number): string {
+    let percentage: number = Math.floor((maxY - lastY) / maxY * 100);
+    //let percentage: number = this.burnDownChartService.getPercentageCompletion(b);
     return percentage+"%";
   }
 
   createScrumBoard() {
-    console.log("create scrum board method!");
     this.router.navigate(['/createBoard']); //creating a board shouldn't need a board ID
   }
 
@@ -77,20 +85,17 @@ export class MainMenuComponent implements OnInit {
   }
 
   editScrumBoard(b: ScrumBoard){
-    console.log(b.name + "'s edit scrum board method! board ID is: "+b.id);
     this.boardService.setSelectedBoard(b);
     this.router.navigate(['/updateBoard']); //true means creating, false means editing
   }
 
   getAllUsers(b: ScrumBoard){
-    console.log(b.name + "'s get users view method! board ID is: "+b.id);
     this.boardService.setSelectedBoard(b);
     this.router.navigate(['/assignMembers']);
   }
 
   deleteScrumBoard(b: ScrumBoard){
     let r = this.router;
-    console.log(b.name + "'s trigger delete board method!");
     this.userService.deleteBoard(b.id).then(() => {
       console.log("pulling fresh boards from the oven");
       this.boardService.getBoardsByUserId(this.user.id).then(boards => this.boards = boards);

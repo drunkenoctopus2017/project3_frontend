@@ -9,94 +9,89 @@ import { Story } from '../_model/Story';
 @Injectable()
 export class BurndownChartService {
 
-  private burndownChartDatasource: Object;
+    private burndownChartDatasource: Object;
 
-  constructor(private http: Http, private storyService:StoryService) { }
-  
-  getChartData(board:ScrumBoard): Promise<any> {
-    return this.getStoriesByBoardId(board).then(
-      //storyProfiles => this.setBurndownChartDatasource(this.flattenChartData(storyProfiles, board))
-      storyProfiles => this.flattenChartData(storyProfiles, board)
-    );
-  }
+    constructor(private http: Http, private storyService: StoryService) { }
 
-  /**
-   * Returns {
-   *    data: array of {x, y}
-   *    maxY: total points of the story
-   * }
-   */
-  getStoriesByBoardId(board:ScrumBoard): Promise<object[]> {
-    const url = zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/"+board.id+"?access_token="+localStorage.getItem('token');
-    return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
-  }
-
-  getPercentageCompletion(b: ScrumBoard): number {
-    // TODO: calculate percentage logic
-    return 50;
-  }
-
-  private flattenChartData(storyProfiles:any[], board:ScrumBoard):object {
-    let chartData:object[] = new Array<object>();
-    //initialize the data.
-    while (chartData.length < board.duration) {
-        chartData.push({x: chartData.length+1, y: 0});
+    getChartData(board: ScrumBoard): Promise<any> {
+        return this.getStoriesByBoardId(board).then(
+            //storyProfiles => this.setBurndownChartDatasource(this.flattenChartData(storyProfiles, board))
+            storyProfiles => this.flattenChartData(storyProfiles, board)
+        );
     }
-    let totalPoints:number = 0;
-    const ONE_DAY:number = 86400000;
-    const n:number = storyProfiles.length;
-    const startDate:number = board.startDate;
-    const startDay:number = Math.floor(board.startDate / ONE_DAY);
-    //let currentPointTotal:number = 0;
-    console.log("startDate: " + new Date(startDay * ONE_DAY).toUTCString());
-    console.log("startDay: " + startDay);
-    
-    for (let i:number = 0; i < n; i++) {
-      let storyProfile:any = storyProfiles[i];
-      totalPoints += storyProfile.points;
-      console.log("\tpoints: " + storyProfile.points);
-      //initally assume story is unfinished:
-      let done:number = 0; //0 or 1 for true/false
-      let lastUpdateIndex = 0;
-      let storyEvents:any[] = (storyProfile.storyEvents as any[]).sort((a, b) => (a.modifiedDate - b.modifiedDate));
-      const m:number = storyEvents.length;
-      for (let j:number = 0; j < m; j++) {
-        let storyEvent:any = storyEvents[j];
-        if (done != storyEvent.done) {
-            //Value has changed since previous update
-            //Prepare to update previous indexes UP TO THIS POINT
-            let eventDay:number = Math.floor(storyEvent.modifiedDate / ONE_DAY);
-            let updateIndex:number = eventDay - startDay;
-            if (updateIndex == lastUpdateIndex) {
-                //This should not happen. It is here to catch any oddities that might have been persisted in the DB.
-                console.log("******* CHECK THIS EVENT *******");
-            } else if (updateIndex > lastUpdateIndex) {
-                while (lastUpdateIndex < updateIndex) {
-                    chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
+
+    /**
+     * Returns {
+     *    data: array of {x, y}
+     *    maxY: total points of the story
+     * }
+     */
+    getStoriesByBoardId(board: ScrumBoard): Promise<object[]> {
+        const url = zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/" + board.id + "?access_token=" + localStorage.getItem('token');
+        return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
+    }
+
+    private flattenChartData(storyProfiles: any[], board: ScrumBoard): object {
+        let chartData: object[] = new Array<object>();
+        //initialize the data.
+        while (chartData.length < board.duration) {
+            chartData.push({ x: chartData.length + 1, y: 0 });
+        }
+        let totalPoints: number = 0;
+        const ONE_DAY: number = 86400000;
+        const n: number = storyProfiles.length;
+        const startDate: number = board.startDate;
+        const startDay: number = Math.floor(board.startDate / ONE_DAY);
+        //let currentPointTotal:number = 0;
+        console.log("startDate: " + new Date(startDay * ONE_DAY).toUTCString());
+        console.log("startDay: " + startDay);
+
+        for (let i: number = 0; i < n; i++) {
+            let storyProfile: any = storyProfiles[i];
+            totalPoints += storyProfile.points;
+            console.log("\tpoints: " + storyProfile.points);
+            //initally assume story is unfinished:
+            let done: number = 0; //0 or 1 for true/false
+            let lastUpdateIndex = 0;
+            let storyEvents: any[] = (storyProfile.storyEvents as any[]).sort((a, b) => (a.modifiedDate - b.modifiedDate));
+            const m: number = storyEvents.length;
+            for (let j: number = 0; j < m; j++) {
+                let storyEvent: any = storyEvents[j];
+                if (done != storyEvent.done) {
+                    //Value has changed since previous update
+                    //Prepare to update previous indexes UP TO THIS POINT
+                    let eventDay: number = Math.floor(storyEvent.modifiedDate / ONE_DAY);
+                    let updateIndex: number = eventDay - startDay;
+                    if (updateIndex == lastUpdateIndex) {
+                        //This should not happen. It is here to catch any oddities that might have been persisted in the DB.
+                        console.log("******* CHECK THIS EVENT *******");
+                    } else if (updateIndex > lastUpdateIndex) {
+                        while (lastUpdateIndex < updateIndex) {
+                            chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
+                        }
+                    }
+                    done = storyEvent.done;
                 }
             }
-            done = storyEvent.done;
+            // board.duration
+            while (lastUpdateIndex < board.duration) {//daysBetween(new Date(),new Date(board.startDate) )) {
+                chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
+            }
+            //DEBUG TODO: DELETE THIS
+            let s: string = "";
+            for (let index = 0; index < chartData.length; index++) {
+                s += chartData[index]["y"] + ", ";
+            }
+            console.log("s: " + s);
         }
-      }
-      
-      while (lastUpdateIndex < board.duration) {
-        chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
-      }
-      //DEBUG TODO: DELETE THIS
-      let s:string = "";
-      for (let index = 0; index < chartData.length; index++) {
-          s += chartData[index]["y"] + ", ";
-      }
-      console.log("s: " + s);
+        //console.log(chartData);
+        return {
+            data: chartData,
+            maxY: totalPoints
+        }
     }
-    //console.log(chartData);
-    return {
-        data: chartData, 
-        maxY: totalPoints
-    }
-  }
-  
-  //TODO parse data along the following: 
+
+    //TODO parse data along the following: 
     /*
     from this:
     [
@@ -186,12 +181,27 @@ export class BurndownChartService {
           // {x:14,y:5},
           {x:18,y:30}]*/
 
-deleteStoryProfilesByBoardId(boardId:number) {
-    const url = zuulUrl+"octo-story-history-service/deleteStoryProfilesByBoardId/"+boardId+"?access_token="+localStorage.getItem('token');
-    return this.http.get(url).toPromise().then().catch(this.handleError);
-  }
+    deleteStoryProfilesByBoardId(boardId: number) {
+        const url = zuulUrl + "octo-story-history-service/deleteStoryProfilesByBoardId/" + boardId + "?access_token=" + localStorage.getItem('token');
+        return this.http.get(url).toPromise().then().catch(this.handleError);
+    }
 
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
-  }
+    private handleError(error: any): Promise<any> {
+        return Promise.reject(error.message || error);
+    }
+}
+
+function daysBetween(date1: Date, date2: Date) {
+    //Get 1 day in milliseconds
+    var one_day = 1000 * 60 * 60 * 24;
+
+    // Convert both dates to milliseconds
+    var date1_ms = date1.getTime();
+    var date2_ms = date2.getTime();
+
+    // Calculate the difference in milliseconds
+    var difference_ms = date2_ms - date1_ms;
+
+    // Convert back to days and return
+    return Math.floor(difference_ms / one_day);
 }

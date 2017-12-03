@@ -1,14 +1,14 @@
 <div class="container-fluid">
-	<h1>Drunken Octopus Scrum Board System</h1>
+	<!-- <h1>Drunken Octopus Scrum Board System</h1> -->
 	<div class="jumbotron">
     	<div *ngIf="board">
-    		<h3>{{board.name}}</h3>
-			<p>Members: <span *ngFor="let member of members; last as isLast">{{member.firstName}} {{member.lastName}}{{isLast ? '' : ', '}}</span></p>
+    		<h1>{{board.name}}</h1>
+			<h4>Members: <span *ngFor="let member of members; last as isLast">{{member.firstName}} {{member.lastName}}{{isLast ? '' : ', '}}</span></h4>
 			<p>Start Date: {{getStartDateString()}}<br />
 			End Date: {{getEndDateString()}}<br />
 			Duration: {{board.duration}} days</p>    
-			<button *ngIf="role.id >= 200" (click)="createStory()" class="btn btn-secondary">Create Story</button>
-			<button (click)="viewChart()" class="btn btn-secondary">View Burndown Chart</button>
+			<button *ngIf="role.id >= 200" (click)="createStory()" class="btn btn-primary">New Story</button>
+			<button (click)="viewChart()" class="btn btn-dark">Burndown Chart</button>
 			<button (click)="goBackToMainMenu()" class="btn btn-secondary">Back</button>
 		</div>
 	</div>

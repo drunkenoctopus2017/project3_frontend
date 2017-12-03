@@ -1,22 +1,4 @@
 <h4>Create/Update Story</h4>
-<!--<form class="form-inline">
-    <label class="sr-only" for="inlineFormInputName2">Name</label>
-    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInputName2" placeholder="Jane Doe">
-
-    <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
-    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-        <div class="input-group-addon">@</div>
-        <input type="text" class="form-control" id="inlineFormInputGroupUsername2" placeholder="Username">
-    </div>
-
-    <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-        <label class="form-check-label">
-            <input class="form-check-input" type="checkbox"> Remember me
-        </label>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form> -->
 <div class="jumbotron">
 
     <div class="form-group">
@@ -61,8 +43,8 @@
     <app-create-update-tasks></app-create-update-tasks>
     <br>
     <div>
-        <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'make'" class="btn btn-primary">Make</button>
-        <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'edit'" class="btn btn-primary">Submit</button>
+        <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'make'" class="btn btn-primary">Submit</button>
+        <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'edit'" class="btn btn-primary">Update</button>
         <button (click)="edit()" *ngIf="(roleFromRoute === 'view' && role.id >= 200)" class="btn btn-primary">Edit</button>
         <button (click)="cancel()" class="btn btn-danger">Cancel</button>
     </div>
