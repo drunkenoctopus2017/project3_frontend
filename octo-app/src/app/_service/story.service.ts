@@ -9,7 +9,7 @@ import { zuulUrl } from './zuul-url';
 export class StoryService {
 
   private currentMode: string;
-  private selectedStory:Story;
+  private selectedStory: Story;
 
   constructor(private http: Http) { }
 
@@ -23,23 +23,23 @@ export class StoryService {
     }
   }
 
-  getSelectedStory():Story {
+  getSelectedStory(): Story {
     return this.selectedStory;
   }
 
-  setSelectedStory(story:Story) {
+  setSelectedStory(story: Story) {
     if (story != this.selectedStory) {
       this.selectedStory = story;
     }
   }
 
-  getStoriesByBoardId(boardId:number): Promise<Story[]> {
-    const url = zuulUrl+"octo-story-service/getStoriesByBoardId/"+boardId+"?access_token="+localStorage.getItem('token');
+  getStoriesByBoardId(boardId: number): Promise<Story[]> {
+    const url = zuulUrl + "octo-story-service/getStoriesByBoardId/" + boardId + "?access_token=" + localStorage.getItem('token');
     return this.http.get(url).toPromise().then(response => response.json() as Story[]).catch(this.handleError);
   }
-  
-  updateStory(story:Story): Promise<Story> {
-    const url = zuulUrl+"octo-story-service/updateStory/"+"?access_token="+localStorage.getItem('token');
+
+  updateStory(story: Story): Promise<Story> {
+    const url = zuulUrl + "octo-story-service/updateStory/" + "?access_token=" + localStorage.getItem('token');
     return this.http.post(url, story).toPromise().then(response => response.json() as Story).catch(this.handleError);
   }
 
@@ -51,8 +51,8 @@ export class StoryService {
   }
   */
 
-  deleteStoriesByBoardId(boardId:number) {
-    const url = zuulUrl+"octo-story-service/deleteStoriesByBoardId/"+boardId+"?access_token="+localStorage.getItem('token');
+  deleteStoriesByBoardId(boardId: number) {
+    const url = zuulUrl + "octo-story-service/deleteStoriesByBoardId/" + boardId + "?access_token=" + localStorage.getItem('token');
     return this.http.get(url).toPromise().then().catch(this.handleError);
   }
 

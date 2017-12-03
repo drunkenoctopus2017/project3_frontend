@@ -69,7 +69,8 @@ export class CreateUpdateStoryComponent implements OnInit {
   submitOrMakeStory() {
     console.log(this.story);
     this.storyService.updateStory(this.story).then(response => {
-      this.router.navigate(['/boardStoryLanes']);
+      // this.router.navigate(['/boardStoryLanes']);
+      window.location.reload();
     });
   }
 
@@ -82,7 +83,9 @@ export class CreateUpdateStoryComponent implements OnInit {
 
   cancel() {
     console.log("going back?");
-    this.router.navigate(['/boardStoryLanes']);
+    // this.router.navigate(['/boardStoryLanes']);
+    window.location.reload();
     console.log("went back?");
+    
   }
 }

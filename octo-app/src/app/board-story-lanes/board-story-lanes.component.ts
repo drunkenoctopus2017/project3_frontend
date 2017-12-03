@@ -68,6 +68,7 @@ export class BoardStoryLanesComponent implements OnInit {
     const currentUser: SystemUser = this.cookieService.getObject('user');
     this.role = currentUser.role;
     this.board = this.boardService.getSelectedBoard();
+    this.board = this.cookieService.getObject('currentBoard');
     this.storyService.setSelectedStory(null);
     //There's a better way to do this, I'm sure.
     if (!this.board) {

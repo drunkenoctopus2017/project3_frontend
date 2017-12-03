@@ -44,6 +44,7 @@ export class MainMenuComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.cookieService.getObject('user');
+    this.cookieService.remove('currentBoard');
     this.boardService.getBoardsByUserId(this.user.id).then(boards => {
       this.boards = boards;
       let bwp = this.boardsWithPercent;
@@ -79,7 +80,7 @@ export class MainMenuComponent implements OnInit {
   }
 
   viewBoard(b: ScrumBoard) {
-    
+    this.cookieService.putObject('currentBoard', b);
     this.boardService.setSelectedBoard(b);
     this.router.navigate(['/boardStoryLanes']);
   }
