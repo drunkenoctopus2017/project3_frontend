@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, Params, NavigationEnd } from '@angular/router';
 import 'rxjs/add/operator/filter';
 
@@ -65,10 +65,12 @@ export class CreateUpdateStoryComponent implements OnInit {
         this.story = this.storyService.getSelectedStory();
       }
   }
-
+  
   submitOrMakeStory() {
     console.log(this.story);
-    this.storyService.updateStory(this.story).then(response => this.router.navigate(['/boardStoryLanes']));
+    this.storyService.updateStory(this.story).then(response => {
+      this.router.navigate(['/boardStoryLanes']);
+    });
   }
 
   edit() {
