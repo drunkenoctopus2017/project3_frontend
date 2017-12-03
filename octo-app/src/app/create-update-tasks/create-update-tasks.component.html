@@ -1,5 +1,5 @@
 <!--Todo: change rolefromroute to edit, then create a new html block that will show the tasks as regular labels-->
-<form class="form-inline" *ngIf="roleFromRoute === 'edit'">
+<form class="form-inline" *ngIf="this.storyService.getMode() === 'edit'">
     <div class="form-group">
         <div class="form-inline">
             <label class="col-sm-3 col-form-label">Task Description</label>

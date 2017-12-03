@@ -78,11 +78,6 @@ export class UserService {
             console.log("deleted this board: "+boardId)
           )
         })
-
-      // octo-user-management-service/deleteScrumBoardIdFromUser/{id} remove this board from user's list of board ID's
-      let url = zuulUrl+"octo-user-management-service/deleteScrumBoardIdFromUser/"+boardId+"?access_token="+localStorage.getItem('token');;
-      let body = c.getObject('user');
-      this.http.post(url, body).toPromise().then(response => {response.json(); console.log("finished deleting?")}).catch(this.handleError);
     })
     .catch(this.handleError)
     

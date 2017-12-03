@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     this.loginService.authenticate(username, password).then(user => {
       this.cookieService.putObject('user', user);
       this.router.navigate(['/mainMenu']);
-    });
+    }).catch(error => document.getElementById('errorMessage').style.visibility='visible');
   }
   
 }
