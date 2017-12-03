@@ -8,9 +8,20 @@ import { zuulUrl } from './zuul-url';
 @Injectable()
 export class StoryService {
 
+  private currentMode: string;
   private selectedStory:Story;
 
   constructor(private http: Http) { }
+
+  getMode(): string {
+    return this.currentMode;
+  }
+
+  setMode(mode: string) {
+    if (mode != this.currentMode) {
+      this.currentMode = mode;
+    }
+  }
 
   getSelectedStory():Story {
     return this.selectedStory;

@@ -3,7 +3,7 @@
     <div class="form-group">
         <div class="form-inline">
             <label class="col-sm-3 col-form-label">Task Description</label>
-            <input type="text"  class="form-control" [(ngModel)]="task.description" name="description">
+            <input type="text" class="form-control" [(ngModel)]="task.description" name="description">
         </div>
         <button (click)="createOrEditTask()" class="btn btn-primary">create task</button>
     </div>
@@ -13,7 +13,8 @@
     <a *ngFor="let task of tasks" (click)="changeStatus(task)" class="list-group-item list-group-item-action">
         <div class="pull-left">
             <div class="input-group">
-                <input type="checkbox" [checked]="task.status" (change)="changeStatus(task)"><span>{{task.description}}</span>
+                <input type="checkbox" [checked]="task.status" (change)="changeStatus(task)">
+                <span>{{task.description}}</span>
             </div>
         </div>
         <div class="pull-right">

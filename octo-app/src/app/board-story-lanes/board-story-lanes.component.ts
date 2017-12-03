@@ -89,13 +89,24 @@ export class BoardStoryLanesComponent implements OnInit {
   }
 
   createStory() {
-    this.router.navigate(['/makeStory']);
+    if (this.storyService.getSelectedStory() == null) {
+      let story = new Story();
+      story.name = "";
+      story.description = "";
+      story.points = 0;
+      story.laneId = 10;
+      story.boardId = this.board.id;
+      this.storyService.setSelectedStory(story);
+    }
+    this.storyService.setMode('make');
+    // this.router.navigate(['/makeStory']);
   }
 
   selectStory(story:Story) {
     this.storyService.setSelectedStory(story);
+    this.storyService.setMode('view');
     const currentUser:SystemUser = this.cookieService.getObject('user');
-    this.router.navigate(['/viewStory']);
+    // this.router.navigate(['/viewStory']);
   }
   
   changeLane(story:Story, lane:StoryLane) {

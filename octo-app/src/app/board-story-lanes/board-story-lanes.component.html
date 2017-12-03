@@ -1,17 +1,34 @@
 <div class="container-fluid">
 	<!-- <h1>Drunken Octopus Scrum Board System</h1> -->
 	<div class="jumbotron">
-    	<div *ngIf="board">
-    		<h1>{{board.name}}</h1>
-			<h4>Members: <span *ngFor="let member of members; last as isLast">{{member.firstName}} {{member.lastName}}{{isLast ? '' : ', '}}</span></h4>
-			<p>Start Date: {{getStartDateString()}}<br />
-			End Date: {{getEndDateString()}}<br />
-			Duration: {{board.duration}} days</p>    
-			<button *ngIf="role.id >= 200" (click)="createStory()" class="btn btn-primary">New Story</button>
+		<div *ngIf="board">
+			<h1>{{board.name}}</h1>
+			<h4>Members:
+				<span *ngFor="let member of members; last as isLast">{{member.firstName}} {{member.lastName}}{{isLast ? '' : ', '}}</span>
+			</h4>
+			<p>Start Date: {{getStartDateString()}}
+				<br /> End Date: {{getEndDateString()}}
+				<br /> Duration: {{board.duration}} days</p>
+			<button *ngIf="role.id >= 200" (click)="createStory(); modal2.show() " class="btn btn-primary">New Story</button>
 			<button (click)="viewChart()" class="btn btn-dark">Burndown Chart</button>
 			<button (click)="goBackToMainMenu()" class="btn btn-secondary">Back</button>
 		</div>
 	</div>
+	<app-modal #modal2>
+		<!-- <div class="app-modal-header">
+					Delete {{b.board.name}}
+				</div> -->
+		<div class="app-modal-body">
+			<!-- <p>Are you sure you want to delete this board? All data on this board will be lost.</p> -->
+			<app-create-update-story *ngIf="this.storyService.getSelectedStory()"></app-create-update-story>
+			<div align="right">
+				<button type="button" class="btn btn-danger" (click)="modal2.hide()">Cancel</button>
+			</div>
+		</div>
+		<!-- <div class="app-modal-footer">
+			<button type="button" class="btn btn-danger" (click)="modal2.hide()">Cancel</button>
+		</div> -->
+	</app-modal>
 	<div *ngIf="!storyLanes">
 		<fa name="cog" animation="spin"></fa>
 	</div>
@@ -29,19 +46,21 @@
 						<a *ngIf="!isFirst" (click)="changeLane(story, storyLanes[i - 1])" style="float: left; cursor: pointer;">
 							<fa name="caret-left" size="2x"></fa>
 						</a>
-						<span class="card-subtitle mb-2 text-muted" style="vertical-align: middle; margin-left:4px; margin-right:4px">Points <span class="badge badge-primary">{{story.points}}</span></span>
+						<span class="card-subtitle mb-2 text-muted" style="vertical-align: middle; margin-left:4px; margin-right:4px">Points
+							<span class="badge badge-primary">{{story.points}}</span>
+						</span>
 						<a *ngIf="!isLast" (click)="changeLane(story, storyLanes[i + 1])" style="float: right; cursor: pointer;">
 							<fa name="caret-right" size="2x"></fa>
 						</a>
 					</div>
-					<div class="card-body" (click)="selectStory(story)" style="cursor: pointer; margin: 4px; padding: 4px;">
+					<div class="card-body" (click)="selectStory(story); modal2.show()" style="cursor: pointer; margin: 4px; padding: 4px;">
 						<h5 class="card-title">{{story.name}}</h5>
 						<p *ngIf="story.description" class="card-text">{{story.description.slice(0, 50)}}</p>
 					</div>
 				</div>
-			</div>	
-			
+			</div>
+
 		</div>
 	</div>
-  
+
 </div>
