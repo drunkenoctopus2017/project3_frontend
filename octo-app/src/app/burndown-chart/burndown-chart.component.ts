@@ -42,8 +42,8 @@ export class BurndownChartComponent implements OnInit {
     this.burndownChartService.getChartData(this.boardService.getSelectedBoard())
       .then(
         chartData => {
-          console.log("Chart data: ");
-          console.log(chartData);
+          // console.log("Chart data: ");
+          // console.log(chartData);
           this.lineChartData = [{data: chartData.data, cubicInterpolationMode: "monotone", steppedLine: true, spanGaps: false}];
           this.lineChartOptions = {
             responsive: true,

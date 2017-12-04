@@ -43,13 +43,13 @@ export class BurndownChartService {
         const startDate: number = board.startDate;
         const startDay: number = Math.floor(board.startDate / ONE_DAY);
         //let currentPointTotal:number = 0;
-        console.log("startDate: " + new Date(startDay * ONE_DAY).toUTCString());
-        console.log("startDay: " + startDay);
+        // console.log("startDate: " + new Date(startDay * ONE_DAY).toUTCString());
+        // console.log("startDay: " + startDay);
 
         for (let i: number = 0; i < n; i++) {
             let storyProfile: any = storyProfiles[i];
             totalPoints += storyProfile.points;
-            console.log("\tpoints: " + storyProfile.points);
+            // console.log("\tpoints: " + storyProfile.points);
             //initally assume story is unfinished:
             let done: number = 0; //0 or 1 for true/false
             let lastUpdateIndex = 0;
@@ -82,7 +82,7 @@ export class BurndownChartService {
             for (let index = 0; index < chartData.length; index++) {
                 s += chartData[index]["y"] + ", ";
             }
-            console.log("s: " + s);
+            // console.log("s: " + s);
         }
         //console.log(chartData);
         return {

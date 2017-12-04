@@ -1,51 +1,51 @@
 <h4>Create/Update Story</h4>
-<div class="jumbotron">
+<div class="container-fluid">
 
     <div class="form-group">
-        <div *ngIf="roleFromRoute === 'make'">
+        <div *ngIf="this.storyService.getMode() === 'make'">
             <div class="form-inline">
                 <label class="col-sm-2 col-form-label">Story Name</label>
-                <input type="text" placeholder="" [(ngModel)]="story.name">
+                <input type="text" placeholder="" [(ngModel)]="this.storyService.getSelectedStory().name">
 
                 <label class="col-sm-2 col-form-label">Story Points</label>
-                <input type="text" placeholder="" [(ngModel)]="story.points">
+                <input type="text" placeholder="" [(ngModel)]="this.storyService.getSelectedStory().points">
             </div>
             <br>
 
             <label class="col-sm-2 col-form-label">Story Description</label>
-            <textarea class="form-control" rows="5" placeholder="" [(ngModel)]="story.description"></textarea>
+            <textarea class="form-control" rows="5" placeholder="" [(ngModel)]="this.storyService.getSelectedStory().description"></textarea>
         </div>
-        <div *ngIf="roleFromRoute === 'view'">
+        <div *ngIf="this.storyService.getMode() === 'view'">
             <label class="col-sm-2 col-form-label">Story Name</label>
-            <label>{{story.name}}</label>
+            <label>{{this.storyService.getSelectedStory().name}}</label>
             <br>
             <label class="col-sm-2 col-form-label">Story Points</label>
-            <label>{{story.points}}</label>
+            <label>{{this.storyService.getSelectedStory().points}}</label>
             <br>
             <label class="col-sm-2 col-form-label">Story Description</label>
-            <label>{{story.description}}</label>
+            <label>{{this.storyService.getSelectedStory().description}}</label>
         </div>
-        <div *ngIf="roleFromRoute === 'edit'">
+        <div *ngIf="this.storyService.getMode() === 'edit'">
             <div class="form-inline">
                 <label class="col-sm-1 col-form-label">Story Name</label>
-                <input type="text" class="form-control" [(ngModel)]="story.name">
+                <input type="text" class="form-control" [(ngModel)]="this.storyService.getSelectedStory().name">
 
                 <label class="col-sm-1 col-form-label">Story Points</label>
-                <input type="number" class="form-control" min="1" max="90" [(ngModel)]="story.points">
+                <input type="number" class="form-control" min="1" max="90" [(ngModel)]="this.storyService.getSelectedStory().points">
             </div>
             <br>
 
             <label class="col-sm-2 col-form-label">Story Description</label>
-            <textarea class="form-control" rows="5" [(ngModel)]="story.description"></textarea>
+            <textarea class="form-control" rows="5" [(ngModel)]="this.storyService.getSelectedStory().description"></textarea>
         </div>
 
     </div>
-    <app-create-update-tasks></app-create-update-tasks>
+    <app-create-update-tasks *ngIf="this.storyService.getMode() !== 'make'"></app-create-update-tasks>
     <br>
     <div>
-        <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'make'" class="btn btn-primary">Submit</button>
-        <button (click)="submitOrMakeStory()" *ngIf="roleFromRoute === 'edit'" class="btn btn-primary">Update</button>
-        <button (click)="edit()" *ngIf="(roleFromRoute === 'view' && role.id >= 200)" class="btn btn-primary">Edit</button>
-        <button (click)="cancel()" class="btn btn-danger">Cancel</button>
+        <button (click)="submitOrMakeStory()" *ngIf="this.storyService.getMode() === 'make'" class="btn btn-primary">Submit</button>
+        <button (click)="submitOrMakeStory()" *ngIf="this.storyService.getMode() === 'edit'" class="btn btn-primary">Update</button>
+        <button (click)="edit()" *ngIf="(this.storyService.getMode() === 'view' && role.id >= 200)" class="btn btn-primary">Edit</button>
+        <!-- <button (click)="cancel()" class="btn btn-danger">Cancel</button> -->
     </div>
 </div>
