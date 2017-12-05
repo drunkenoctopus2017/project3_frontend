@@ -50,7 +50,7 @@ export class BurndownChartComponent implements OnInit {
             scales: {
               yAxes: [{
                 scaleLabel: {display: true, labelString: 'Burndown Points'},
-                ticks: {min: 0}//, max: chartData.maxY}
+                ticks: {min: 0, max: chartData.maxY}
               }],
               xAxes: [{
                 scaleLabel: {display: true, labelString: 'Project Day #'},
