@@ -103,36 +103,23 @@ export class MainMenuComponent implements OnInit {
   }
 
   deleteScrumBoard(b: ScrumBoard){
-    console.log("in the main menu delete method?");
     let r = this.router;
-    let bwp = this.boardsWithPercent;
+    let bwp: Array<any> = [];
     this.userService.deleteBoard(b.id).then(() => {
       // octo-user-management-service/deleteScrumBoardIdFromUser/{id} remove this board from user's list of board ID's
-    let url = zuulUrl+"octo-user-management-service/deleteScrumBoardIdFromUser/"+b.id+"?access_token="+localStorage.getItem('token');;
+    let url = zuulUrl+"octo-user-management-service/deleteScrumBoardIdFromUser/"
+    +b.id+"?access_token="+localStorage.getItem('token');
     let body = this.cookieService.getObject('user');
     this.http.post(url, body).toPromise().then(response => {
       console.log("pulling fresh boards from the oven");
       this.boardService.getBoardsByUserId(this.user.id).then(boards => {
-        console.log("boards after delete:");
-        console.log(boards);
-        this.boards = boards;
-        console.log("length of bwp before popping: "+bwp.length);
-        let t: number = bwp.length
-        for(var i = 0; i < t; i++){
-          // empty the array that the html uses to display boards
-          console.log("popping this:");
-          console.log(bwp.pop());
-        }
         // refill with fresh boards
         for(let board of boards){
           this.burnDownChartService.getChartData(board).then(chartObj => {
-            console.log(board);
             let stuff: object = {
               board: board, 
               percent: this.percentComplete(chartObj.data[chartObj.data.length-1]["y"],chartObj.maxY)
             }
-            console.log("pushing this to boardsWithPercent");
-            console.log(board);
             bwp.push(
               {
                 board: board, 
@@ -141,7 +128,7 @@ export class MainMenuComponent implements OnInit {
             )
           })
         }
-        console.log("refreshing done");
+        this.boardsWithPercent = bwp;
       });
     })
     }).catch(this.handleError);
