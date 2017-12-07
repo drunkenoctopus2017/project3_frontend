@@ -107,8 +107,7 @@ export class MainMenuComponent implements OnInit {
     let bwp: Array<any> = [];
     this.userService.deleteBoard(b.id).then(() => {
       // octo-user-management-service/deleteScrumBoardIdFromUser/{id} remove this board from user's list of board ID's
-    let url = zuulUrl+"octo-user-management-service/deleteScrumBoardIdFromUser/"
-    +b.id+"?access_token="+localStorage.getItem('token');
+    let url = zuulUrl+"octo-user-management-service/deleteScrumBoardIdFromUser/"+b.id+"?access_token="+localStorage.getItem('token');
     let body = this.cookieService.getObject('user');
     this.http.post(url, body).toPromise().then(response => {
       console.log("pulling fresh boards from the oven");
