@@ -14,6 +14,7 @@ import { UserService } from '../_service/user.service';
 import { Story } from '../_model/Story';
 import { UserRole } from '../_model/UserRole';
 import { BurndownChartService } from '../_service/burndown-chart.service';
+import { DragulaService } from 'ng2-dragula/components/dragula.provider';
 
 @Component({
   selector: 'app-board-story-lanes',
@@ -38,29 +39,25 @@ export class BoardStoryLanesComponent implements OnInit {
     private storyService: StoryService,
     private storyLaneService: StoryLaneService,
     private userService: UserService,
-    private burndownChartService: BurndownChartService
+    private burndownChartService: BurndownChartService,
+    private dragulaService: DragulaService
   ) {
-
-  }
-
-  /**
-   * Return a YYYY/MM/DD date string with leading zeros for single digits.
-   */
-  private formatDateString(date: Date) {
-    let mm = date.getMonth() + 1;
-    let dd = date.getDate();
-    return date.getFullYear() + "/" + (mm < 10 ? "0" + mm : mm) + "/" + (dd < 10 ? "0" + dd : dd);
-  }
-
-  getStartDateString(): string {
-    const d: Date = new Date(this.board.startDate);
-    return this.formatDateString(d);
-  }
-
-  getEndDateString(): string {
-    const d: Date = new Date(this.board.startDate);
-    d.setDate(d.getDate() + this.board.duration - 1);
-    return this.formatDateString(d);
+    dragulaService.drag.subscribe((value) => {
+      console.log(`drag: ${value[0]}`);
+      this.onDrag(value.slice(1));
+    });
+    dragulaService.drop.subscribe((value) => {
+      console.log(`drop: ${value[0]}`);
+      this.onDrop(value.slice(1));
+    });
+    dragulaService.over.subscribe((value) => {
+      console.log(`over: ${value[0]}`);
+      this.onOver(value.slice(1));
+    });
+    dragulaService.out.subscribe((value) => {
+      console.log(`out: ${value[0]}`);
+      this.onOut(value.slice(1));
+    });
   }
 
   ngOnInit() {
@@ -85,8 +82,72 @@ export class BoardStoryLanesComponent implements OnInit {
     }
   }
 
+  private onDrag(args) {
+    let [e, el] = args;
+    // do something
+  }
+  
+  private onDrop(args) {
+    let [e, el] = args;
+    // do something
+    el.appendChild(e);
+    let story: Story = this.getStoryById(e.id);
+    let lane: StoryLane = this.getLaneById(el.id);
+    this.changeLane(story, lane);
+  }
+  
+  private onOver(args) {
+    let [e, el, container] = args;
+    // do something
+  }
+  
+  private onOut(args) {
+    let [e, el, container] = args;
+    // do something
+  }
+
+  /**
+   * Return a YYYY/MM/DD date string with leading zeros for single digits.
+   */
+  private formatDateString(date: Date) {
+    let mm = date.getMonth() + 1;
+    let dd = date.getDate();
+    return date.getFullYear() + "/" + (mm < 10 ? "0" + mm : mm) + "/" + (dd < 10 ? "0" + dd : dd);
+  }
+
+  getStartDateString(): string {
+    const d: Date = new Date(this.board.startDate);
+    return this.formatDateString(d);
+  }
+
+  getEndDateString(): string {
+    const d: Date = new Date(this.board.startDate);
+    d.setDate(d.getDate() + this.board.duration - 1);
+    return this.formatDateString(d);
+  }
+
   getStoriesByLane(lane: StoryLane): Story[] {
     return this.stories.filter(s => s.laneId == lane.id);
+  }
+
+  getStoryById(id: number): Story {
+    let stry: Story;
+    for(let story of this.stories){
+      if(story.id == id){
+        stry = story;
+      }
+    }
+    return stry;
+  }
+
+  getLaneById(id: number): StoryLane {
+    let ln: StoryLane;
+    for(let lane of this.storyLanes){
+      if(lane.id == id){
+        ln = lane;
+      }
+    }
+    return ln;
   }
 
   createStory() {

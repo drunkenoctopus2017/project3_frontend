@@ -40,9 +40,10 @@
 					<fa name="cog" animation="spin"></fa>
 				</div>
 			</div>
-			<div *ngIf="stories">
-				<div *ngFor="let story of getStoriesByLane(lane)" class="card interactive" style="margin: 4px; padding: 0px;">
-					<div class="card-header" style="padding: 4px; vertical-align: middle">
+			<div [dragula]='"bag"' [dragulaModel]='getStoriesByLane(lane)' id="{{lane.id}}" style="min-height: 130px" *ngIf="stories"> 
+				
+				<div *ngFor="let story of getStoriesByLane(lane)" id="{{story.id}}" class="card interactive" style="margin: 4px; padding: 0px;">
+					<div class="card-header" (click)="selectStory(story); modal2.show()" style="cursor: pointer; padding: 4px; vertical-align: middle">
 						<a *ngIf="!isFirst" (click)="changeLane(story, storyLanes[i - 1])" style="float: left; cursor: pointer;">
 							<fa name="caret-left" size="2x"></fa>
 						</a>
