@@ -19,11 +19,8 @@ import { DragulaService } from 'ng2-dragula/components/dragula.provider';
 @Component({
   selector: 'app-board-story-lanes',
   templateUrl: './board-story-lanes.component.html',
-  styleUrls: ['./board-story-lanes.component.css'],
+  styleUrls: ['./board-story-lanes.component.css']
 })
-
-
-
 export class BoardStoryLanesComponent implements OnInit {
   board: ScrumBoard;
   storyLanes: StoryLane[];
@@ -43,19 +40,19 @@ export class BoardStoryLanesComponent implements OnInit {
     private dragulaService: DragulaService
   ) {
     dragulaService.drag.subscribe((value) => {
-      console.log(`drag: ${value[0]}`);
+      // console.log(`drag: ${value[0]}`);
       this.onDrag(value.slice(1));
     });
     dragulaService.drop.subscribe((value) => {
-      console.log(`drop: ${value[0]}`);
+      // console.log(`drop: ${value[0]}`);
       this.onDrop(value.slice(1));
     });
     dragulaService.over.subscribe((value) => {
-      console.log(`over: ${value[0]}`);
+      // console.log(`over: ${value[0]}`);
       this.onOver(value.slice(1));
     });
     dragulaService.out.subscribe((value) => {
-      console.log(`out: ${value[0]}`);
+      // console.log(`out: ${value[0]}`);
       this.onOut(value.slice(1));
     });
   }
@@ -64,7 +61,7 @@ export class BoardStoryLanesComponent implements OnInit {
     console.log("In board story lanes")
     const currentUser: SystemUser = this.cookieService.getObject('user');
     this.role = currentUser.role;
-    this.board = this.boardService.getSelectedBoard();
+    // this.board = this.boardService.getSelectedBoard();
     this.board = this.cookieService.getObject('currentBoard');
     this.storyService.setSelectedStory(null);
     //There's a better way to do this, I'm sure.
@@ -78,7 +75,11 @@ export class BoardStoryLanesComponent implements OnInit {
       }
       this.userService.getBoardMembersByBoardId(this.board.id).then(members => this.members = members);
       console.log("got board members by board id");
-      this.storyService.getStoriesByBoardId(this.board.id).then(stories => { this.stories = stories; console.log(this.stories) });
+      this.storyService.getStoriesByBoardId(this.board.id).then(stories => {
+        this.storyService.setStoriesForSelectedBoard(stories);
+        this.stories = this.storyService.getStoriesForSelectedBoard(); 
+        console.log(this.stories); 
+      });
     }
   }
 
@@ -129,7 +130,7 @@ export class BoardStoryLanesComponent implements OnInit {
   }
 
   getStoriesByLane(lane: StoryLane): Story[] {
-    return this.stories.filter(s => s.laneId == lane.id);
+    return this.storyService.getStoriesForSelectedBoard().filter(s => s.laneId == lane.id);
   }
 
   getStoryById(id: number): Story {
@@ -160,14 +161,12 @@ export class BoardStoryLanesComponent implements OnInit {
     story.boardId = this.board.id;
     this.storyService.setSelectedStory(story);
     this.storyService.setMode('make');
-    // this.router.navigate(['/makeStory']);
   }
 
   selectStory(story: Story) {
     this.storyService.setSelectedStory(story);
     this.storyService.setMode('view');
     const currentUser: SystemUser = this.cookieService.getObject('user');
-    // this.router.navigate(['/viewStory']);
   }
 
   changeLane(story: Story, lane: StoryLane) {

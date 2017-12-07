@@ -111,24 +111,11 @@ export class MainMenuComponent implements OnInit {
     let body = this.cookieService.getObject('user');
     this.http.post(url, body).toPromise().then(response => {
       console.log("pulling fresh boards from the oven");
-      this.boardService.getBoardsByUserId(this.user.id).then(boards => {
-        // refill with fresh boards
-        for(let board of boards){
-          this.burnDownChartService.getChartData(board).then(chartObj => {
-            let stuff: object = {
-              board: board, 
-              percent: this.percentComplete(chartObj.data[chartObj.data.length-1]["y"],chartObj.maxY)
-            }
-            bwp.push(
-              {
-                board: board, 
-                percent: this.percentComplete(chartObj.data[chartObj.data.length-1]["y"],chartObj.maxY)
-              }
-            )
-          })
+      for(var i = 0; i < this.boardsWithPercent.length; i++){
+        if(this.boardsWithPercent[i]["board"].id == b.id){
+          this.boardsWithPercent.splice(i,1);
         }
-        this.boardsWithPercent = bwp;
-      });
+      }
     })
     }).catch(this.handleError);
   }

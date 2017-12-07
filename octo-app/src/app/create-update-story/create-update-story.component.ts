@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router, Params, NavigationEnd } from '@angular/router';
 import 'rxjs/add/operator/filter';
 
@@ -22,6 +22,7 @@ export class CreateUpdateStoryComponent implements OnInit {
   story: Story = new Story();
   role: UserRole = { id: 0, name: "" };
   roleFromRoute: string;
+  @Input() modal: HTMLElement;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,31 +30,13 @@ export class CreateUpdateStoryComponent implements OnInit {
     private storyService: StoryService,
     private userService: UserService,
     private cookieService: CookieService,
-    private boardService: BoardService
-  ) {
-    this.router.events.filter(e => e instanceof NavigationEnd)
-      .forEach(e => {
-        this.roleFromRoute = route.root.firstChild.snapshot.data['mode'];
-      });
-    if(this.storyService.getMode() != null){
-      console.log("setting rolefrom Route");
-      this.roleFromRoute = this.storyService.getMode();
-      console.log(this.roleFromRoute);
-    }
-  }
+    private boardService: BoardService,
+    private elRef: ElementRef
+  ) {  }
 
   ngOnInit() {
     this.role = this.cookieService.getObject('user').role;
-    const myData = this.route.data;
-    this.board = this.boardService.getSelectedBoard();
-    // if(this.roleFromRoute == 'make') {
-    //   this.story = new Story();
-    //   this.story.laneId = 10;
-    //   this.story.boardId = this.board.id;
-    //   this.storyService.setSelectedStory(this.story);
-    // } else {
-    //   this.story = this.storyService.getSelectedStory();
-    // }
+    this.board = this.cookieService.getObject('currentBoard');
     if (this.storyService.getMode() == 'make') {
       this.story = new Story();
       this.story.name = "";
@@ -69,8 +52,9 @@ export class CreateUpdateStoryComponent implements OnInit {
   submitOrMakeStory() {
     console.log(this.story);
     this.storyService.updateStory(this.story).then(response => {
-      // this.router.navigate(['/boardStoryLanes']);
-      window.location.reload();
+      if(this.storyService.getMode() === 'make'){
+        this.storyService.getStoriesForSelectedBoard().push(this.story);
+      }
     });
   }
 
@@ -78,14 +62,15 @@ export class CreateUpdateStoryComponent implements OnInit {
     this.storyService.setMode('edit');
     this.story = this.storyService.getSelectedStory();
     this.roleFromRoute = this.storyService.getMode();
-    // this.router.navigate(['/editStory']);
   }
 
-  cancel() {
-    console.log("going back?");
-    // this.router.navigate(['/boardStoryLanes']);
-    window.location.reload();
-    console.log("went back?");
-    
+  deleteStory(story: Story) {
+    this.storyService.deleteStory(story).then(response => {
+      for(var i = 0; i < this.storyService.getStoriesForSelectedBoard().length; i++){
+        if(this.storyService.getStoriesForSelectedBoard()[i].id === story.id){
+          this.storyService.getStoriesForSelectedBoard().splice(i,1);
+        }
+      }
+    })
   }
 }

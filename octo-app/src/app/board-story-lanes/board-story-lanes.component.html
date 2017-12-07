@@ -16,11 +16,9 @@
 	</div>
 	<app-modal id="modal2" #modal2>
 		<!-- <div class="app-modal-header">
-					Delete {{b.board.name}}
 				</div> -->
 		<div class="app-modal-body">
-			<!-- <p>Are you sure you want to delete this board? All data on this board will be lost.</p> -->
-			<app-create-update-story *ngIf="this.storyService.getSelectedStory()"></app-create-update-story>
+			<app-create-update-story [modal]="modal2" *ngIf="this.storyService.getSelectedStory()"></app-create-update-story>
 			<div align="right">
 				<button type="button" class="btn btn-danger" (click)="modal2.hide()">Cancel</button>
 			</div>
@@ -40,7 +38,7 @@
 					<fa name="cog" animation="spin"></fa>
 				</div>
 			</div>
-			<div [dragula]='"bag"' [dragulaModel]='getStoriesByLane(lane)' id="{{lane.id}}" style="min-height: 130px" *ngIf="stories"> 
+			<div [dragula]='"bag"' [dragulaModel]='getStoriesByLane(lane)' id="{{lane.id}}" style="min-height: -webkit-fill-available" *ngIf="stories"> 
 				
 				<div *ngFor="let story of getStoriesByLane(lane)" id="{{story.id}}" class="card interactive" style="margin: 4px; padding: 0px;">
 					<div class="card-header" (click)="selectStory(story); modal2.show()" style="cursor: pointer; padding: 4px; vertical-align: middle">
