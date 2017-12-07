@@ -93,7 +93,9 @@ export class BoardStoryLanesComponent implements OnInit {
     el.appendChild(e);
     let story: Story = this.getStoryById(e.id);
     let lane: StoryLane = this.getLaneById(el.id);
-    this.changeLane(story, lane);
+    if(story.laneId != lane.id){
+      this.changeLane(story, lane);
+    }
   }
   
   private onOver(args) {
