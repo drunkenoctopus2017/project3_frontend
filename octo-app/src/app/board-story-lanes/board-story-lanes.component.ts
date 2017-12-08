@@ -35,7 +35,7 @@ export class BoardStoryLanesComponent implements OnInit {
     private route: ActivatedRoute,
     private cookieService: CookieService,
     private boardService: BoardService,
-    private storyService: StoryService,
+    public storyService: StoryService,
     private storyLaneService: StoryLaneService,
     private userService: UserService,
     private burndownChartService: BurndownChartService
