@@ -40,43 +40,25 @@ export class UserService {
     let c = this.cookieService;
 
     // octo-user-management-service/updateBoardUsers/{boardId} update this board's list of users to empty
-    console.log("about to update users");
     let boardUsers: SystemUser[] = [];
     return this.assignMembersService.updateBoardUsers(boardId, boardUsers).then(response => {
-      console.log("updated users for this board: "+boardId);
-      console.log("about to retrieve stories");
       // octo-story-service/getStoriesByBoardId/{boardId} for each story on this board
       s.getStoriesByBoardId(boardId)
         .then(response => {
-          console.log("retrieved all the stories for this board: "+boardId);
           let storiesToBeDeleted: Story[] = response;
-    
           for(var i = 0; i < storiesToBeDeleted.length; i++){
             // octo-task-service/deleteTasksByStoryId/{storyId} delete all tasks for each story
-            console.log("about to delete tasks for this story"+storiesToBeDeleted[i].id);
-            t.deleteTasksByStoryId(storiesToBeDeleted[i].id).then(response =>
-              console.log("deleted tasks for this story: "+storiesToBeDeleted[i].id)
-            )
-            
+            t.deleteTasksByStoryId(storiesToBeDeleted[i].id);
           }
 
           // octo-story-service/deleteStoriesByBoardId/{boardId} delete all stories after deleting all tasks
-          console.log("about to delete stories");
-          s.deleteStoriesByBoardId(boardId).then(response =>
-            console.log("deleted stories for this board: "+boardId)
-          )
+          s.deleteStoriesByBoardId(boardId);
 
           // octo-story-history-service/deleteStoryProfilesByBoardId/{boardId}
-          console.log("about to delete story profiles");
-          bu.deleteStoryProfilesByBoardId(boardId).then(response =>
-            console.log("deleted story profiles for this board: "+boardId)
-          )
+          bu.deleteStoryProfilesByBoardId(boardId);
           
           // octo-board-service/deleteBoardById/{id} delete the board
-          console.log("about to delete this board: "+boardId);
-          b.deleteBoardById(boardId).then(response =>
-            console.log("deleted this board: "+boardId)
-          )
+          b.deleteBoardById(boardId);
         })
     })
     .catch(this.handleError)

@@ -14,15 +14,13 @@ import { UserService } from '../_service/user.service';
 import { Story } from '../_model/Story';
 import { UserRole } from '../_model/UserRole';
 import { BurndownChartService } from '../_service/burndown-chart.service';
+import { DragulaService } from 'ng2-dragula/components/dragula.provider';
 
 @Component({
   selector: 'app-board-story-lanes',
   templateUrl: './board-story-lanes.component.html',
-  styleUrls: ['./board-story-lanes.component.css'],
+  styleUrls: ['./board-story-lanes.component.css']
 })
-
-
-
 export class BoardStoryLanesComponent implements OnInit {
   board: ScrumBoard;
   storyLanes: StoryLane[];
@@ -38,9 +36,77 @@ export class BoardStoryLanesComponent implements OnInit {
     private storyService: StoryService,
     private storyLaneService: StoryLaneService,
     private userService: UserService,
-    private burndownChartService: BurndownChartService
+    private burndownChartService: BurndownChartService,
+    private dragulaService: DragulaService
   ) {
+    dragulaService.drag.subscribe((value) => {
+      // console.log(`drag: ${value[0]}`);
+      this.onDrag(value.slice(1));
+    });
+    dragulaService.drop.subscribe((value) => {
+      // console.log(`drop: ${value[0]}`);
+      this.onDrop(value.slice(1));
+    });
+    dragulaService.over.subscribe((value) => {
+      // console.log(`over: ${value[0]}`);
+      this.onOver(value.slice(1));
+    });
+    dragulaService.out.subscribe((value) => {
+      // console.log(`out: ${value[0]}`);
+      this.onOut(value.slice(1));
+    });
+  }
 
+  ngOnInit() {
+    console.log("In board story lanes")
+    const currentUser: SystemUser = this.cookieService.getObject('user');
+    this.role = currentUser.role;
+    // this.board = this.boardService.getSelectedBoard();
+    this.board = this.cookieService.getObject('currentBoard');
+    this.storyService.setSelectedStory(null);
+    //There's a better way to do this, I'm sure.
+    if (!this.board) {
+      this.router.navigate(['/mainMenu']);
+    } else {
+
+      this.storyLanes = this.storyLaneService.getCachedStoryLanes();
+      if (!this.storyLanes) {
+        this.storyLaneService.getStoryLanes().then(storyLanes => this.storyLanes = storyLanes);
+      }
+      this.userService.getBoardMembersByBoardId(this.board.id).then(members => this.members = members);
+      console.log("got board members by board id");
+      this.storyService.getStoriesByBoardId(this.board.id).then(stories => {
+        this.storyService.setStoriesForSelectedBoard(stories);
+        this.stories = this.storyService.getStoriesForSelectedBoard(); 
+        console.log(this.stories); 
+      });
+    }
+  }
+
+  private onDrag(args) {
+    let [e, el] = args;
+    // do something
+  }
+  
+  private onDrop(args) {
+    let [e, el] = args;
+    // do something
+    el.appendChild(e);
+    let story: Story = this.getStoryById(e.id);
+    let lane: StoryLane = this.getLaneById(el.id);
+    if(story.laneId != lane.id){
+      this.changeLane(story, lane);
+    }
+  }
+  
+  private onOver(args) {
+    let [e, el, container] = args;
+    // do something
+  }
+  
+  private onOut(args) {
+    let [e, el, container] = args;
+    // do something
   }
 
   /**
@@ -63,30 +129,28 @@ export class BoardStoryLanesComponent implements OnInit {
     return this.formatDateString(d);
   }
 
-  ngOnInit() {
-    console.log("In board story lanes")
-    const currentUser: SystemUser = this.cookieService.getObject('user');
-    this.role = currentUser.role;
-    this.board = this.boardService.getSelectedBoard();
-    this.board = this.cookieService.getObject('currentBoard');
-    this.storyService.setSelectedStory(null);
-    //There's a better way to do this, I'm sure.
-    if (!this.board) {
-      this.router.navigate(['/mainMenu']);
-    } else {
-
-      this.storyLanes = this.storyLaneService.getCachedStoryLanes();
-      if (!this.storyLanes) {
-        this.storyLaneService.getStoryLanes().then(storyLanes => this.storyLanes = storyLanes);
-      }
-      this.userService.getBoardMembersByBoardId(this.board.id).then(members => this.members = members);
-      console.log("got board members by board id");
-      this.storyService.getStoriesByBoardId(this.board.id).then(stories => { this.stories = stories; console.log(this.stories) });
-    }
+  getStoriesByLane(lane: StoryLane): Story[] {
+    return this.storyService.getStoriesForSelectedBoard().filter(s => s.laneId == lane.id);
   }
 
-  getStoriesByLane(lane: StoryLane): Story[] {
-    return this.stories.filter(s => s.laneId == lane.id);
+  getStoryById(id: number): Story {
+    let stry: Story;
+    for(let story of this.storyService.getStoriesForSelectedBoard()){
+      if(story.id == id){
+        stry = story;
+      }
+    }
+    return stry;
+  }
+
+  getLaneById(id: number): StoryLane {
+    let ln: StoryLane;
+    for(let lane of this.storyLanes){
+      if(lane.id == id){
+        ln = lane;
+      }
+    }
+    return ln;
   }
 
   createStory() {
@@ -97,14 +161,12 @@ export class BoardStoryLanesComponent implements OnInit {
     story.boardId = this.board.id;
     this.storyService.setSelectedStory(story);
     this.storyService.setMode('make');
-    // this.router.navigate(['/makeStory']);
   }
 
   selectStory(story: Story) {
     this.storyService.setSelectedStory(story);
     this.storyService.setMode('view');
     const currentUser: SystemUser = this.cookieService.getObject('user');
-    // this.router.navigate(['/viewStory']);
   }
 
   changeLane(story: Story, lane: StoryLane) {
