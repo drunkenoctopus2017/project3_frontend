@@ -16,12 +16,19 @@ import { UserRole } from '../_model/UserRole';
 import { BurndownChartService } from '../_service/burndown-chart.service';
 import { DragulaService } from 'ng2-dragula/components/dragula.provider';
 
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+
 @Component({
   selector: 'app-board-story-lanes',
   templateUrl: './board-story-lanes.component.html',
   styleUrls: ['./board-story-lanes.component.css']
 })
-export class BoardStoryLanesComponent implements OnInit {
+export class BoardStoryLanesComponent implements OnInit, OnDestroy {
+  
+  private destroy$ = new Subject();
+  
   board: ScrumBoard;
   storyLanes: StoryLane[];
   stories: Story[];
@@ -39,20 +46,20 @@ export class BoardStoryLanesComponent implements OnInit {
     private burndownChartService: BurndownChartService,
     private dragulaService: DragulaService
   ) {
-    dragulaService.drag.subscribe((value) => {
-      // console.log(`drag: ${value[0]}`);
+    dragulaService.drag.asObservable().takeUntil(this.destroy$).subscribe((value) => {
+      console.log(`drag: ${value[0]}`);
       this.onDrag(value.slice(1));
     });
-    dragulaService.drop.subscribe((value) => {
-      // console.log(`drop: ${value[0]}`);
+    dragulaService.drop.asObservable().takeUntil(this.destroy$).subscribe((value) => {
+      console.log(`drop: ${value[0]}`);
       this.onDrop(value.slice(1));
     });
-    dragulaService.over.subscribe((value) => {
-      // console.log(`over: ${value[0]}`);
+    dragulaService.over.asObservable().takeUntil(this.destroy$).subscribe((value) => {
+      console.log(`over: ${value[0]}`);
       this.onOver(value.slice(1));
     });
-    dragulaService.out.subscribe((value) => {
-      // console.log(`out: ${value[0]}`);
+    dragulaService.out.asObservable().takeUntil(this.destroy$).subscribe((value) => {
+      console.log(`out: ${value[0]}`);
       this.onOut(value.slice(1));
     });
   }
@@ -70,8 +77,15 @@ export class BoardStoryLanesComponent implements OnInit {
     } else {
 
       this.storyLanes = this.storyLaneService.getCachedStoryLanes();
+      console.log("this.storylanes in the init");
+      console.log(this.storyLanes);
       if (!this.storyLanes) {
-        this.storyLaneService.getStoryLanes().then(storyLanes => this.storyLanes = storyLanes);
+        console.log("didn't find cached story lanes");
+        this.storyLaneService.getStoryLanes().then(storyLanes => {
+          this.storyLanes = storyLanes;
+          console.log("got the storyLanes from microservice");
+          console.log(this.storyLanes);
+        });
       }
       this.userService.getBoardMembersByBoardId(this.board.id).then(members => this.members = members);
       console.log("got board members by board id");
@@ -83,18 +97,26 @@ export class BoardStoryLanesComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+  }
+
   private onDrag(args) {
     let [e, el] = args;
     // do something
+    console.log("drag event");
   }
   
   private onDrop(args) {
     let [e, el] = args;
     // do something
+    console.log("drop event");
     el.appendChild(e);
     let story: Story = this.getStoryById(e.id);
+    console.log("calling getLaneById");
     let lane: StoryLane = this.getLaneById(el.id);
     if(story.laneId != lane.id){
+      console.log("calling changeLane");
       this.changeLane(story, lane);
     }
   }
@@ -102,11 +124,13 @@ export class BoardStoryLanesComponent implements OnInit {
   private onOver(args) {
     let [e, el, container] = args;
     // do something
+    console.log("onOver event");
   }
   
   private onOut(args) {
     let [e, el, container] = args;
     // do something
+    console.log("onOut event");
   }
 
   /**
@@ -145,6 +169,8 @@ export class BoardStoryLanesComponent implements OnInit {
 
   getLaneById(id: number): StoryLane {
     let ln: StoryLane;
+    console.log("are you sure storylanes is undefined?");
+    console.log(this.storyLanes);
     for(let lane of this.storyLanes){
       if(lane.id == id){
         ln = lane;
