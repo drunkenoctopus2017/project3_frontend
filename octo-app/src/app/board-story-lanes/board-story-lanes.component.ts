@@ -135,7 +135,7 @@ export class BoardStoryLanesComponent implements OnInit {
 
   getStoryById(id: number): Story {
     let stry: Story;
-    for(let story of this.stories){
+    for(let story of this.storyService.getStoriesForSelectedBoard()){
       if(story.id == id){
         stry = story;
       }

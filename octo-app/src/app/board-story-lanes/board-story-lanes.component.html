@@ -39,7 +39,7 @@
 				</div>
 			</div>
 			<div [dragula]='"bag"' [dragulaModel]='getStoriesByLane(lane)' id="{{lane.id}}" style="min-height: -webkit-fill-available" *ngIf="stories"> 
-				
+		
 				<div *ngFor="let story of getStoriesByLane(lane)" id="{{story.id}}" class="card interactive" style="margin: 4px; padding: 0px;">
 					<div class="card-header" (click)="selectStory(story); modal2.show()" style="cursor: pointer; padding: 4px; vertical-align: middle">
 						<a *ngIf="!isFirst" (click)="changeLane(story, storyLanes[i - 1])" style="float: left; cursor: pointer;">
