@@ -48,6 +48,7 @@ export class MainMenuComponent implements OnInit {
   ngOnInit() {
     this.user = this.cookieService.getObject('user');
     this.cookieService.remove('currentBoard');
+    console.log("pulling fresh boards from the oven");
     this.boardService.getBoardsByUserId(this.user.id).then(boards => {
       this.boards = boards;
       let p = this.percentArray;
@@ -110,7 +111,6 @@ export class MainMenuComponent implements OnInit {
     let url = zuulUrl+"octo-user-management-service/deleteScrumBoardIdFromUser/"+b.id+"?access_token="+localStorage.getItem('token');
     let body = this.cookieService.getObject('user');
     this.http.post(url, body).toPromise().then(response => {
-      console.log("pulling fresh boards from the oven");
       for(var i = 0; i < this.boards.length; i++){
         if(this.boards[i].id == b.id){
           this.boards.splice(i,1);

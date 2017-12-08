@@ -47,25 +47,24 @@ export class BoardStoryLanesComponent implements OnInit, OnDestroy {
     private dragulaService: DragulaService
   ) {
     dragulaService.drag.asObservable().takeUntil(this.destroy$).subscribe((value) => {
-      console.log(`drag: ${value[0]}`);
+      // console.log(`drag: ${value[0]}`);
       this.onDrag(value.slice(1));
     });
     dragulaService.drop.asObservable().takeUntil(this.destroy$).subscribe((value) => {
-      console.log(`drop: ${value[0]}`);
+      // console.log(`drop: ${value[0]}`);
       this.onDrop(value.slice(1));
     });
     dragulaService.over.asObservable().takeUntil(this.destroy$).subscribe((value) => {
-      console.log(`over: ${value[0]}`);
+      // console.log(`over: ${value[0]}`);
       this.onOver(value.slice(1));
     });
     dragulaService.out.asObservable().takeUntil(this.destroy$).subscribe((value) => {
-      console.log(`out: ${value[0]}`);
+      // console.log(`out: ${value[0]}`);
       this.onOut(value.slice(1));
     });
   }
 
   ngOnInit() {
-    console.log("In board story lanes")
     const currentUser: SystemUser = this.cookieService.getObject('user');
     this.role = currentUser.role;
     // this.board = this.boardService.getSelectedBoard();
@@ -77,18 +76,13 @@ export class BoardStoryLanesComponent implements OnInit, OnDestroy {
     } else {
 
       this.storyLanes = this.storyLaneService.getCachedStoryLanes();
-      console.log("this.storylanes in the init");
-      console.log(this.storyLanes);
       if (!this.storyLanes) {
-        console.log("didn't find cached story lanes");
         this.storyLaneService.getStoryLanes().then(storyLanes => {
           this.storyLanes = storyLanes;
-          console.log("got the storyLanes from microservice");
-          console.log(this.storyLanes);
         });
       }
       this.userService.getBoardMembersByBoardId(this.board.id).then(members => this.members = members);
-      console.log("got board members by board id");
+      // console.log("got board members by board id");
       this.storyService.getStoriesByBoardId(this.board.id).then(stories => {
         this.storyService.setStoriesForSelectedBoard(stories);
         this.stories = this.storyService.getStoriesForSelectedBoard(); 
@@ -104,19 +98,15 @@ export class BoardStoryLanesComponent implements OnInit, OnDestroy {
   private onDrag(args) {
     let [e, el] = args;
     // do something
-    console.log("drag event");
   }
   
   private onDrop(args) {
     let [e, el] = args;
     // do something
-    console.log("drop event");
     el.appendChild(e);
     let story: Story = this.getStoryById(e.id);
-    console.log("calling getLaneById");
     let lane: StoryLane = this.getLaneById(el.id);
     if(story.laneId != lane.id){
-      console.log("calling changeLane");
       this.changeLane(story, lane);
     }
   }
@@ -124,13 +114,11 @@ export class BoardStoryLanesComponent implements OnInit, OnDestroy {
   private onOver(args) {
     let [e, el, container] = args;
     // do something
-    console.log("onOver event");
   }
   
   private onOut(args) {
     let [e, el, container] = args;
     // do something
-    console.log("onOut event");
   }
 
   /**
@@ -169,8 +157,6 @@ export class BoardStoryLanesComponent implements OnInit, OnDestroy {
 
   getLaneById(id: number): StoryLane {
     let ln: StoryLane;
-    console.log("are you sure storylanes is undefined?");
-    console.log(this.storyLanes);
     for(let lane of this.storyLanes){
       if(lane.id == id){
         ln = lane;

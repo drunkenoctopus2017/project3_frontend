@@ -19,7 +19,6 @@ import { SystemUser } from '../_model/SystemUser';
 export class CreateUpdateBoardComponent implements OnInit {
   status: string;
   startDate: string = this.formatDate(new Date());
-  //startDate: Date = new Date();
   sbName: string;
   duration: number;
 
@@ -58,7 +57,7 @@ export class CreateUpdateBoardComponent implements OnInit {
     }
     if(this.status == "edit"){
       sb.id = this.boardService.getSelectedBoard().id;
-      console.log("editing, edit board's id is this: "+sb.id);
+      // console.log("editing, edit board's id is this: "+sb.id);
     }
     var r = this.router;
     var b = this.boardService;
@@ -76,12 +75,6 @@ export class CreateUpdateBoardComponent implements OnInit {
   cancel() {
     this.boardService.setSelectedBoard(null);
     this.router.navigate(['/mainMenu']);
-  }
-
-  //debugging purposes
-  seeWhatValueItIs() {
-    // console.log(this.startDate);
-    // console.log("can it be turned into a date object? "+new Date(this.parseDate(this.startDate)));
   }
 
   //this is needed for formatting the date to fill in the input field, 
