@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { ViewChild } from '@angular/core';
+import {CookieService} from 'angular2-cookie';
+
 import { BoardService } from '../_service/board.service';
 import { BurndownChartService } from '../_service/burndown-chart.service';
 import { ScrumBoard } from '../_model/ScrumBoard';
@@ -34,12 +36,14 @@ export class BurndownChartComponent implements OnInit {
     private router: Router, 
     private route: ActivatedRoute, 
     private boardService: BoardService,
-    private burndownChartService: BurndownChartService) {   
+    private burndownChartService: BurndownChartService,
+    private cookieService: CookieService) {   
   }
 
   ngOnInit() {
     this.board = this.boardService.getSelectedBoard();
-    this.burndownChartService.getChartData(this.boardService.getSelectedBoard())
+    this.board = this.cookieService.getObject('currentBoard');
+    this.burndownChartService.getChartData(this.board)
       .then(
         chartData => {
           // console.log("Chart data: ");
@@ -50,13 +54,13 @@ export class BurndownChartComponent implements OnInit {
             scales: {
               yAxes: [{
                 scaleLabel: {display: true, labelString: 'Burndown Points'},
-                ticks: {min: 0}//, max: chartData.maxY}
+                ticks: {min: 0, max: chartData.maxY}
               }],
               xAxes: [{
                 scaleLabel: {display: true, labelString: 'Project Day #'},
                 type: 'linear',
                 position: 'bottom',
-                ticks: {min: 1, max: this.boardService.getSelectedBoard().duration}
+                ticks: {min: 1, max: this.board.duration}
               }]
             }
           };

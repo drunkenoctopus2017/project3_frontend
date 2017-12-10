@@ -50,7 +50,6 @@ export class CreateUpdateStoryComponent implements OnInit {
   }
   
   submitOrMakeStory() {
-    console.log(this.story);
     this.storyService.updateStory(this.story).then(response => {
       if(this.storyService.getMode() === 'make'){
         this.storyService.getStoriesForSelectedBoard().push(response);

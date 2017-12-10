@@ -16,12 +16,19 @@ import { UserRole } from '../_model/UserRole';
 import { BurndownChartService } from '../_service/burndown-chart.service';
 import { DragulaService } from 'ng2-dragula/components/dragula.provider';
 
+import 'rxjs/add/operator/takeUntil';
+import { Subject } from 'rxjs/Subject';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+
 @Component({
   selector: 'app-board-story-lanes',
   templateUrl: './board-story-lanes.component.html',
   styleUrls: ['./board-story-lanes.component.css']
 })
-export class BoardStoryLanesComponent implements OnInit {
+export class BoardStoryLanesComponent implements OnInit, OnDestroy {
+  
+  private destroy$ = new Subject();
+  
   board: ScrumBoard;
   storyLanes: StoryLane[];
   stories: Story[];
@@ -39,26 +46,25 @@ export class BoardStoryLanesComponent implements OnInit {
     private burndownChartService: BurndownChartService,
     private dragulaService: DragulaService
   ) {
-    dragulaService.drag.subscribe((value) => {
+    dragulaService.drag.asObservable().takeUntil(this.destroy$).subscribe((value) => {
       // console.log(`drag: ${value[0]}`);
       this.onDrag(value.slice(1));
     });
-    dragulaService.drop.subscribe((value) => {
+    dragulaService.drop.asObservable().takeUntil(this.destroy$).subscribe((value) => {
       // console.log(`drop: ${value[0]}`);
       this.onDrop(value.slice(1));
     });
-    dragulaService.over.subscribe((value) => {
+    dragulaService.over.asObservable().takeUntil(this.destroy$).subscribe((value) => {
       // console.log(`over: ${value[0]}`);
       this.onOver(value.slice(1));
     });
-    dragulaService.out.subscribe((value) => {
+    dragulaService.out.asObservable().takeUntil(this.destroy$).subscribe((value) => {
       // console.log(`out: ${value[0]}`);
       this.onOut(value.slice(1));
     });
   }
 
   ngOnInit() {
-    console.log("In board story lanes")
     const currentUser: SystemUser = this.cookieService.getObject('user');
     this.role = currentUser.role;
     // this.board = this.boardService.getSelectedBoard();
@@ -71,16 +77,22 @@ export class BoardStoryLanesComponent implements OnInit {
 
       this.storyLanes = this.storyLaneService.getCachedStoryLanes();
       if (!this.storyLanes) {
-        this.storyLaneService.getStoryLanes().then(storyLanes => this.storyLanes = storyLanes);
+        this.storyLaneService.getStoryLanes().then(storyLanes => {
+          this.storyLanes = storyLanes;
+        });
       }
       this.userService.getBoardMembersByBoardId(this.board.id).then(members => this.members = members);
-      console.log("got board members by board id");
+      // console.log("got board members by board id");
       this.storyService.getStoriesByBoardId(this.board.id).then(stories => {
         this.storyService.setStoriesForSelectedBoard(stories);
         this.stories = this.storyService.getStoriesForSelectedBoard(); 
         console.log(this.stories); 
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
   }
 
   private onDrag(args) {
