@@ -23,7 +23,9 @@ import {Component} from '@angular/core';
   `,
   styles: [`
     .modal {
+      position: fixed;
       background: rgba(0,0,0,0.6);
+      overflow-y: scroll;
     }
   `]
 })
