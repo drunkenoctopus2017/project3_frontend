@@ -27,7 +27,7 @@ export class CreateUpdateStoryComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private storyService: StoryService,
+    public storyService: StoryService,
     private userService: UserService,
     private cookieService: CookieService,
     private boardService: BoardService,

@@ -31,65 +31,54 @@ export class BurndownChartService {
         return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
     }
 
-    private flattenChartData(storyProfiles: any[], board: ScrumBoard): object {
-        let chartData: object[] = new Array<object>();
-        //initialize the data.
-        while (chartData.length < board.duration) {
-            chartData.push({ x: chartData.length + 1, y: 0 });
+/**
+ * Take JSON objects and parse them into a set of x, y coordinates to display on a chart.
+ * 
+ * @param storyProfiles {id, points, storyEvents: [{id, done, modifiedDate}]}
+ * @param board {id, duration}
+ * 
+ * @return {maxY, chartData: [{x, y}]}
+ */
+private flattenChartData(storyProfiles: any[], board: ScrumBoard): object {
+  let chartData: object[] = new Array<object>();
+  //initialize the data.
+  while (chartData.length < board.duration) {
+    chartData.push({ x: chartData.length + 1, y: 0 });
+  }
+  let totalPoints: number = 0;
+  const ONE_DAY: number = 86400000;
+  const startDate: number = board.startDate;
+  const startDay: number = Math.floor(board.startDate / ONE_DAY);
+  const n: number = storyProfiles.length;
+  for (let i: number = 0; i < n; i++) {
+    let storyProfile: any = storyProfiles[i];
+    totalPoints += storyProfile.points;
+    let done: number = 0; //0 or 1 for true/false
+    let lastUpdateIndex = 0;
+    let storyEvents: any[] = (storyProfile.storyEvents as any[]).sort((a, b) => (a.modifiedDate - b.modifiedDate));
+    const m: number = storyEvents.length;
+    for (let j: number = 0; j < m; j++) {
+      let storyEvent: any = storyEvents[j];
+      if (done != storyEvent.done) {
+        //Value has changed since previous update
+        //Prepare to update previous indexes UP TO THIS POINT
+        let eventDay: number = Math.floor(storyEvent.modifiedDate / ONE_DAY);
+        let updateIndex: number = eventDay - startDay;
+        while (lastUpdateIndex < updateIndex) {
+          chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
         }
-        let totalPoints: number = 0;
-        const ONE_DAY: number = 86400000;
-        const n: number = storyProfiles.length;
-        const startDate: number = board.startDate;
-        const startDay: number = Math.floor(board.startDate / ONE_DAY);
-        //let currentPointTotal:number = 0;
-        // console.log("startDate: " + new Date(startDay * ONE_DAY).toUTCString());
-        // console.log("startDay: " + startDay);
-
-        for (let i: number = 0; i < n; i++) {
-            let storyProfile: any = storyProfiles[i];
-            totalPoints += storyProfile.points;
-            // console.log("\tpoints: " + storyProfile.points);
-            //initally assume story is unfinished:
-            let done: number = 0; //0 or 1 for true/false
-            let lastUpdateIndex = 0;
-            let storyEvents: any[] = (storyProfile.storyEvents as any[]).sort((a, b) => (a.modifiedDate - b.modifiedDate));
-            const m: number = storyEvents.length;
-            for (let j: number = 0; j < m; j++) {
-                let storyEvent: any = storyEvents[j];
-                if (done != storyEvent.done) {
-                    //Value has changed since previous update
-                    //Prepare to update previous indexes UP TO THIS POINT
-                    let eventDay: number = Math.floor(storyEvent.modifiedDate / ONE_DAY);
-                    let updateIndex: number = eventDay - startDay;
-                    if (updateIndex == lastUpdateIndex) {
-                        //This should not happen. It is here to catch any oddities that might have been persisted in the DB.
-                        console.log("******* CHECK THIS EVENT *******");
-                    } else if (updateIndex > lastUpdateIndex) {
-                        while (lastUpdateIndex < updateIndex) {
-                            chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
-                        }
-                    }
-                    done = storyEvent.done;
-                }
-            }
-            // board.duration
-            while (lastUpdateIndex < board.duration) {//daysBetween(new Date(),new Date(board.startDate) )) {
-                chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
-            }
-            //DEBUG TODO: DELETE THIS
-            let s: string = "";
-            for (let index = 0; index < chartData.length; index++) {
-                s += chartData[index]["y"] + ", ";
-            }
-            // console.log("s: " + s);
-        }
-        //console.log(chartData);
-        return {
-            data: chartData,
-            maxY: totalPoints
-        }
+        done = storyEvent.done;
+      }
     }
+    while (lastUpdateIndex < board.duration) {//daysBetween(new Date(),new Date(board.startDate) )) {
+      chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
+    }
+  }
+  return {
+    data: chartData,
+    maxY: totalPoints
+  }
+}
 
     //TODO parse data along the following: 
     /*
