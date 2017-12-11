@@ -90,4 +90,7 @@ export class CreateUpdateTasksComponent implements OnInit {
     })
   }
 
+  stopEvent(event){
+    event.stopPropagation();
+  }
 }
