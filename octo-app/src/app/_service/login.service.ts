@@ -5,6 +5,7 @@ import { Base64 } from 'js-base64';
 import { SystemUser } from '../_model/SystemUser';
 import {CookieService} from 'angular2-cookie';
 import 'rxjs/add/operator/map';
+import { sha3_512 } from 'js-sha3';
 
 import { zuulUrl } from './zuul-url';
 
@@ -29,6 +30,7 @@ export class LoginService {
       //"Authorization": "Basic " + Base64.encode(username + ':' + password)
       "Authorization": "Basic " + Base64.encode('drunkenOctopus:secret')
     });
+    password = sha3_512(password);
     const options:RequestOptions = new RequestOptions({headers: headers});
     const requestBody:string = 'grant_type=password&username=' + username + '&password=' + password;
     // this.creds = 'grant_type=authorization_code';
