@@ -54,6 +54,10 @@ import { NavbarComponent } from './navbar/navbar.component';
     NavbarComponent,
   ],
   imports: [
+<<<<<<< HEAD
+=======
+    //NgbModule.forRoot(), 
+>>>>>>> 19e649c7f4cb82822521fce2508e7d5c9736b8df
     BrowserModule, 
     FormsModule, 
     HttpModule, 
