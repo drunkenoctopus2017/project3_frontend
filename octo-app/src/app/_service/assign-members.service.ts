@@ -23,10 +23,6 @@ export class AssignMembersService {
     let url = zuulUrl+"octo-user-management-service/updateBoardUsers/"+boardId+"?access_token="+localStorage.getItem('token');
     let body = users;
 
-    console.log('BODY:');
-    console.log(body);
-
-    
     return this.http.post(url, body).toPromise().then(res => res.json() as SystemUser[]).catch(this.handleError);
   }
   

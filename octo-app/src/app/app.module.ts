@@ -11,6 +11,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { CookieService } from 'angular2-cookie';
+import { DragulaModule } from 'ng2-dragula';
 
 import { BoardService } from './_service/board.service';
 import { LoginService } from './_service/login.service';
@@ -50,7 +51,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     BoardStoryLanesComponent,
     BurndownChartComponent,
     CreateUpdateTasksComponent, 
-    ModalComponent, NavbarComponent,
+    ModalComponent, 
+    NavbarComponent,
   ],
   imports: [
     NgbModule.forRoot(), 
@@ -60,7 +62,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     ChartsModule,
     AngularMultiSelectModule,
     AngularFontAwesomeModule, 
-    AppRoutingModule  
+    AppRoutingModule,
+    DragulaModule 
   ],
   providers: [
     AuthGuard, 
