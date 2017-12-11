@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -14,11 +14,10 @@ import { UserService } from '../_service/user.service';
 import { Story } from '../_model/Story';
 import { UserRole } from '../_model/UserRole';
 import { BurndownChartService } from '../_service/burndown-chart.service';
-import { DragulaService } from 'ng2-dragula/components/dragula.provider';
+import { DragulaService } from 'ng2-dragula';
 
 import 'rxjs/add/operator/takeUntil';
 import { Subject } from 'rxjs/Subject';
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-board-story-lanes',
