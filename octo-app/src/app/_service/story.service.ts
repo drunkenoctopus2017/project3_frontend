@@ -3,11 +3,12 @@ import { Http } from '@angular/http';
 import { Story } from '../_model/Story';
 import 'rxjs/add/operator/toPromise';
 
-import { zuulUrl } from './zuul-url';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class StoryService {
 
+  private zuulUrl: string = "http://"+environment.hostIp+":8765/";
   private currentMode: string;
   private selectedStory: Story;
   private storiesForSelectedBoard: Story[];
@@ -43,19 +44,19 @@ export class StoryService {
   }
 
   getStoriesByBoardId(boardId: number): Promise<Story[]> {
-    const url = zuulUrl + "octo-story-service/getStoriesByBoardId/" + boardId + "?access_token=" + localStorage.getItem('token');
+    const url = this.zuulUrl + "octo-story-service/getStoriesByBoardId/" + boardId + "?access_token=" + localStorage.getItem('token');
     return this.http.get(url).toPromise().then(response => response.json() as Story[]).catch(this.handleError);
   }
 
   updateStory(story: Story): Promise<Story> {
-    const url = zuulUrl + "octo-story-service/updateStory/" + "?access_token=" + localStorage.getItem('token');
+    const url = this.zuulUrl + "octo-story-service/updateStory/" + "?access_token=" + localStorage.getItem('token');
     return this.http.post(url, story).toPromise().then(response => response.json() as Story).catch(this.handleError);
   }
 
   deleteStory(story: Story): Promise<any> {
-    let url = zuulUrl + "octo-story-service/deleteStory/" + "?access_token=" + localStorage.getItem('token');
+    let url = this.zuulUrl + "octo-story-service/deleteStory/" + "?access_token=" + localStorage.getItem('token');
     return this.http.post(url, story).toPromise().then(response => {
-      url = zuulUrl+"octo-story-history-service/deleteStoryProfileAndEvents/" + story.id + "?access_token=" + localStorage.getItem('token');
+      url = this.zuulUrl+"octo-story-history-service/deleteStoryProfileAndEvents/" + story.id + "?access_token=" + localStorage.getItem('token');
       this.http.get(url).toPromise().then() 
     }).catch(this.handleError);
     
@@ -70,7 +71,7 @@ export class StoryService {
   */
 
   deleteStoriesByBoardId(boardId: number) {
-    const url = zuulUrl + "octo-story-service/deleteStoriesByBoardId/" + boardId + "?access_token=" + localStorage.getItem('token');
+    const url = this.zuulUrl + "octo-story-service/deleteStoriesByBoardId/" + boardId + "?access_token=" + localStorage.getItem('token');
     return this.http.get(url).toPromise().then().catch(this.handleError);
   }
 

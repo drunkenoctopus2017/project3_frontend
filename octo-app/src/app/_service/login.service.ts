@@ -7,10 +7,13 @@ import {CookieService} from 'angular2-cookie';
 import 'rxjs/add/operator/map';
 import { sha3_512 } from 'js-sha3';
 
-import { zuulUrl } from './zuul-url';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class LoginService {
+
+  private zuulUrl: string = "http://"+environment.hostIp+":8765/";
+
   //--proxy-config proxy.conf.json",
 
   // we don't need a proxy in order to send requests to the Zuul URL, 
@@ -24,7 +27,7 @@ export class LoginService {
   
   //login
   authenticate(username, password):Promise<SystemUser> {
-    const url = zuulUrl+"octo-auth/oauth/token";
+    const url = this.zuulUrl+"octo-auth/oauth/token";
     const headers:Headers = new Headers({
       "Content-Type": "application/x-www-form-urlencoded",
       //"Authorization": "Basic " + Base64.encode(username + ':' + password)
@@ -46,7 +49,7 @@ export class LoginService {
 
   private login(username: string, password: string):Promise<SystemUser> {
     //http://localhost:8765/ <-- set by proxy server setting
-    let url = zuulUrl+"octo-user-management-service/login/"+"?access_token="+localStorage.getItem('token');
+    let url = this.zuulUrl+"octo-user-management-service/login/"+"?access_token="+localStorage.getItem('token');
     let body = {username: username, password: password};
     let headers: Headers = new Headers({ 
       "Content-Type": "application/json"

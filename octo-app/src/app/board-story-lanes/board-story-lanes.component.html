@@ -9,24 +9,30 @@
 			<p>Start Date: {{getStartDateString()}}
 				<br /> End Date: {{getEndDateString()}}
 				<br /> Duration: {{board.duration}} days</p>
-			<button *ngIf="role.id >= 200" (click)="createStory(); modal2.show() " class="btn btn-primary">New Story</button>
+			<button *ngIf="role.id >= 200" data-toggle="modal" data-target="#storyModal" (click)="createStory();" class="btn btn-primary">New Story</button>
 			<button (click)="viewChart()" class="btn btn-dark">Burndown Chart</button>
 			<button (click)="goBackToMainMenu()" class="btn btn-secondary">Back</button>
 		</div>
 	</div>
-	<app-modal id="modal2" #modal2>
-		<!-- <div class="app-modal-header">
-				</div> -->
-		<div class="app-modal-body">
-			<app-create-update-story [modal]="modal2" *ngIf="this.storyService.getSelectedStory()"></app-create-update-story>
-			<div align="right">
-				<button type="button" class="btn btn-danger" (click)="modal2.hide()">Cancel</button>
+	<!-- Modal -->
+	<div class="modal fade" id="storyModal" tabindex="-1" role="dialog" aria-labelledby="story" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="story">Story</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<app-create-update-story *ngIf="this.storyService.getSelectedStory()"></app-create-update-story>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
 			</div>
 		</div>
-		<!-- <div class="app-modal-footer">
-			<button type="button" class="btn btn-danger" (click)="modal2.hide()">Cancel</button>
-		</div> -->
-	</app-modal>
+	</div>
 	<div *ngIf="!storyLanes">
 		<fa name="cog" animation="spin"></fa>
 	</div>
@@ -38,21 +44,22 @@
 					<fa name="cog" animation="spin"></fa>
 				</div>
 			</div>
-			<div [dragula]='"bag"' [dragulaModel]='getStoriesByLane(lane)' id="{{lane.id}}" style="min-height: -webkit-fill-available" *ngIf="stories"> 
-		
+			<div [dragula]='"bag"' [dragulaModel]='getStoriesByLane(lane)' id="{{lane.id}}" style="min-height: -webkit-fill-available"
+			 *ngIf="stories">
+
 				<div *ngFor="let story of getStoriesByLane(lane)" id="{{story.id}}" class="card interactive" style="margin: 4px; padding: 0px;">
-					<div class="card-header" (click)="selectStory(story); modal2.show()" style="cursor: pointer; padding: 4px; vertical-align: middle">
-						<a *ngIf="!isFirst" (click)="changeLane(story, storyLanes[i - 1])" style="float: left; cursor: pointer;">
+					<div class="card-header" data-toggle="modal" data-target="#storyModal" (click)="selectStory(story); " style="cursor: pointer; padding: 4px; vertical-align: middle">
+						<a *ngIf="!isFirst" (click)="changeLane(story, storyLanes[i - 1]); stopEvent($event);" style="float: left; cursor: pointer;">
 							<fa name="caret-left" size="2x"></fa>
 						</a>
 						<span class="card-subtitle mb-2 text-muted" style="vertical-align: middle; margin-left:4px; margin-right:4px">Points
 							<span class="badge badge-primary">{{story.points}}</span>
 						</span>
-						<a *ngIf="!isLast" (click)="changeLane(story, storyLanes[i + 1])" style="float: right; cursor: pointer;">
+						<a *ngIf="!isLast" (click)="changeLane(story, storyLanes[i + 1]); stopEvent($event);" style="float: right; cursor: pointer;">
 							<fa name="caret-right" size="2x"></fa>
 						</a>
 					</div>
-					<div class="card-body" (click)="selectStory(story); modal2.show()" style="cursor: pointer; margin: 4px; padding: 4px;">
+					<div class="card-body" data-toggle="modal" data-target="#storyModal" (click)="selectStory(story); " style="cursor: pointer; margin: 4px; padding: 4px;">
 						<h5 class="card-title">{{story.name}}</h5>
 						<p *ngIf="story.description" class="card-text">{{story.description.slice(0, 50)}}</p>
 					</div>

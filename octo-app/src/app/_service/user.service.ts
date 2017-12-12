@@ -3,7 +3,6 @@ import { Http } from '@angular/http';
 import { SystemUser } from '../_model/SystemUser';
 
 import { CookieService } from 'angular2-cookie';
-import { zuulUrl } from './zuul-url';
 
 import { Story } from '../_model/Story';
 import { AssignMembersService } from './assign-members.service';
@@ -12,8 +11,12 @@ import { TaskService } from './task.service';
 import { BoardService } from './board.service';
 import { BurndownChartService } from './burndown-chart.service';
 
+import { environment } from '../../environments/environment';
+
 @Injectable()
 export class UserService {
+
+  private zuulUrl: string = "http://"+environment.hostIp+":8765/";
 
   constructor(private http: Http, 
               private assignMembersService: AssignMembersService,
@@ -24,7 +27,7 @@ export class UserService {
               private cookieService: CookieService) { }
 
   getBoardMembersByBoardId(boardId: number): Promise<SystemUser[]> {
-    const url = zuulUrl+"octo-user-management-service/getBoardMembersByBoardId/"+boardId+"?access_token="+localStorage.getItem('token');;
+    const url = this.zuulUrl+"octo-user-management-service/getBoardMembersByBoardId/"+boardId+"?access_token="+localStorage.getItem('token');;
     return this.http.get(url)
       .toPromise()
       .then(response => response.json() as SystemUser[])

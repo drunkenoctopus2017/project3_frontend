@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  hostIp: "18.217.124.245"
 };

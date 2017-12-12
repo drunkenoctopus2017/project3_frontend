@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Params, NavigationEnd } from '@angular/router';
 import 'rxjs/add/operator/filter';
 
@@ -21,8 +21,6 @@ export class CreateUpdateStoryComponent implements OnInit {
   board: ScrumBoard;
   story: Story = new Story();
   role: UserRole = { id: 0, name: "" };
-  roleFromRoute: string;
-  @Input() modal: HTMLElement;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +29,6 @@ export class CreateUpdateStoryComponent implements OnInit {
     private userService: UserService,
     private cookieService: CookieService,
     private boardService: BoardService,
-    private elRef: ElementRef
   ) {  }
 
   ngOnInit() {
@@ -61,7 +58,11 @@ export class CreateUpdateStoryComponent implements OnInit {
   edit() {
     this.storyService.setMode('edit');
     this.story = this.storyService.getSelectedStory();
-    this.roleFromRoute = this.storyService.getMode();
+  }
+
+  cancelEdit() {
+    this.storyService.setMode('view');
+    this.story = this.storyService.getSelectedStory();
   }
 
   deleteStory(story: Story) {

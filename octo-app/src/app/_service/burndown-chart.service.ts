@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { ScrumBoard } from '../_model/ScrumBoard';
 
-import { zuulUrl } from './zuul-url';
+import { environment } from '../../environments/environment';
+
 import { StoryService } from './story.service';
 import { Story } from '../_model/Story';
 
 @Injectable()
 export class BurndownChartService {
 
+    private zuulUrl: string = "http://"+environment.hostIp+":8765/";
     private burndownChartDatasource: Object;
 
     constructor(private http: Http, private storyService: StoryService) { }
@@ -27,7 +29,7 @@ export class BurndownChartService {
      * }
      */
     getStoriesByBoardId(board: ScrumBoard): Promise<object[]> {
-        const url = zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/" + board.id + "?access_token=" + localStorage.getItem('token');
+        const url = this.zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/" + board.id + "?access_token=" + localStorage.getItem('token');
         return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
     }
 
@@ -171,7 +173,7 @@ private flattenChartData(storyProfiles: any[], board: ScrumBoard): object {
           {x:18,y:30}]*/
 
     deleteStoryProfilesByBoardId(boardId: number) {
-        const url = zuulUrl + "octo-story-history-service/deleteStoryProfilesByBoardId/" + boardId + "?access_token=" + localStorage.getItem('token');
+        const url = this.zuulUrl + "octo-story-history-service/deleteStoryProfilesByBoardId/" + boardId + "?access_token=" + localStorage.getItem('token');
         return this.http.get(url).toPromise().then().catch(this.handleError);
     }
 

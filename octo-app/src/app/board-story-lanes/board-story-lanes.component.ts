@@ -198,4 +198,9 @@ export class BoardStoryLanesComponent implements OnInit, OnDestroy {
   goBackToMainMenu() {
     this.router.navigate(['/mainMenu']);
   }
+
+  stopEvent(event){
+    event.stopPropagation();
+  }
+  
 }
