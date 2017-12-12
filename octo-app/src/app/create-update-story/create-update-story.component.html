@@ -1,7 +1,7 @@
-<h4>Create/Update Story</h4>
+<!-- <h4>Create/Update Story</h4> -->
 <div class="container-fluid" id="createUpdateComponent">
     <div class="pull-right" *ngIf="this.storyService.getMode() !== 'make'">
-        <button class="btn btn-danger" (click)="deleteStory(this.storyService.getSelectedStory()); modal.hide();">
+        <button class="btn btn-danger" data-dismiss="modal" (click)="deleteStory(this.storyService.getSelectedStory());">
             <span>
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </span>
@@ -49,8 +49,9 @@
     <app-create-update-tasks *ngIf="this.storyService.getMode() !== 'make'"></app-create-update-tasks>
     <br>
     <div>
-        <button (click)="submitOrMakeStory(); modal.hide();" *ngIf="this.storyService.getMode() === 'make'" class="btn btn-primary">Submit</button>
-        <button (click)="submitOrMakeStory(); modal.hide(); " *ngIf="this.storyService.getMode() === 'edit'" class="btn btn-primary">Update</button>
+        <button (click)="submitOrMakeStory();" data-dismiss="modal" *ngIf="this.storyService.getMode() === 'make'" class="btn btn-primary">Submit</button>
+        <button (click)="submitOrMakeStory();" data-dismiss="modal" *ngIf="this.storyService.getMode() === 'edit'" class="btn btn-primary">Update</button>
+        <button (click)="cancelEdit();" *ngIf="this.storyService.getMode() === 'edit'" class="btn btn-secondary">Cancel</button>
         <button (click)="edit()" *ngIf="(this.storyService.getMode() === 'view' && role.id >= 200)" class="btn btn-primary">Edit</button>
     </div>
 </div>
