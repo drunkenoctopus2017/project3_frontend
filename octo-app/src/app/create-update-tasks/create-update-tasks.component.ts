@@ -19,7 +19,7 @@ export class CreateUpdateTasksComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private storyService: StoryService,
+    public storyService: StoryService,
     private taskService: TaskService,
     private route: ActivatedRoute
   ) { 
@@ -90,4 +90,7 @@ export class CreateUpdateTasksComponent implements OnInit {
     })
   }
 
+  stopEvent(event){
+    event.stopPropagation();
+  }
 }

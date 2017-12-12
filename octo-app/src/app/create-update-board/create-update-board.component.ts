@@ -19,7 +19,6 @@ import { SystemUser } from '../_model/SystemUser';
 export class CreateUpdateBoardComponent implements OnInit {
   status: string;
   startDate: string = this.formatDate(new Date());
-  //startDate: Date = new Date();
   sbName: string;
   duration: number;
 
@@ -58,7 +57,7 @@ export class CreateUpdateBoardComponent implements OnInit {
     }
     if(this.status == "edit"){
       sb.id = this.boardService.getSelectedBoard().id;
-      console.log("editing, edit board's id is this: "+sb.id);
+      // console.log("editing, edit board's id is this: "+sb.id);
     }
     var r = this.router;
     var b = this.boardService;
@@ -78,12 +77,6 @@ export class CreateUpdateBoardComponent implements OnInit {
     this.router.navigate(['/mainMenu']);
   }
 
-  //debugging purposes
-  seeWhatValueItIs() {
-    // console.log(this.startDate);
-    // console.log("can it be turned into a date object? "+new Date(this.parseDate(this.startDate)));
-  }
-
   //this is needed for formatting the date to fill in the input field, 
   //for some reason the input field won't display a raw date object as is
   formatDate(date: Date): string {
@@ -96,13 +89,13 @@ export class CreateUpdateBoardComponent implements OnInit {
     if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
-}
+  }
 
-// parse a date in yyyy-mm-dd format
-parseDate(input) {
-  var parts = input.split('-');
-  // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
-  return new Date(parts[0], parts[1]-1, parts[2]); // Note: months are 0-based
-}
+  // parse a date in yyyy-mm-dd format
+  parseDate(input) {
+    var parts = input.split('-');
+    // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
+    return new Date(parts[0], parts[1]-1, parts[2]); // Note: months are 0-based
+  }
 
 }

@@ -27,7 +27,7 @@ export class CreateUpdateStoryComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private storyService: StoryService,
+    public storyService: StoryService,
     private userService: UserService,
     private cookieService: CookieService,
     private boardService: BoardService,
@@ -50,7 +50,7 @@ export class CreateUpdateStoryComponent implements OnInit {
   }
   
   submitOrMakeStory() {
-    console.log(this.story);
+    this.story = this.storyService.getSelectedStory();
     this.storyService.updateStory(this.story).then(response => {
       if(this.storyService.getMode() === 'make'){
         this.storyService.getStoriesForSelectedBoard().push(response);
