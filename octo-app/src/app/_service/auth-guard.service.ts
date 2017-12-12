@@ -6,6 +6,7 @@ import { SystemUser } from '../_model/SystemUser';
 @Injectable()
 export class AuthGuard {
 
+
   constructor(private router: Router, private cookieService: CookieService) { }
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
