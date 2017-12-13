@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StoryLane } from '../_model/StoryLane';
-import { Http, Response } from '@angular/http';
+import { Http, Response, RequestOptions, Headers } from '@angular/http';
 
 import { environment } from '../../environments/environment';
 
@@ -17,8 +17,13 @@ export class StoryLaneService {
   }
 
   getStoryLanes(): Promise<StoryLane[]> {
-    const url = this.zuulUrl+"octo-story-service/getStoryLanes"+"?access_token="+localStorage.getItem('token');
-    return this.http.get(url).toPromise().then(response => response.json() as StoryLane[]).then(lanes => this.storyLanesCache = lanes).catch(this.handleError);
+    const url = this.zuulUrl+"octo-story-service/getStoryLanes";//+"?access_token="+localStorage.getItem('token');
+    let headers: Headers = new Headers({ 
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + localStorage.getItem('token') 
+    });
+    let options: RequestOptions = new RequestOptions({ headers: headers });
+    return this.http.get(url, options).toPromise().then(response => response.json() as StoryLane[]).then(lanes => this.storyLanesCache = lanes).catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {

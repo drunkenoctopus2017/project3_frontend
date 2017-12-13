@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, RequestOptions, Headers } from '@angular/http';
 import { SystemUser } from '../_model/SystemUser';
 
 import { CookieService } from 'angular2-cookie';
@@ -27,8 +27,13 @@ export class UserService {
               private cookieService: CookieService) { }
 
   getBoardMembersByBoardId(boardId: number): Promise<SystemUser[]> {
-    const url = this.zuulUrl+"octo-user-management-service/getBoardMembersByBoardId/"+boardId+"?access_token="+localStorage.getItem('token');;
-    return this.http.get(url)
+    const url = this.zuulUrl+"octo-user-management-service/getBoardMembersByBoardId/"+boardId;//+"?access_token="+localStorage.getItem('token');;
+    let headers: Headers = new Headers({ 
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + localStorage.getItem('token') 
+    });
+    let options: RequestOptions = new RequestOptions({ headers: headers });
+    return this.http.get(url, options)
       .toPromise()
       .then(response => response.json() as SystemUser[])
       .catch(this.handleError);

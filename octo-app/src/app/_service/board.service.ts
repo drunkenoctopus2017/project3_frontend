@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ScrumBoard } from '../_model/ScrumBoard';
-import { Http, Response } from '@angular/http';
+import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { environment } from '../../environments/environment';
@@ -26,8 +26,13 @@ export class BoardService {
   //For now keep it here since this service is the only one calling this method/endpoint.
   private getBoardIdsByUserId(userId: number): Promise<number[]> {
     //Yes, this does indeed go to a different micro-service.
-    const url = this.zuulUrl+"octo-user-management-service/getScrumBoardIdsByUserId/"+userId+"?access_token="+localStorage.getItem('token');
-    return this.http.get(url)
+    const url = this.zuulUrl+"octo-user-management-service/getScrumBoardIdsByUserId/"+userId;//+"?access_token="+localStorage.getItem('token');
+    let headers: Headers = new Headers({ 
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + localStorage.getItem('token') 
+    });
+    let options: RequestOptions = new RequestOptions({ headers: headers });
+    return this.http.get(url, options)
       .toPromise()
       //.then(function(response) {
       //  console.log("boardIds: " + response);
@@ -41,8 +46,13 @@ export class BoardService {
   }
 
   private getBoardsByIds(boardIds: number[]): Promise<ScrumBoard[]> {
-    const url = this.zuulUrl+"octo-board-management-service/getBoardsByIds/"+"?access_token="+localStorage.getItem('token');
-    return this.http.post(url, boardIds)
+    const url = this.zuulUrl+"octo-board-management-service/getBoardsByIds/";//+"?access_token="+localStorage.getItem('token');
+    let headers: Headers = new Headers({ 
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + localStorage.getItem('token') 
+    });
+    let options: RequestOptions = new RequestOptions({ headers: headers });
+    return this.http.post(url, boardIds, options)
       .toPromise()
       //.then(function(response) {//use this anonymous function if debugging is required})
       .then(response => response.json() as ScrumBoard[])
@@ -55,24 +65,39 @@ export class BoardService {
   }
 
   getBoardById(id: number): Promise<ScrumBoard> {
-    const url = this.zuulUrl+"octo-board-management-service/getBoardById/"+id+"?access_token="+localStorage.getItem('token');
-    return this.http.get(url)
+    const url = this.zuulUrl+"octo-board-management-service/getBoardById/"+id;//+"?access_token="+localStorage.getItem('token');
+    let headers: Headers = new Headers({ 
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + localStorage.getItem('token') 
+    });
+    let options: RequestOptions = new RequestOptions({ headers: headers });
+    return this.http.get(url, options)
       .toPromise()
       .then(response => response.json() as ScrumBoard)
       .catch(this.handleError);
   }
 
   createUpdateBoard(sb: ScrumBoard): Promise<ScrumBoard> {
-    const url = this.zuulUrl+"octo-board-management-service/createUpdateBoard/"+"?access_token="+localStorage.getItem('token');
-    return this.http.post(url, sb)
+    const url = this.zuulUrl+"octo-board-management-service/createUpdateBoard/";//+"?access_token="+localStorage.getItem('token');
+    let headers: Headers = new Headers({ 
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + localStorage.getItem('token') 
+    });
+    let options: RequestOptions = new RequestOptions({ headers: headers });
+    return this.http.post(url, sb, options)
       .toPromise()
       .then(response => response.json() as ScrumBoard)
       .catch(this.handleError);
   }
 
   deleteBoardById(boardId:number) {
-    const url = this.zuulUrl+"octo-board-management-service/deleteBoardById/"+boardId+"?access_token="+localStorage.getItem('token');
-    return this.http.get(url).toPromise().then().catch(this.handleError);
+    const url = this.zuulUrl+"octo-board-management-service/deleteBoardById/"+boardId;//+"?access_token="+localStorage.getItem('token');
+    let headers: Headers = new Headers({ 
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + localStorage.getItem('token') 
+    });
+    let options: RequestOptions = new RequestOptions({ headers: headers });
+    return this.http.get(url, options).toPromise().then().catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
