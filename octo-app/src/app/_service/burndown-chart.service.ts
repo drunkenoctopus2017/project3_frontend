@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, RequestOptions, Headers } from '@angular/http';
 import { ScrumBoard } from '../_model/ScrumBoard';
 
 import { environment } from '../../environments/environment';
@@ -10,7 +10,7 @@ import { Story } from '../_model/Story';
 @Injectable()
 export class BurndownChartService {
 
-    private zuulUrl: string = "http://"+environment.hostIp+":8765/";
+    private zuulUrl: string = "http://" + environment.hostIp + ":8765/";
     private burndownChartDatasource: Object;
 
     constructor(private http: Http, private storyService: StoryService) { }
@@ -29,58 +29,63 @@ export class BurndownChartService {
      * }
      */
     getStoriesByBoardId(board: ScrumBoard): Promise<object[]> {
-        const url = this.zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/" + board.id + "?access_token=" + localStorage.getItem('token');
-        return this.http.get(url).toPromise().then(response => response.json() || []).catch(this.handleError);
+        const url = this.zuulUrl + "octo-story-history-service/getStoryProfilesByBoardId/" + board.id;//+"?access_token=" + localStorage.getItem('token');
+        let headers: Headers = new Headers({
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        });
+        let options: RequestOptions = new RequestOptions({ headers: headers });
+        return this.http.get(url, options).toPromise().then(response => response.json() || []).catch(this.handleError);
     }
 
-/**
- * Take JSON objects and parse them into a set of x, y coordinates to display on a chart.
- * 
- * @param storyProfiles {id, points, storyEvents: [{id, done, modifiedDate}]}
- * @param board {id, duration}
- * 
- * @return {maxY, chartData: [{x, y}]}
- */
-private flattenChartData(storyProfiles: any[], board: ScrumBoard): object {
-  let chartData: object[] = new Array<object>();
-  //initialize the data.
-  while (chartData.length < board.duration) {
-    chartData.push({ x: chartData.length + 1, y: 0 });
-  }
-  let totalPoints: number = 0;
-  const ONE_DAY: number = 86400000;
-  const startDate: number = board.startDate;
-  const startDay: number = Math.floor(board.startDate / ONE_DAY);
-  const n: number = storyProfiles.length;
-  for (let i: number = 0; i < n; i++) {
-    let storyProfile: any = storyProfiles[i];
-    totalPoints += storyProfile.points;
-    let done: number = 0; //0 or 1 for true/false
-    let lastUpdateIndex = 0;
-    let storyEvents: any[] = (storyProfile.storyEvents as any[]).sort((a, b) => (a.modifiedDate - b.modifiedDate));
-    const m: number = storyEvents.length;
-    for (let j: number = 0; j < m; j++) {
-      let storyEvent: any = storyEvents[j];
-      if (done != storyEvent.done) {
-        //Value has changed since previous update
-        //Prepare to update previous indexes UP TO THIS POINT
-        let eventDay: number = Math.floor(storyEvent.modifiedDate / ONE_DAY);
-        let updateIndex: number = eventDay - startDay;
-        while (lastUpdateIndex < updateIndex) {
-          chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
+    /**
+     * Take JSON objects and parse them into a set of x, y coordinates to display on a chart.
+     * 
+     * @param storyProfiles {id, points, storyEvents: [{id, done, modifiedDate}]}
+     * @param board {id, duration}
+     * 
+     * @return {maxY, chartData: [{x, y}]}
+     */
+    private flattenChartData(storyProfiles: any[], board: ScrumBoard): object {
+        let chartData: object[] = new Array<object>();
+        //initialize the data.
+        while (chartData.length < board.duration) {
+            chartData.push({ x: chartData.length + 1, y: 0 });
         }
-        done = storyEvent.done;
-      }
+        let totalPoints: number = 0;
+        const ONE_DAY: number = 86400000;
+        const startDate: number = board.startDate;
+        const startDay: number = Math.floor(board.startDate / ONE_DAY);
+        const n: number = storyProfiles.length;
+        for (let i: number = 0; i < n; i++) {
+            let storyProfile: any = storyProfiles[i];
+            totalPoints += storyProfile.points;
+            let done: number = 0; //0 or 1 for true/false
+            let lastUpdateIndex = 0;
+            let storyEvents: any[] = (storyProfile.storyEvents as any[]).sort((a, b) => (a.modifiedDate - b.modifiedDate));
+            const m: number = storyEvents.length;
+            for (let j: number = 0; j < m; j++) {
+                let storyEvent: any = storyEvents[j];
+                if (done != storyEvent.done) {
+                    //Value has changed since previous update
+                    //Prepare to update previous indexes UP TO THIS POINT
+                    let eventDay: number = Math.floor(storyEvent.modifiedDate / ONE_DAY);
+                    let updateIndex: number = eventDay - startDay;
+                    while (lastUpdateIndex < updateIndex) {
+                        chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
+                    }
+                    done = storyEvent.done;
+                }
+            }
+            while (lastUpdateIndex < board.duration) {//daysBetween(new Date(),new Date(board.startDate) )) {
+                chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
+            }
+        }
+        return {
+            data: chartData,
+            maxY: totalPoints
+        }
     }
-    while (lastUpdateIndex < board.duration) {//daysBetween(new Date(),new Date(board.startDate) )) {
-      chartData[lastUpdateIndex++]["y"] += storyProfile.points - (done * storyProfile.points);
-    }
-  }
-  return {
-    data: chartData,
-    maxY: totalPoints
-  }
-}
 
     //TODO parse data along the following: 
     /*
@@ -173,8 +178,13 @@ private flattenChartData(storyProfiles: any[], board: ScrumBoard): object {
           {x:18,y:30}]*/
 
     deleteStoryProfilesByBoardId(boardId: number) {
-        const url = this.zuulUrl + "octo-story-history-service/deleteStoryProfilesByBoardId/" + boardId + "?access_token=" + localStorage.getItem('token');
-        return this.http.get(url).toPromise().then().catch(this.handleError);
+        const url = this.zuulUrl + "octo-story-history-service/deleteStoryProfilesByBoardId/" + boardId;//+"?access_token=" + localStorage.getItem('token');
+        let headers: Headers = new Headers({
+            "Content-Type": "application/json",
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        });
+        let options: RequestOptions = new RequestOptions({ headers: headers });
+        return this.http.get(url, options).toPromise().then().catch(this.handleError);
     }
 
     private handleError(error: any): Promise<any> {

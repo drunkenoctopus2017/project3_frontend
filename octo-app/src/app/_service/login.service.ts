@@ -49,11 +49,11 @@ export class LoginService {
 
   private login(username: string, password: string):Promise<SystemUser> {
     //http://localhost:8765/ <-- set by proxy server setting
-    let url = this.zuulUrl+"octo-user-management-service/login/"+"?access_token="+localStorage.getItem('token');
+    let url = this.zuulUrl+"octo-user-management-service/login/";//+"?access_token="+localStorage.getItem('token');
     let body = {username: username, password: password};
     let headers: Headers = new Headers({ 
-      "Content-Type": "application/json"
-      // 'Authorization': 'Bearer ' + localStorage.getItem('token') 
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + localStorage.getItem('token') 
     });
     let options: RequestOptions = new RequestOptions({ headers: headers });
     return this.http.post(url, body, options).toPromise().then(response => response.json() as SystemUser).catch(this.handleError);
